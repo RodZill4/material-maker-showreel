@@ -1,0 +1,41 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+[ext_resource path="rainy_window.shader" type="Shader" id=1]
+[ext_resource path="rainy_window_texture_1.png" type="Texture" id=2]
+[ext_resource path="rainy_window_texture_2.png" type="Texture" id=3]
+[ext_resource path="rainy_window_texture_3.png" type="Texture" id=4]
+[ext_resource path="rainy_window_texture_4.png" type="Texture" id=5]
+[ext_resource path="rainy_window_texture_5.png" type="Texture" id=6]
+[ext_resource path="rainy_window_texture_6.png" type="Texture" id=7]
+[ext_resource path="rainy_window_texture_7.png" type="Texture" id=8]
+[ext_resource path="rainy_window_texture_8.png" type="Texture" id=9]
+[ext_resource path="rainy_window_texture_9.png" type="Texture" id=10]
+[ext_resource path="rainy_window_texture_10.png" type="Texture" id=11]
+[ext_resource path="rainy_window_texture_11.png" type="Texture" id=12]
+[ext_resource path="rainy_window_texture_12.png" type="Texture" id=13]
+[ext_resource path="rainy_window_texture_13.png" type="Texture" id=14]
+[ext_resource path="rainy_window_texture_14.png" type="Texture" id=15]
+[ext_resource path="rainy_window_texture_15.png" type="Texture" id=16]
+[ext_resource path="rainy_window_texture_16.png" type="Texture" id=17]
+[ext_resource path="rainy_window_texture_17.png" type="Texture" id=18]
+[resource]
+shader = ExtResource( 1 )
+shader_param/texture_1 = ExtResource( 2 )
+shader_param/texture_2 = ExtResource( 3 )
+shader_param/texture_3 = ExtResource( 4 )
+shader_param/texture_4 = ExtResource( 5 )
+shader_param/texture_5 = ExtResource( 6 )
+shader_param/texture_6 = ExtResource( 7 )
+shader_param/texture_7 = ExtResource( 8 )
+shader_param/texture_8 = ExtResource( 9 )
+shader_param/texture_9 = ExtResource( 10 )
+shader_param/texture_10 = ExtResource( 11 )
+shader_param/texture_11 = ExtResource( 12 )
+shader_param/texture_12 = ExtResource( 13 )
+shader_param/texture_13 = ExtResource( 14 )
+shader_param/texture_14 = ExtResource( 15 )
+shader_param/texture_15 = ExtResource( 16 )
+shader_param/texture_16 = ExtResource( 17 )
+shader_param/texture_17 = ExtResource( 18 )
+
+
+
