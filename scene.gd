@@ -7,12 +7,20 @@ var current_material = 0
 func _ready():
 	materials = []
 	var dir : Directory = Directory.new()
+	var mesh : CubeMesh = CubeMesh.new()
+	mesh.size = Vector3(0.01, 0.01, 0.01)
 	if dir.open("res://materials") == OK:
 		dir.list_dir_begin()
 		var file_name = dir.get_next()
 		while file_name != "":
 			if ! dir.current_is_dir() and file_name.get_extension() == "tres":
-				materials.push_back(load("res://materials/"+file_name))
+				var material = load("res://materials/"+file_name)
+				if material != null:
+					materials.push_back(material)
+					var mesh_instance : MeshInstance = MeshInstance.new()
+					mesh_instance.mesh = mesh
+					mesh_instance.set_surface_material(0, material)
+					add_child(mesh_instance)
 			file_name = dir.get_next()
 	else:
 		print("An error occurred when trying to access the path.")

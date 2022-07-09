@@ -71,7 +71,6 @@ size = Vector2( 10, 10 )
 script = ExtResource( 3 )
 
 [node name="MeshPivot1" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
 [node name="MeshPivot2" type="Spatial" parent="MeshPivot1"]
 
@@ -94,7 +93,7 @@ playback_speed = 0.02
 
 [node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
 autoplay = "Rotate"
-playback_speed = 0.1
+playback_speed = 0.2
 anims/Rotate = SubResource( 6 )
 
 [node name="Camera" type="Camera" parent="."]
