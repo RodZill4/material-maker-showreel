@@ -1,41 +1,47 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
-[ext_resource path="rainy_window.shader" type="Shader" id=1]
-[ext_resource path="rainy_window_texture_1.png" type="Texture" id=2]
-[ext_resource path="rainy_window_texture_2.png" type="Texture" id=3]
-[ext_resource path="rainy_window_texture_3.png" type="Texture" id=4]
-[ext_resource path="rainy_window_texture_4.png" type="Texture" id=5]
-[ext_resource path="rainy_window_texture_5.png" type="Texture" id=6]
-[ext_resource path="rainy_window_texture_6.png" type="Texture" id=7]
-[ext_resource path="rainy_window_texture_7.png" type="Texture" id=8]
-[ext_resource path="rainy_window_texture_8.png" type="Texture" id=9]
-[ext_resource path="rainy_window_texture_9.png" type="Texture" id=10]
-[ext_resource path="rainy_window_texture_10.png" type="Texture" id=11]
-[ext_resource path="rainy_window_texture_11.png" type="Texture" id=12]
-[ext_resource path="rainy_window_texture_12.png" type="Texture" id=13]
-[ext_resource path="rainy_window_texture_13.png" type="Texture" id=14]
-[ext_resource path="rainy_window_texture_14.png" type="Texture" id=15]
-[ext_resource path="rainy_window_texture_15.png" type="Texture" id=16]
-[ext_resource path="rainy_window_texture_16.png" type="Texture" id=17]
-[ext_resource path="rainy_window_texture_17.png" type="Texture" id=18]
+[gd_resource type="ShaderMaterial" load_steps=19 format=3 uid="uid://526a4sqpn08v"]
+
+[ext_resource type="Shader" path="res://materials/rainy_window.gdshader" id="1"]
+[ext_resource type="Texture2D" uid="uid://bkriskc12wves" path="res://materials/rainy_window_texture_1.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://dfgyy32q4lvyq" path="res://materials/rainy_window_texture_2.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://dtj00032xreh6" path="res://materials/rainy_window_texture_3.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://cl7lknylypwri" path="res://materials/rainy_window_texture_4.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://bltd8nik65lf4" path="res://materials/rainy_window_texture_5.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://d36xry4jq04yq" path="res://materials/rainy_window_texture_6.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://drpl1sm226uk2" path="res://materials/rainy_window_texture_7.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://n01xbu3a0e51" path="res://materials/rainy_window_texture_8.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://ddmj4bvitr13s" path="res://materials/rainy_window_texture_9.png" id="10"]
+[ext_resource type="Texture2D" uid="uid://dxlu6hssouvbp" path="res://materials/rainy_window_texture_10.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://d073mpfd5d2gl" path="res://materials/rainy_window_texture_11.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://w1bwmi0c1ox7" path="res://materials/rainy_window_texture_12.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://coval8xa5ofux" path="res://materials/rainy_window_texture_13.png" id="14"]
+[ext_resource type="Texture2D" uid="uid://grtpyntu11qv" path="res://materials/rainy_window_texture_14.png" id="15"]
+[ext_resource type="Texture2D" uid="uid://bqet5fl8v0ljc" path="res://materials/rainy_window_texture_15.png" id="16"]
+[ext_resource type="Texture2D" uid="uid://c7w4da6md4wpf" path="res://materials/rainy_window_texture_16.png" id="17"]
+[ext_resource type="Texture2D" uid="uid://cwwnit4mn01q6" path="res://materials/rainy_window_texture_17.png" id="18"]
+
 [resource]
-shader = ExtResource( 1 )
-shader_param/texture_1 = ExtResource( 2 )
-shader_param/texture_2 = ExtResource( 3 )
-shader_param/texture_3 = ExtResource( 4 )
-shader_param/texture_4 = ExtResource( 5 )
-shader_param/texture_5 = ExtResource( 6 )
-shader_param/texture_6 = ExtResource( 7 )
-shader_param/texture_7 = ExtResource( 8 )
-shader_param/texture_8 = ExtResource( 9 )
-shader_param/texture_9 = ExtResource( 10 )
-shader_param/texture_10 = ExtResource( 11 )
-shader_param/texture_11 = ExtResource( 12 )
-shader_param/texture_12 = ExtResource( 13 )
-shader_param/texture_13 = ExtResource( 14 )
-shader_param/texture_14 = ExtResource( 15 )
-shader_param/texture_15 = ExtResource( 16 )
-shader_param/texture_16 = ExtResource( 17 )
-shader_param/texture_17 = ExtResource( 18 )
-
-
-
+render_priority = 0
+shader = ExtResource("1")
+shader_param/depth_flip = null
+shader_param/depth_max_layers = null
+shader_param/depth_min_layers = null
+shader_param/texture_1 = ExtResource("2")
+shader_param/texture_10 = ExtResource("11")
+shader_param/texture_11 = ExtResource("12")
+shader_param/texture_12 = ExtResource("13")
+shader_param/texture_13 = ExtResource("14")
+shader_param/texture_14 = ExtResource("15")
+shader_param/texture_15 = ExtResource("16")
+shader_param/texture_16 = ExtResource("17")
+shader_param/texture_17 = ExtResource("18")
+shader_param/texture_2 = ExtResource("3")
+shader_param/texture_3 = ExtResource("4")
+shader_param/texture_4 = ExtResource("5")
+shader_param/texture_5 = ExtResource("6")
+shader_param/texture_6 = ExtResource("7")
+shader_param/texture_7 = ExtResource("8")
+shader_param/texture_8 = ExtResource("9")
+shader_param/texture_9 = ExtResource("10")
+shader_param/uv1_offset = null
+shader_param/uv1_scale = null
+shader_param/variation = null

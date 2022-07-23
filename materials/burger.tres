@@ -1,7 +1,8 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://y0fct7nyx3dg"]
 
-[ext_resource path="res://materials/burger.shader" type="Shader" id=1]
+[ext_resource type="Shader" path="res://materials/burger.gdshader" id="1"]
 
 [resource]
-shader = ExtResource( 1 )
+render_priority = 0
+shader = ExtResource("1")
 shader_param/seed_variation = 0.0

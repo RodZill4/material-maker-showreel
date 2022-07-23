@@ -1,0 +1,23 @@
+[gd_resource type="ShaderMaterial" load_steps=7 format=3 uid="uid://bbmvnht6c673g"]
+
+[ext_resource type="Shader" path="res://materials/scarabs_on_hieroglyphs.gdshader" id="1"]
+[ext_resource type="Texture2D" uid="uid://dut2nvxkysobv" path="res://materials/scarabs_on_hieroglyphs_texture_1.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://c81is8nc3s5kr" path="res://materials/scarabs_on_hieroglyphs_texture_2.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://npipfn34r80h" path="res://materials/scarabs_on_hieroglyphs_texture_3.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://cunk3txe8jfj8" path="res://materials/scarabs_on_hieroglyphs_texture_4.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://cw4s310e37ont" path="res://materials/scarabs_on_hieroglyphs_texture_5.png" id="6"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1")
+shader_param/depth_flip = null
+shader_param/depth_max_layers = null
+shader_param/depth_min_layers = null
+shader_param/texture_1 = ExtResource("2")
+shader_param/texture_2 = ExtResource("3")
+shader_param/texture_3 = ExtResource("4")
+shader_param/texture_4 = ExtResource("5")
+shader_param/texture_5 = ExtResource("6")
+shader_param/uv1_offset = null
+shader_param/uv1_scale = Vector3(4, 2, 0)
+shader_param/variation = null

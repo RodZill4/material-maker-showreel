@@ -1,0 +1,27 @@
+[gd_resource type="StandardMaterial3D" load_steps=5 format=3 uid="uid://cppygiwyyyauu"]
+
+[ext_resource type="Texture2D" uid="uid://bb4e0bf5oypya" path="res://materials/ornamental_ceiling_albedo.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://qsaeqfdhul1f" path="res://materials/ornamental_ceiling_orm.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://87mcl3khd8jx" path="res://materials/ornamental_ceiling_normal.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://cl1jfl73nabaw" path="res://materials/ornamental_ceiling_depth.png" id="4"]
+
+[resource]
+albedo_texture = ExtResource("1")
+metallic = 1.0
+metallic_texture = ExtResource("2")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("3")
+ao_enabled = true
+ao_light_affect = 2.0
+ao_texture = ExtResource("2")
+heightmap_enabled = true
+heightmap_scale = 0.1
+heightmap_deep_parallax = true
+heightmap_min_layers = 8
+heightmap_max_layers = 64
+heightmap_texture = ExtResource("4")
+heightmap_flip_texture = true
+uv1_scale = Vector3(4, 2, 1)
