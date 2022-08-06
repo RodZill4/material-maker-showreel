@@ -24,6 +24,8 @@ func _ready():
 					mesh_instance.mesh = tinymesh
 					mesh_instance.set_surface_override_material(0, material)
 					add_child(mesh_instance)
+					if materials.keys().size() > 4:
+						break
 				else:
 					print("Failed to load "+file_name)
 			file_name = dir.get_next()
@@ -31,10 +33,11 @@ func _ready():
 		print("An error occurred when trying to access the path.")
 
 var next_material : String = ""
-func change_material(m : int):
+func change_material():
 	if current_material >= material_names.size() or current_material < 0:
 		current_material = 0
-	meshes[m].set_surface_override_material(0, materials[material_names[current_material]])
+	meshes[0].set_surface_override_material(0, meshes[1].get_surface_override_material(0))
+	meshes[1].set_surface_override_material(0, materials[material_names[current_material]])
 	next_material = material_names[current_material]
 	current_material += 1
 

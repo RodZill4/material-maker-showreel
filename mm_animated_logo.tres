@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://o78tcksdt38g"]
+
+[ext_resource type="Shader" path="res://mm_animated_logo.gdshader" id="1"]
+[ext_resource type="Texture2D" uid="uid://bm68ycvrxd227" path="res://mm_animated_logo_texture_1.png" id="2"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1")
+o6386_myt = 22.818
+texture_1 = ExtResource("2")
+uv1_offset = null
+uv1_scale = Vector3(2, 2, 0)
+variation = null
