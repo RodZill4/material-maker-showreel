@@ -1,18 +1,18 @@
 shader_type spatial;
 
-render_mode unshaded, blend_mix;
+render_mode unshaded, blend_mix, depth_test_disabled;
 
 uniform vec3 uv1_scale = vec3(1.0, 1.0, 1.0);
 uniform vec3 uv1_offset = vec3(0.0, 0.0, 0.0);
 uniform float variation = 0.0;
+uniform float shader_time = 0.0;
+uniform float speed = 5.0;
+uniform float delay = 5.0;
 varying float elapsed_time;
 
-uniform float o6386_myt = 0.0; // {default:0, label:Time, max:23, min:0, name:myt, step:0.001, type:named_parameter}
-
 void vertex() {
-	elapsed_time = TIME;
+	elapsed_time = clamp(speed*(shader_time - delay), 0.0, 23.0);
 	UV = UV*uv1_scale.xy+uv1_offset.xy;
-	//o6386_myt = mod(TIME, 23.0);
 }
 float rand(vec2 x) {
     return fract(cos(mod(dot(x, vec2(13.9898, 8.141)), 3.14)) * 43758.5453);
@@ -293,14 +293,14 @@ void fragment() {
 	vec2 uv = fract(UV);
 float o6392_0_r = 0.5+(cos(p_o6392_rotate*0.01745329251)*((scale((uv), vec2(0.5+p_o6406_cx, 0.5+p_o6406_cy), vec2(p_o6406_scale_x, (p_o6406_scale_x)))).x-0.5)+sin(p_o6392_rotate*0.01745329251)*((scale((uv), vec2(0.5+p_o6406_cx, 0.5+p_o6406_cy), vec2(p_o6406_scale_x, (p_o6406_scale_x)))).y-0.5))/(cos(abs(mod(p_o6392_rotate, 90.0)-45.0)*0.01745329251)*1.41421356237);vec4 o6392_0_1_rgba = o6392_gradient_gradient_fct(fract(o6392_0_r*p_o6392_repeat));
 vec4 o6405_0_1_rgba = vec4(p_o6405_color_r, p_o6405_color_g, p_o6405_color_b, p_o6405_color_a);
-float o6252_0_t = clamp((o6386_myt), 0.0, 23.99);vec4 o6370_0 = textureLod(texture_1, get_animation_frame((scale((uv), vec2(0.5+p_o6406_cx, 0.5+p_o6406_cy), vec2(p_o6406_scale_x, (p_o6406_scale_x)))), o6252_0_t), 0.0);
+float o6252_0_t = clamp((elapsed_time), 0.0, 23.99);vec4 o6370_0 = textureLod(texture_1, get_animation_frame((scale((uv), vec2(0.5+p_o6406_cx, 0.5+p_o6406_cy), vec2(p_o6406_scale_x, (p_o6406_scale_x)))), o6252_0_t), 0.0);
 vec4 o6370_1 = textureLod(texture_1, get_animation_frame((scale((uv), vec2(0.5+p_o6406_cx, 0.5+p_o6406_cy), vec2(p_o6406_scale_x, (p_o6406_scale_x)))), o6252_0_t+1.0), 0.0);
 vec4 o6252_0_1_rgba = mix(o6370_0, o6370_1, fract(o6252_0_t));
 float o6389_0_1_f = shape_circle((scale((uv), vec2(0.5+p_o6406_cx, 0.5+p_o6406_cy), vec2(p_o6406_scale_x, (p_o6406_scale_x)))), p_o6389_sides, p_o6389_radius*1.0, p_o6389_edge*1.0);
 float o6390_0_clamp_false = p_o6390_default_in1-o6389_0_1_f;
 float o6390_0_clamp_true = clamp(o6390_0_clamp_false, 0.0, 1.0);
 float o6390_0_2_f = o6390_0_clamp_false;
-float o6380_0_0_sdf2d = o6380_d(((transform2((scale((uv), vec2(0.5+p_o6406_cx, 0.5+p_o6406_cy), vec2(p_o6406_scale_x, (p_o6406_scale_x)))), vec2(p_o6379_translate_x*(2.0*1.0-1.0), p_o6379_translate_y*(2.0*1.0-1.0)), p_o6379_rotate*0.01745329251*(2.0*1.0-1.0), vec2(p_o6379_scale_x*(2.0*1.0-1.0), p_o6379_scale_y*(2.0*1.0-1.0))))-vec2(p_o6387_translate_x, (o6386_myt*0.2)))-vec2(0.5), _seed_variation_);
+float o6380_0_0_sdf2d = o6380_d(((transform2((scale((uv), vec2(0.5+p_o6406_cx, 0.5+p_o6406_cy), vec2(p_o6406_scale_x, (p_o6406_scale_x)))), vec2(p_o6379_translate_x*(2.0*1.0-1.0), p_o6379_translate_y*(2.0*1.0-1.0)), p_o6379_rotate*0.01745329251*(2.0*1.0-1.0), vec2(p_o6379_scale_x*(2.0*1.0-1.0), p_o6379_scale_y*(2.0*1.0-1.0))))-vec2(p_o6387_translate_x, (elapsed_time*0.2)))-vec2(0.5), _seed_variation_);
 float o6384_0_1_f = clamp(p_o6384_base-o6380_0_0_sdf2d/max(p_o6384_bevel, 0.00001), 0.0, 1.0);
 vec4 o6385_0_1_rgba = vec4(vec3(1.0)-vec4(vec3(o6384_0_1_f), 1.0).rgb, vec4(vec3(o6384_0_1_f), 1.0).a);
 vec4 o6387_0_1_rgba = o6385_0_1_rgba;

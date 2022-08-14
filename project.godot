@@ -20,12 +20,12 @@ config/icon="res://icon.png"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/size/resizable=false
 window/size/borderless=true
-window/size/fullscreen=true
 
 [editor]
 
-movie_writer/movie_file="C:/Users/Rod/Videos/material_maker_showreel.avi"
+movie_writer/movie_file="/Users/rodolphesuescun/Documents/material_maker_showreel.avi"
 movie_writer/disable_vsync=true
 
 [gui]
