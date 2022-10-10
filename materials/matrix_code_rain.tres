@@ -1,13 +1,7 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cd4ucomcampay"]
-
-[ext_resource type="Shader" path="res://materials/matrix_code_rain.gdshader" id="1"]
-
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+[ext_resource path="matrix_code_rain.gdshader" type="Shader" id=1]
 [resource]
-render_priority = 0
-shader = ExtResource("1")
-depth_flip = null
-depth_max_layers = null
-depth_min_layers = null
-uv1_offset = Vector3(0.5, 0, 0)
-uv1_scale = Vector3(2, 1, 1)
-variation = null
+shader = ExtResource( 1 )
+
+
+

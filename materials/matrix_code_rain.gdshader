@@ -1,11 +1,9 @@
 shader_type spatial;
-render_mode blend_mix,cull_back,diffuse_burley,specular_schlick_ggx
-;
-uniform vec3 uv1_offset = vec3(1.0, 1.0, 1.0);
+
+render_mode unshaded, blend_mix;
+
 uniform vec3 uv1_scale = vec3(1.0, 1.0, 1.0);
-uniform int depth_min_layers = 8;
-uniform int depth_max_layers = 16;
-uniform vec2 depth_flip = vec2(1.0);
+uniform vec3 uv1_offset = vec3(0.0, 0.0, 0.0);
 uniform float variation = 0.0;
 varying float elapsed_time;
 void vertex() {
@@ -62,6 +60,426 @@ vec2 transform2(vec2 uv, vec2 translate, float rotate, vec2 scale) {
 	rv += vec2(0.5);
 	return rv;	
 }
+float pingpong(float a, float b)
+{
+  return (b != 0.0) ? abs(fract((a - b) / (b * 2.0)) * b * 2.0 - b) : 0.0;
+}
+float cross2( in vec2 a, in vec2 b ) { return a.x*b.y - a.y*b.x; }
+
+// signed distance to a quadratic bezier
+vec2 sdBezier( in vec2 pos, in vec2 A, in vec2 B, in vec2 C ) {    
+    vec2 a = B - A;
+    vec2 b = A - 2.0*B + C;
+    vec2 c = a * 2.0;
+    vec2 d = A - pos;
+
+    float kk = 1.0/dot(b,b);
+    float kx = kk * dot(a,b);
+    float ky = kk * (2.0*dot(a,a)+dot(d,b))/3.0;
+    float kz = kk * dot(d,a);      
+
+    float res = 0.0;
+    float sgn = 0.0;
+
+    float p = ky - kx*kx;
+    float p3 = p*p*p;
+    float q = kx*(2.0*kx*kx - 3.0*ky) + kz;
+    float h = q*q + 4.0*p3;
+	float rvx;
+
+    if( h>=0.0 ) { // 1 root
+        h = sqrt(h);
+        vec2 x = (vec2(h,-h)-q)/2.0;
+        vec2 uv = sign(x)*pow(abs(x), vec2(1.0/3.0));
+		rvx = uv.x+uv.y-kx;
+        float t = clamp(rvx, 0.0, 1.0);
+        vec2 q2 = d+(c+b*t)*t;
+        res = dot(q2, q2);
+    	sgn = cross2(c+2.0*b*t, q2);
+    } else {   // 3 roots
+        float z = sqrt(-p);
+        float v = acos(q/(p*z*2.0))/3.0;
+        float m = cos(v);
+        float n = sin(v)*1.732050808;
+        vec3  t = clamp(vec3(m+m,-n-m,n-m)*z-kx, 0.0, 1.0);
+        vec2  qx=d+(c+b*t.x)*t.x; float dx=dot(qx, qx), sx = cross2(c+2.0*b*t.x,qx);
+        vec2  qy=d+(c+b*t.y)*t.y; float dy=dot(qy, qy), sy = cross2(c+2.0*b*t.y,qy);
+        if( dx<dy ) { res=dx; sgn=sx; rvx = t.x; } else { res=dy; sgn=sy; rvx = t.y; }
+    }
+    
+    return vec2(rvx, sqrt(res)*sign(sgn));
+}
+
+vec2 sdLine(vec2 p, vec2 a, vec2 b) {
+    vec2 pa = p-a, ba = b-a;
+    float h = clamp(dot(pa,ba)/dot(ba,ba), 0.0, 1.0);
+    return vec2(length(pa-ba*h), h);
+}
+
+float sd_box(vec2 uv, vec2 size) {
+	vec2 d = abs(uv)-size;
+	return length(max(d, vec2(0)))+min(max(d.x, d.y), 0.0);
+}
+float s(vec2 uv, vec2 A, vec2 B, vec2 C) { return abs(sdBezier(uv, A, B, C).y); }
+float l(vec2 uv, vec2 A, vec2 B) { return sdLine(uv, A, B).x; }
+
+float k1(vec2 uv) { // a
+	float d = s(uv, vec2(0.084, -0.004), vec2(0.399, -0.195),vec2(0.26, -0.28));
+	d = min(d, s(uv, vec2(-0.278, 0.318), vec2(-0.009, 0.227),vec2(-0.021, -0.133)));
+	d = min(d, l(uv, vec2(-0.31, -0.28), vec2(0.26, -0.28)));
+	return d;
+}
+
+float k2(vec2 uv) // i
+{
+	float d = s(uv, vec2(0.264, -0.319), vec2(0, -0.051),vec2(-0.309, 0.045));
+	d = min(d, l(uv, vec2(0.0385, 0.3155), vec2(0.0385, -0.1088)));
+	return d;
+}
+
+float k3(vec2 uv) // u
+{
+	float d = s(uv, vec2(0.289, -0.194), vec2(0.297, 0.234),vec2(-0.117, 0.324));
+	d = min(d, l(uv, vec2(0, -0.21), vec2(0, -0.3281)));
+	d = min(d, l(uv, vec2(-0.27, -0.21), vec2(0.2878, -0.21)));
+	d = min(d, l(uv, vec2(-0.28, 0), vec2(-0.28, -0.2066)));
+	return d;
+}
+
+float k4(vec2 uv) // e
+{
+	float d = l(uv, vec2(0.28, -0.25), vec2(-0.28, -0.25));
+	d = min(d, l(uv, vec2(0, -0.25), vec2(0, 0.25)));
+	d = min(d, l(uv, vec2(0.34, 0.25), vec2(-0.34, 0.25)));
+	return d;
+}
+
+float k5(vec2 uv) // o
+{
+	float d = s(uv, vec2(0.09, -0.183), vec2(-0.013, 0.065),vec2(-0.325, 0.228));
+	d = min(d, l(uv, vec2(0.12, -0.33), vec2(0.12, 0.33)));
+	d = min(d, l(uv, vec2(-0.31, -0.19), vec2(0.31, -0.19)));
+	return d;
+}
+
+float k6(vec2 uv) // ka
+{
+	float d = s(uv, vec2(-0.039, -0.334136), vec2(0.006, 0.105),vec2(-0.319, 0.302));
+	d = min(d, l(uv, vec2(-0.29, -0.19), vec2(0.28, -0.19)));
+	d = min(d, s(uv, vec2(0.246, 0.217), vec2(0.231, 0.325),vec2(0.054, 0.28)));
+	d = min(d, l(uv, vec2(0.2469, 0.2153), vec2(0.28, -0.19)));
+	return d;
+}
+
+float k7(vec2 uv) // ki
+{
+	float d = l(uv, vec2(0.07, 0.33), vec2(-0.07, -0.33));
+	d = min(d, l(uv, vec2(0.25, -0.23), vec2(-0.31, -0.14)));
+	d = min(d, l(uv, vec2(0.31, 0), vec2(-0.33, 0.1)));
+	return d;
+}
+
+float k8(vec2 uv) // ku
+{
+	float d = s(uv, vec2(-0.212, 0.319), vec2(0.281, 0.158),vec2(0.259, -0.21));
+	d = min(d, s(uv, vec2(-0.053, -0.328), vec2(-0.141, -0.11),vec2(-0.295, -0.023)));
+	d = min(d, l(uv, vec2(0.2565, -0.22), vec2(-0.0918, -0.2193)));
+	return d;
+}
+
+
+float k9(vec2 uv) // ke
+{
+	float d = s(uv, vec2(-0.192, 0.319), vec2(0.136, 0.167),vec2(0.128, -0.181));
+	d = min(d, s(uv, vec2(-0.124, -0.332), vec2(-0.198, -0.131),vec2(-0.336, -0.01)));
+	d = min(d, l(uv, vec2(0.3279, -0.19), vec2(-0.19, -0.19)));
+	return d;
+}
+
+float k10(vec2 uv) // ko
+{
+	float d = l(uv, vec2(0.25, -0.24), vec2(-0.27, -0.24));
+	d = min(d, l(uv, vec2(0.25, -0.24), vec2(0.25, 0.25)));
+	d = min(d, l(uv, vec2(-0.28, 0.25), vec2(0.25, 0.25)));
+	return d;
+}
+
+float k11(vec2 uv) // sa
+{
+	float d = l(uv, vec2(-0.342, -0.1604), vec2(0.34, -0.16));
+	d = min(d, l(uv, vec2(-0.17, -0.33), vec2(-0.17, 0.0844)));
+	d = min(d, s(uv, vec2(0.17, -0.068), vec2(0.176, 0.287),vec2(-0.11, 0.315)));
+	d = min(d, l(uv, vec2(0.17, -0.33), vec2(0.17, -0.03)));
+	return d;
+}
+
+float k12(vec2 uv) // shi
+{
+	float d = s(uv, vec2(-0.22, -0.306), vec2(-0.117, -0.267),vec2(-0.03, -0.204));
+	d = min(d, s(uv, vec2(0.313, -0.153), vec2(0.177, 0.267),vec2(-0.273, 0.299)));
+	d = min(d, s(uv, vec2(-0.289, -0.098), vec2(-0.154, -0.05),vec2(-0.087, 0.013)));
+	return d;
+}
+
+float k13(vec2 uv) // su
+{
+	float d = s(uv, vec2(0.057, 0.044), vec2(0.195, 0.126),vec2(0.314, 0.286));
+	d = min(d, s(uv, vec2(0.221, -0.269), vec2(0.1, 0.14),vec2(-0.316, 0.288)));
+	d = min(d, l(uv, vec2(-0.27, -0.27), vec2(0.22, -0.27)));
+	return d;
+}
+
+float k14(vec2 uv) // se
+{
+	float d = s(uv, vec2(0.252, -0.182), vec2(0.41, -0.176),vec2(0.119, 0.078));
+	d = min(d, s(uv, vec2(-0.137, 0.15), vec2(-0.142, 0.352),vec2(0.278, 0.269)));
+	d = min(d, l(uv, vec2(-0.1353, -0.3247), vec2(-0.1373, 0.1509)));
+	d = min(d, l(uv, vec2(-0.3301, -0.0978), vec2(0.2521, -0.1818)));
+	return d;
+}
+
+float k15(vec2 uv) // so
+{
+	float d = s(uv, vec2(0.265, -0.28), vec2(0.257, 0.135),vec2(-0.194, 0.309));
+	d = min(d, s(uv, vec2(-0.276, -0.285), vec2(-0.199, -0.188),vec2(-0.148, -0.033)));
+	return d;
+}
+
+float k16(vec2 uv) // ta
+{
+	float d = s(uv, vec2(-0.212, 0.319), vec2(0.281, 0.158),vec2(0.259, -0.21));
+	d = min(d, s(uv, vec2(-0.053, -0.328), vec2(-0.141, -0.11),vec2(-0.295, -0.023)));
+	d = min(d, l(uv, vec2(0.2565, -0.22), vec2(-0.0918, -0.2193)));
+	d = min(d, s(uv, vec2(-0.102, -0.058), vec2(0.028, 0.025),vec2(0.126, 0.122)));
+	return d;
+}
+
+float k17(vec2 uv) // chi
+{
+	float d = s(uv, vec2(-0.269, -0.23), vec2(0.044, -0.237),vec2(0.265, -0.316));
+	d = min(d, l(uv, vec2(0.338, -0.04), vec2(-0.3238, -0.04)));
+	d = min(d, s(uv, vec2(-0.213, 0.324), vec2(0.044, 0.229),vec2(0.04, -0.038)));
+	d = min(d, l(uv, vec2(0.04, -0.249), vec2(0.04, -0.0363)));
+	return d;
+}
+
+float k18(vec2 uv) // tsu
+{
+	float d = s(uv, vec2(-0.175, 0.296), vec2(0.228, 0.222),vec2(0.292, -0.271));	
+	d = min(d, s(uv, vec2(-0.071, -0.297), vec2(0, -0.144),vec2(0.013, -0.068)));
+	d = min(d, s(uv, vec2(-0.29, -0.253), vec2(-0.222, -0.11),vec2(-0.204, -0.032)));
+	return d;
+}
+
+float k19(vec2 uv) // te
+{
+	float d = l(uv, vec2(-0.25, -0.29), vec2(0.25, -0.29));
+	d = min(d, l(uv, vec2(-0.33, -0.0704), vec2(0.33, -0.07)));
+	d = min(d, s(uv, vec2(-0.225, 0.32), vec2(0.029, 0.261),vec2(0.03, -0.068)));
+	return d;
+}
+
+float k20(vec2 uv) { // to
+	float d = s (uv, vec2(-0.159, -0.093), vec2(0.104, -0.02),vec2(0.294, 0.08));
+	return min(d, l(uv, vec2(-0.16, -0.3254), vec2(-0.16, 0.32)));
+}
+
+float k21(vec2 uv) { // na
+	float d = s(uv, vec2(-0.252, 0.32), vec2(0.045, 0.253),vec2(0.039, -0.118));
+	d = min(d, l(uv, vec2(0.039, -0.1141), vec2(0.0393, -0.33)));
+	d = min(d, l(uv, vec2(-0.32, -0.12), vec2(0.33, -0.12)));
+	return d;
+}
+
+float k22(vec2 uv) { // ni
+	float d = l(uv, vec2(-0.24, -0.23), vec2(0.25, -0.23));
+	d = min(d, l(uv, vec2(-0.33, 0.24), vec2(0.33, 0.24)));
+	return d;
+}
+
+float k23(vec2 uv) { // nu
+	float d = s(uv, vec2(-0.268, 0.311), vec2(0.178, 0.145),vec2(0.266, -0.28));
+	d = min(d, s(uv, vec2(-0.143, -0.092), vec2(0.125, 0.079),vec2(0.253, 0.23)));
+	return min(d, l(uv, vec2(-0.2553, -0.28), vec2(0.2661, -0.28)));
+}
+
+float k24(vec2 uv) { // ne
+	float d = l(uv, vec2(0, -0.2201), vec2(0, -0.35));
+	d = min(d, l(uv, vec2(0, 0.0031), vec2(0, 0.34)));
+	d = min(d, s(uv, vec2(-0.327, 0.144), vec2(0.134, -0.013),vec2(0.25, -0.219)));
+	d = min(d, s(uv, vec2(0.333, 0.161), vec2(0.125, 0.041),vec2(0, 0.005)));
+	return min(d, l(uv, vec2(-0.27, -0.22), vec2(0.25, -0.22)));
+}
+
+float k25(vec2 uv) { // no
+	return s(uv, vec2(-0.284, 0.284), vec2(0.19, 0.094),vec2(0.24, -0.294));
+}
+
+float k26(vec2 uv) { // ha
+	uv.x = -abs(uv.x);
+	return s(uv, vec2(-0.329, 0.271), vec2(-0.178, 0.12946),vec2(-0.148, -0.283));
+}
+
+float k27(vec2 uv) { // hi
+	float d = s(uv, vec2(0.269, 0.262), vec2(-0.208, 0.326),vec2(-0.21, 0.18));
+	d = min(d, s(uv, vec2(-0.212, -0.049), vec2(0.057, -0.09),vec2(0.235, -0.186)));
+	return min(d, l(uv, vec2(-0.2159, -0.3062), vec2(-0.21, 0.18)));
+}
+
+float k28(vec2 uv) { // fu
+	float d = s(uv, vec2(-0.193, 0.302), vec2(0.298, 0.141),vec2(0.28, -0.27));
+	return min(d, l(uv, vec2(-0.28, -0.27), vec2(0.28, -0.27)));
+}
+
+float k29(vec2 uv) { // he
+	float d = l(uv, vec2(-0.0793, -0.222), vec2(0.3384, 0.2195));
+	return min(d, l(uv, vec2(-0.0793, -0.222), vec2(-0.3366, 0.0766)));
+}
+
+float k30(vec2 uv) { // ho
+	float d = l(uv, vec2(0, -0.33), vec2(0, 0.32));
+	d = min(d, l(uv, vec2(-0.33, -0.21), vec2(0.33, -0.21)));
+	uv.x = -abs(uv.x);
+	return min(d, s(uv, vec2(-0.328, 0.249), vec2(-0.215, 0.059),vec2(-0.208, -0.047)));
+}
+
+float k31(vec2 uv) { // ma
+	float d = s(uv, vec2(0.31, -0.25), vec2(0.311, -0.135),vec2(-0.024, 0.136));
+	d = min(d, s(uv, vec2(0.115, 0.314), vec2(-0.009, 0.136),vec2(-0.208, -0.047)));
+	return min(d, l(uv, vec2(-0.32, -0.25), vec2(0.31, -0.25)));
+}
+
+float k32(vec2 uv) { // mi
+	float d = s(uv, vec2(-0.211, -0.303), vec2(0.055, -0.276),vec2(0.249, -0.215));
+	d = min(d, s(uv, vec2(0.219, 0.019), vec2(-0.017, -0.05),vec2(-0.228, -0.072)));
+	return min(d, s(uv, vec2(0.27, 0.309), vec2(-0.017, 0.211),vec2(-0.288, 0.174)));
+}
+
+float k33(vec2 uv) { // mu
+	float d = s(uv, vec2(-0.335, 0.265), vec2(0.068, 0.262),vec2(0.287, 0.198));
+	d = min(d, s(uv, vec2(-0.244, 0.264), vec2(-0.139, 0.064),vec2(-0.021, -0.331)));
+	return min(d, s(uv, vec2(0.33, 0.304), vec2(0.253, 0.09),vec2(0.128, -0.094)));
+}
+
+float k34(vec2 uv) { // me
+	float d = s(uv, vec2(-0.283, 0.293), vec2(0.069, 0.165),vec2(0.219, -0.315));
+	return min(d, s(uv, vec2(-0.19, -0.191), vec2(0.076, -0.021),vec2(0.258, 0.211)));
+}
+
+float k35(vec2 uv) { // mo
+	float d = l(uv, vec2(-0.28, -0.28), vec2(0.28, -0.28));
+	d = min(d, s(uv, vec2(-0.07, 0.171), vec2(-0.077, 0.351),vec2(0.32, 0.267)));
+	d = min(d, l(uv, vec2(-0.07, -0.28), vec2(-0.07, 0.17)));
+	return min(d, l(uv, vec2(-0.32, -0.04), vec2(0.33, -0.04)));
+}
+
+float k36(vec2 uv) { // ya
+	float d = l(uv, vec2(-0.1546, -0.3368), vec2(-0.0156, 0.3389));
+	d = min(d, s(uv, vec2(0.107, 0.07), vec2(0.41, -0.144),vec2(0.265, -0.222)));
+	return min(d,l(uv, vec2(-0.325, -0.1285), vec2(0.2631, -0.2219)));
+}
+
+float k37(vec2 uv) { // yu
+	float d = s(uv, vec2(0.103, 0.239), vec2(0.216, -0.251),vec2(0.143, -0.248));
+	d = min(d, l(uv, vec2(-0.26, -0.25), vec2(0.1425, -0.248)));
+	return min(d, l(uv, vec2(-0.33, 0.24), vec2(0.34, 0.24)));
+}
+
+float k38(vec2 p) { // yo
+	const vec2 a = vec2(0);
+    const float b = 0.25;
+    float c = abs(p.y)-0.25;
+
+    float d = length(max(vec2(abs(c),p.x-b),a));
+    float d1 = min(d, length(max(vec2(abs(p.y),p.x-b),a)));
+    d = min(d, length(max(vec2(abs(p.x-b),c),a)));
+    d = length(max(vec2(d,-p.x-0.25),a));
+    d = min(d,length(max(vec2(d1,-p.x-0.22),a)));
+	return d;
+}
+
+float k39(vec2 uv) { // ra
+	float d = s(uv, vec2(0.27, -0.1), vec2(0.264, 0.221),vec2(-0.159, 0.319));
+	d = min(d, l(uv, vec2(-0.3, -0.1), vec2(0.27, -0.1)));
+	return min(d, l(uv, vec2(-0.23, -0.3), vec2(0.23, -0.3)));
+}
+
+float k40(vec2 uv) { // ri
+	float d = l(uv, vec2(-0.21, -0.31), vec2(-0.21, 0.06));
+	d = min(d, s(uv, vec2(0.21, -0.07), vec2(0.218, 0.254),vec2(-0.148, 0.317)));
+	return min(d, l(uv, vec2(0.21, -0.31), vec2(0.21, -0.07)));
+}
+
+float k41(vec2 uv) { // ru
+	float d = s(uv, vec2(0.05, 0.237), vec2(0.109, 0.416),vec2(0.354, 0.052));
+	d = min(d, s(uv, vec2(-0.169, -0.301), vec2(-0.144, 0.2),vec2(-0.322, 0.317)));
+	return min(d, l(uv, vec2(0.05, -0.31), vec2(0.05, 0.2371)));
+}
+
+float k42(vec2 uv) { // re
+	float d = s(uv, vec2(-0.21, 0.237), vec2(-0.216, 0.348),vec2(0.003, 0.26));
+	d = min(d, s(uv, vec2(0, 0.261), vec2(0.171, 0.192),vec2(0.322, -0.021)));
+	return min(d, l(uv, vec2(-0.21, -0.31), vec2(-0.21, 0.2371)));
+}
+
+float k43(vec2 uv) { // ro
+	return abs(sd_box(uv ,vec2(0.25,0.25)));
+}
+
+float k44(vec2 uv) { // wa
+	float d = l(uv, vec2(-0.271, -0.28), vec2(-0.271, -0.04));
+	d = min(d, s(uv, vec2(0.28, -0.28), vec2(0.303, 0.193),vec2(-0.115, 0.313)));
+	return min(d, l(uv, vec2(-0.271, -0.28), vec2(0.28, -0.28)));
+}
+
+float k45(vec2 uv) { // wo
+	return min(l(uv, vec2(-0.255, -0.058), vec2(0.25, -0.058)),k28(uv));
+}
+
+float k46(vec2 uv) { // n
+	float d = s(uv, vec2(0.313, -0.196), vec2(0.221, 0.217),vec2(-0.267, 0.279));
+	return min(d, s(uv, vec2(-0.078, -0.099), vec2(-0.14, -0.181),vec2(-0.273, -0.268)));
+}
+
+float wrap(float value, float max, float min)
+{
+  float range = max - min;
+  return (range != 0.0) ? value - (range * floor((value - min) / range)) : min;
+}
+
+float katakana(vec2 p, int char, float scale)
+{
+	char = int(wrap(float(char),0.0,46.0));
+	float s = 1.0/scale;
+	p *= s;
+
+	float k[] = {
+		k1(p),  k2(p),  k3(p),  k4(p),  k5(p),
+		k6(p),  k7(p),  k8(p),  k9(p),  k10(p), 	
+		k11(p), k12(p), k13(p), k14(p), k15(p),
+		k16(p), k17(p), k18(p), k19(p), k20(p),
+		k21(p), k22(p), k23(p), k24(p), k25(p),
+		k26(p), k27(p), k28(p), k29(p), k30(p),
+		k31(p), k32(p), k33(p), k34(p), k35(p),
+		k36(p), k37(p), k38(p), k39(p), k40(p),
+		k41(p), k42(p), k43(p), k44(p), k45(p),
+        k46(p)};
+	
+	return k[char-1]/s;
+}
+
+float kc(vec2 p, int char, float scale, int gs) {
+	if(gs > 1) {
+		float g = float(gs);
+		p += 0.5;
+		vec2 a = floor(p*g)/vec2(g);
+		p = fract(p*g) - 0.5;
+		float c = g*(a.x+floor(1.0/g)) + a.y*g*g+1.0;
+		return katakana(p,int(c),scale);
+	}
+	return katakana(p,char,scale);
+}
+
 // Display modes
 const bool ASCII_DISPLAY = true;
 const bool CUSTOM_DISPLAY = false;
@@ -267,237 +685,271 @@ vec3 blend_additive(vec2 uv, vec3 c1, vec3 c2, float oppacity) {
 vec3 blend_addsub(vec2 uv, vec3 c1, vec3 c2, float oppacity) {
 	return c2 + (c1 - .5) * 2.0 * oppacity;
 }
-const float p_o112475_albedo_color_r = 1.000000000;
-const float p_o112475_albedo_color_g = 1.000000000;
-const float p_o112475_albedo_color_b = 1.000000000;
-const float p_o112475_albedo_color_a = 1.000000000;
-const float p_o112475_metallic = 0.000000000;
-const float p_o112475_roughness = 1.000000000;
-const float p_o112475_emission_energy = 0.000000000;
-const float p_o112475_normal = 1.000000000;
-const float p_o112475_ao = 1.000000000;
-const float p_o112475_depth_scale = 0.500000000;
-float o112475_input_depth_tex(vec2 uv, float _seed_variation_) {
-
-return 0.0;
-}
-const float p_o112513_amount = 1.000000000;
-const float p_o112508_amount = 1.000000000;
-const float p_o112494_min = -1.410000000;
-const float p_o112494_max = 3.350000000;
-const float p_o112494_step = 0.000000000;
-const float p_o112493_default_in1 = 0.000000000;
-const float p_o112493_default_in2 = 0.000000000;
-const float p_o112476_a = 0.000000000;
-const float p_o112476_sl = 0.000000000;
-const float p_o112476_st = 0.240000000;
-const float p_o112476_dps = 0.650000000;
-const float p_o112476_dpx = 0.196945000;
-const float p_o112476_dpy = 0.395530000;
-const float p_o112476_da = 60.000000000;
-const float p_o112476_b = 0.000000000;
-const float p_o112486_min = 32.000000000;
-const float p_o112486_max = 105.000000000;
-const float p_o112486_step = 0.000000000;
-const float p_o112517_default_in1 = 0.000000000;
-const float p_o112517_default_in2 = 0.000000000;
-const float p_o112514_default_in1 = 0.000000000;
-const float p_o112514_default_in2 = 0.000000000;
-const float p_o112516_default_in1 = 0.000000000;
-const float p_o112516_default_in2 = 0.000000000;
-const float p_o112515_min = -10.000000000;
-const float p_o112515_max = 1.000000000;
-const float p_o112515_step = 0.000000000;
-const float p_o112492_default_in1 = 0.000000000;
-const float p_o112492_default_in2 = 0.000000000;
-const float p_o112491_default_in1 = 0.000000000;
-const float p_o112491_default_in2 = 0.000000000;
-const float p_o112510_default_in1 = 0.000000000;
-const float p_o112510_default_in2 = 80.000000000;
-const float p_o112490_default_in1 = 0.000000000;
-const float p_o112490_default_in2 = 0.000000000;
-const float p_o112489_default_in1 = 0.000000000;
-const float p_o112489_default_in2 = 100.000000000;
-const float p_o112477_translate_x = 0.000000000;
-const float p_o112477_translate_y = 0.000000000;
-const float p_o112477_rotate = 0.000000000;
-const float p_o112477_scale_x = 1.000000000;
-const float p_o112477_scale_y = 1.000000000;
-const float p_o112511_default_in1 = 0.000000000;
-const float p_o112481_default_in1 = 0.000000000;
-const float p_o112481_default_in2 = 14.620000000;
-const float seed_o112478 = 0.035656000;
-const float p_o112478_edgecolor = 1.000000000;
-const float p_o112480_d_in1_x = 0.000000000;
-const float p_o112480_d_in1_y = 0.000000000;
-const float p_o112480_d_in1_z = 0.000000000;
-const float p_o112480_d_in2_x = 0.000000000;
-const float p_o112480_d_in2_y = 0.000000000;
-const float p_o112480_d_in2_z = 0.000000000;
-const float p_o112479_d_in1_x = 0.000000000;
-const float p_o112479_d_in1_y = 0.000000000;
-const float p_o112479_d_in1_z = 0.000000000;
-const float p_o112479_d_in2_x = 100.000000000;
-const float p_o112479_d_in2_y = 0.000000000;
-const float p_o112479_d_in2_z = 0.000000000;
-const float p_o112519_default_in1 = 0.000000000;
-const float p_o112519_default_in2 = 0.000000000;
-const float p_o112518_default_in1 = 0.000000000;
-const float seed_o112485 = 0.822669000;
-const float p_o112485_edgecolor = 1.000000000;
-const float p_o112487_d_in1_x = 0.000000000;
-const float p_o112487_d_in1_y = 0.000000000;
-const float p_o112487_d_in1_z = 0.000000000;
-const float p_o112487_d_in2_x = 0.180000000;
-const float p_o112487_d_in2_y = 0.000000000;
-const float p_o112487_d_in2_z = 0.000000000;
-const float p_o112484_d_in1_x = 0.000000000;
-const float p_o112484_d_in1_y = 0.000000000;
-const float p_o112484_d_in1_z = 0.000000000;
-const float p_o112484_d_in2_x = 0.000000000;
-const float p_o112484_d_in2_y = 0.000000000;
-const float p_o112484_d_in2_z = 0.000000000;
-const float p_o112482_d_in1_x = 0.000000000;
-const float p_o112482_d_in1_y = 0.000000000;
-const float p_o112482_d_in1_z = 0.000000000;
-const float p_o112482_d_in2_x = 100.000000000;
-const float p_o112482_d_in2_y = 100.000000000;
-const float p_o112482_d_in2_z = 0.000000000;
-const float p_o112483_d_in1_x = 0.000000000;
-const float p_o112483_d_in1_y = 0.000000000;
-const float p_o112483_d_in1_z = 0.000000000;
-const float p_o112483_d_in2_x = 0.000000000;
-const float p_o112483_d_in2_y = 0.000000000;
-const float p_o112483_d_in2_z = 0.000000000;
-const float p_o112495_gradient_0_pos = 0.510099000;
-const float p_o112495_gradient_0_r = 0.000000000;
-const float p_o112495_gradient_0_g = 0.000000000;
-const float p_o112495_gradient_0_b = 0.000000000;
-const float p_o112495_gradient_0_a = 1.000000000;
-const float p_o112495_gradient_1_pos = 0.972404000;
-const float p_o112495_gradient_1_r = 0.211715996;
-const float p_o112495_gradient_1_g = 0.949487984;
-const float p_o112495_gradient_1_b = 0.137819007;
-const float p_o112495_gradient_1_a = 1.000000000;
-vec4 o112495_gradient_gradient_fct(float x) {
-  if (x < p_o112495_gradient_0_pos) {
-    return vec4(p_o112495_gradient_0_r,p_o112495_gradient_0_g,p_o112495_gradient_0_b,p_o112495_gradient_0_a);
-  } else if (x < p_o112495_gradient_1_pos) {
-    return mix(vec4(p_o112495_gradient_0_r,p_o112495_gradient_0_g,p_o112495_gradient_0_b,p_o112495_gradient_0_a), vec4(p_o112495_gradient_1_r,p_o112495_gradient_1_g,p_o112495_gradient_1_b,p_o112495_gradient_1_a), ((x-p_o112495_gradient_0_pos)/(p_o112495_gradient_1_pos-p_o112495_gradient_0_pos)));
+const float p_o142183_amount = 1.000000000;
+const float p_o142185_d_in1_x = 0.000000000;
+const float p_o142185_d_in1_y = 0.000000000;
+const float p_o142185_d_in1_z = 0.000000000;
+const float p_o142185_d_in2_x = 8.000000000;
+const float p_o142185_d_in2_y = 8.000000000;
+const float p_o142185_d_in2_z = 8.000000000;
+const float p_o142184_amount = 1.000000000;
+const float p_o142154_amount = 1.000000000;
+const float p_o142140_min = -1.410000000;
+const float p_o142140_max = 3.350000000;
+const float p_o142140_step = 0.000000000;
+const float p_o142139_default_in1 = 0.000000000;
+const float p_o142139_default_in2 = 0.000000000;
+const float p_o142192_amount = 1.000000000;
+const float p_o142168_bevel = 0.033500000;
+const float p_o142168_base = 0.000000000;
+const float p_o142167_char = 1.000000000;
+const float p_o142167_scale = 1.173800000;
+const float p_o142167_rad = 0.063000000;
+const float p_o142167_gs = 1.000000000;
+const float p_o142133_min = 0.000000000;
+const float p_o142133_max = 50.000000000;
+const float p_o142133_step = 0.000000000;
+const float p_o142161_default_in1 = 0.000000000;
+const float p_o142161_default_in2 = 0.000000000;
+const float p_o142158_default_in1 = 0.000000000;
+const float p_o142158_default_in2 = 0.000000000;
+const float p_o142160_default_in1 = 0.000000000;
+const float p_o142160_default_in2 = 0.000000000;
+const float p_o142159_min = 2.000000000;
+const float p_o142159_max = 1.000000000;
+const float p_o142159_step = 0.000000000;
+const float p_o142138_default_in1 = 0.000000000;
+const float p_o142138_default_in2 = 0.000000000;
+const float p_o142137_default_in1 = 0.000000000;
+const float p_o142137_default_in2 = 0.000000000;
+const float p_o142156_default_in1 = 0.000000000;
+const float p_o142156_default_in2 = 80.000000000;
+const float p_o142136_default_in1 = 0.000000000;
+const float p_o142136_default_in2 = 0.000000000;
+const float p_o142135_default_in1 = 0.000000000;
+const float p_o142135_default_in2 = 50.000000000;
+const float p_o142124_translate_x = 0.000000000;
+const float p_o142124_translate_y = 0.000000000;
+const float p_o142124_rotate = 0.000000000;
+const float p_o142124_scale_x = 1.000000000;
+const float p_o142124_scale_y = 1.000000000;
+const float p_o142157_default_in1 = 0.000000000;
+const float p_o142128_default_in1 = 0.000000000;
+const float p_o142128_default_in2 = 178.550000000;
+const float seed_o142125 = 0.216814000;
+const float p_o142125_edgecolor = 1.000000000;
+const float p_o142127_d_in1_x = 0.000000000;
+const float p_o142127_d_in1_y = 0.000000000;
+const float p_o142127_d_in1_z = 0.000000000;
+const float p_o142127_d_in2_x = 0.000000000;
+const float p_o142127_d_in2_y = 0.000000000;
+const float p_o142127_d_in2_z = 0.000000000;
+const float p_o142126_d_in1_x = 0.000000000;
+const float p_o142126_d_in1_y = 0.000000000;
+const float p_o142126_d_in1_z = 0.000000000;
+const float p_o142126_d_in2_x = 50.000000000;
+const float p_o142126_d_in2_y = 0.000000000;
+const float p_o142126_d_in2_z = 0.000000000;
+const float p_o142187_default_in1 = 0.000000000;
+const float p_o142187_default_in2 = 0.000000000;
+const float p_o142188_min = 7.000000000;
+const float p_o142188_max = 15.000000000;
+const float p_o142188_step = 0.000000000;
+const float p_o142163_default_in1 = 0.000000000;
+const float p_o142163_default_in2 = 0.000000000;
+const float p_o142162_default_in1 = 0.000000000;
+const float seed_o142132 = 0.822669000;
+const float p_o142132_edgecolor = 1.000000000;
+const float p_o142131_d_in1_x = 0.000000000;
+const float p_o142131_d_in1_y = 0.000000000;
+const float p_o142131_d_in1_z = 0.000000000;
+const float p_o142131_d_in2_x = 0.000000000;
+const float p_o142131_d_in2_y = 0.000000000;
+const float p_o142131_d_in2_z = 0.000000000;
+const float p_o142129_d_in1_x = 0.000000000;
+const float p_o142129_d_in1_y = 0.000000000;
+const float p_o142129_d_in1_z = 0.000000000;
+const float p_o142129_d_in2_x = 50.000000000;
+const float p_o142129_d_in2_y = 50.000000000;
+const float p_o142129_d_in2_z = 0.000000000;
+const float p_o142169_translate_x = 0.000000000;
+const float p_o142169_translate_y = 0.000000000;
+const float p_o142169_rotate = 0.000000000;
+const float p_o142169_scale_x = -1.000000000;
+const float p_o142169_scale_y = 1.000000000;
+const float p_o142130_d_in1_x = 0.000000000;
+const float p_o142130_d_in1_y = 0.000000000;
+const float p_o142130_d_in1_z = 0.000000000;
+const float p_o142130_d_in2_x = 0.000000000;
+const float p_o142130_d_in2_y = 0.000000000;
+const float p_o142130_d_in2_z = 0.000000000;
+const float p_o142189_a = 0.000000000;
+const float p_o142189_sl = 0.000000000;
+const float p_o142189_st = 0.367600000;
+const float p_o142189_dps = 0.684480000;
+const float p_o142189_dpx = 0.196945000;
+const float p_o142189_dpy = 0.395530000;
+const float p_o142189_da = 60.000000000;
+const float p_o142189_b = 0.029300000;
+const float p_o142190_min = 32.000000000;
+const float p_o142190_max = 125.000000000;
+const float p_o142190_step = 0.000000000;
+const float p_o142191_value = 0.405800000;
+const float p_o142191_width = 0.000000000;
+const float p_o142141_gradient_0_pos = 0.510099000;
+const float p_o142141_gradient_0_r = 0.000000000;
+const float p_o142141_gradient_0_g = 0.000000000;
+const float p_o142141_gradient_0_b = 0.000000000;
+const float p_o142141_gradient_0_a = 1.000000000;
+const float p_o142141_gradient_1_pos = 0.998661000;
+const float p_o142141_gradient_1_r = 0.132247999;
+const float p_o142141_gradient_1_g = 0.288527995;
+const float p_o142141_gradient_1_b = 0.116594002;
+const float p_o142141_gradient_1_a = 1.000000000;
+vec4 o142141_gradient_gradient_fct(float x) {
+  if (x < p_o142141_gradient_0_pos) {
+    return vec4(p_o142141_gradient_0_r,p_o142141_gradient_0_g,p_o142141_gradient_0_b,p_o142141_gradient_0_a);
+  } else if (x < p_o142141_gradient_1_pos) {
+    return mix(vec4(p_o142141_gradient_0_r,p_o142141_gradient_0_g,p_o142141_gradient_0_b,p_o142141_gradient_0_a), vec4(p_o142141_gradient_1_r,p_o142141_gradient_1_g,p_o142141_gradient_1_b,p_o142141_gradient_1_a), ((x-p_o142141_gradient_0_pos)/(p_o142141_gradient_1_pos-p_o142141_gradient_0_pos)));
   }
-  return vec4(p_o112495_gradient_1_r,p_o112495_gradient_1_g,p_o112495_gradient_1_b,p_o112495_gradient_1_a);
+  return vec4(p_o142141_gradient_1_r,p_o142141_gradient_1_g,p_o142141_gradient_1_b,p_o142141_gradient_1_a);
 }
-const float p_o112522_amount = 1.000000000;
-const float p_o112520_amount = 1.000000000;
-const float p_o112512_min = -2.390000000;
-const float p_o112512_max = 0.450000000;
-const float p_o112512_step = 0.000000000;
-const float p_o112521_color_r = 0.061085999;
-const float p_o112521_color_g = 0.632350981;
-const float p_o112521_color_b = 0.140480995;
-const float p_o112521_color_a = 1.000000000;
-const float p_o112523_color_r = 0.000000000;
-const float p_o112523_color_g = 0.000000000;
-const float p_o112523_color_b = 0.000000000;
-const float p_o112523_color_a = 1.000000000;
+const float p_o142164_amount = 1.000000000;
+const float p_o142170_gradient_0_pos = 0.964525000;
+const float p_o142170_gradient_0_r = 0.000000000;
+const float p_o142170_gradient_0_g = 0.000000000;
+const float p_o142170_gradient_0_b = 0.000000000;
+const float p_o142170_gradient_0_a = 1.000000000;
+const float p_o142170_gradient_1_pos = 1.000000000;
+const float p_o142170_gradient_1_r = 1.000000000;
+const float p_o142170_gradient_1_g = 1.000000000;
+const float p_o142170_gradient_1_b = 1.000000000;
+const float p_o142170_gradient_1_a = 1.000000000;
+vec4 o142170_gradient_gradient_fct(float x) {
+  if (x < p_o142170_gradient_0_pos) {
+    return vec4(p_o142170_gradient_0_r,p_o142170_gradient_0_g,p_o142170_gradient_0_b,p_o142170_gradient_0_a);
+  } else if (x < p_o142170_gradient_1_pos) {
+    return mix(vec4(p_o142170_gradient_0_r,p_o142170_gradient_0_g,p_o142170_gradient_0_b,p_o142170_gradient_0_a), vec4(p_o142170_gradient_1_r,p_o142170_gradient_1_g,p_o142170_gradient_1_b,p_o142170_gradient_1_a), ((x-p_o142170_gradient_0_pos)/(p_o142170_gradient_1_pos-p_o142170_gradient_0_pos)));
+  }
+  return vec4(p_o142170_gradient_1_r,p_o142170_gradient_1_g,p_o142170_gradient_1_b,p_o142170_gradient_1_a);
+}
+const float p_o142165_color_r = 0.185112000;
+const float p_o142165_color_g = 0.243324995;
+const float p_o142165_color_b = 0.587750018;
+const float p_o142165_color_a = 1.000000000;
 
 
 void fragment() {
 	float _seed_variation_ = variation;
 	vec2 uv = fract(UV);
-vec4 o112477_0_1_rgba = vec4(((transform2((uv), vec2(p_o112477_translate_x*(2.0*1.0-1.0), p_o112477_translate_y*(2.0*1.0-1.0)), p_o112477_rotate*0.01745329251*(2.0*1.0-1.0), vec2(p_o112477_scale_x*(2.0*1.0-1.0), p_o112477_scale_y*(2.0*1.0-1.0))))), 0.0, 1.0);
-float o112488_1_1_f = o112477_0_1_rgba.g;
-float o112489_0_clamp_false = o112488_1_1_f*p_o112489_default_in2;
-float o112489_0_clamp_true = clamp(o112489_0_clamp_false, 0.0, 1.0);
-float o112489_0_2_f = o112489_0_clamp_false;
-float o112490_0_clamp_false = floor(o112489_0_2_f);
-float o112490_0_clamp_true = clamp(o112490_0_clamp_false, 0.0, 1.0);
-float o112490_0_1_f = o112490_0_clamp_false;
-float o112510_0_clamp_false = o112490_0_1_f/p_o112510_default_in2;
-float o112510_0_clamp_true = clamp(o112510_0_clamp_false, 0.0, 1.0);
-float o112510_0_2_f = o112510_0_clamp_false;
-vec3 o112479_0_clamp_false = ((o112477_0_1_rgba).rgb)*vec3(p_o112479_d_in2_x, p_o112479_d_in2_y, p_o112479_d_in2_z);
-vec3 o112479_0_clamp_true = clamp(o112479_0_clamp_false, vec3(0.0), vec3(1.0));
-vec3 o112479_0_2_rgb = o112479_0_clamp_false;
-vec3 o112480_0_clamp_false = floor(o112479_0_2_rgb);
-vec3 o112480_0_clamp_true = clamp(o112480_0_clamp_false, vec3(0.0), vec3(1.0));
-vec3 o112480_0_1_rgb = o112480_0_clamp_false;
-vec4 o112478_0_bb = vec4(o112480_0_1_rgb, 1.0);float o112478_0_1_f = mix(p_o112478_edgecolor, rand(vec2(float((seed_o112478+fract(_seed_variation_))), rand(vec2(rand(o112478_0_bb.xy), rand(o112478_0_bb.zw))))), step(0.0000001, dot(o112478_0_bb.zw, vec2(1.0))));
-float o112481_0_clamp_false = o112478_0_1_f*p_o112481_default_in2;
-float o112481_0_clamp_true = clamp(o112481_0_clamp_false, 0.0, 1.0);
-float o112481_0_2_f = o112481_0_clamp_false;
-float o112511_0_clamp_false = o112481_0_2_f+(elapsed_time/3.0);
-float o112511_0_clamp_true = clamp(o112511_0_clamp_false, 0.0, 1.0);
-float o112511_0_2_f = o112511_0_clamp_false;
-float o112491_0_clamp_false = o112510_0_2_f-o112511_0_2_f;
-float o112491_0_clamp_true = clamp(o112491_0_clamp_false, 0.0, 1.0);
-float o112491_0_1_f = o112491_0_clamp_false;
-float o112492_0_clamp_false = fract(o112491_0_1_f);
-float o112492_0_clamp_true = clamp(o112492_0_clamp_false, 0.0, 1.0);
-float o112492_0_1_f = o112492_0_clamp_false;
-float o112515_0_x = o112492_0_1_f*(p_o112515_max-p_o112515_min);float o112515_0_1_f = p_o112515_min+o112515_0_x-mod(o112515_0_x, max(p_o112515_step, 0.00000001));
-float o112516_0_clamp_false = o112515_0_1_f+p_o112516_default_in2;
-float o112516_0_clamp_true = clamp(o112516_0_clamp_false, 0.0, 1.0);
-float o112516_0_2_f = o112516_0_clamp_true;
-float o112514_0_clamp_false = fract(o112516_0_2_f);
-float o112514_0_clamp_true = clamp(o112514_0_clamp_false, 0.0, 1.0);
-float o112514_0_1_f = o112514_0_clamp_false;
-vec3 o112482_0_clamp_false = ((o112477_0_1_rgba).rgb)*vec3(p_o112482_d_in2_x, p_o112482_d_in2_y, p_o112482_d_in2_z);
-vec3 o112482_0_clamp_true = clamp(o112482_0_clamp_false, vec3(0.0), vec3(1.0));
-vec3 o112482_0_2_rgb = o112482_0_clamp_false;
-vec3 o112484_0_clamp_false = floor(o112482_0_2_rgb);
-vec3 o112484_0_clamp_true = clamp(o112484_0_clamp_false, vec3(0.0), vec3(1.0));
-vec3 o112484_0_1_rgb = o112484_0_clamp_false;
-vec3 o112487_0_clamp_false = o112484_0_1_rgb-vec3(p_o112487_d_in2_x, p_o112487_d_in2_y, p_o112487_d_in2_z);
-vec3 o112487_0_clamp_true = clamp(o112487_0_clamp_false, vec3(0.0), vec3(1.0));
-vec3 o112487_0_2_rgb = o112487_0_clamp_false;
-vec4 o112485_0_bb = vec4(o112487_0_2_rgb, 1.0);float o112485_0_1_f = mix(p_o112485_edgecolor, rand(vec2(float((seed_o112485+fract(_seed_variation_))), rand(vec2(rand(o112485_0_bb.xy), rand(o112485_0_bb.zw))))), step(0.0000001, dot(o112485_0_bb.zw, vec2(1.0))));
-float o112518_0_clamp_false = o112485_0_1_f+(elapsed_time/100.0);
-float o112518_0_clamp_true = clamp(o112518_0_clamp_false, 0.0, 1.0);
-float o112518_0_2_f = o112518_0_clamp_false;
-float o112519_0_clamp_false = fract(o112518_0_2_f);
-float o112519_0_clamp_true = clamp(o112519_0_clamp_false, 0.0, 1.0);
-float o112519_0_1_f = o112519_0_clamp_false;
-float o112517_0_clamp_false = o112514_0_1_f+o112519_0_1_f;
-float o112517_0_clamp_true = clamp(o112517_0_clamp_false, 0.0, 1.0);
-float o112517_0_1_f = o112517_0_clamp_false;
-float o112486_0_x = o112517_0_1_f*(p_o112486_max-p_o112486_min);float o112486_0_1_f = p_o112486_min+o112486_0_x-mod(o112486_0_x, max(p_o112486_step, 0.00000001));
-vec3 o112483_0_clamp_false = fract(o112482_0_2_rgb);
-vec3 o112483_0_clamp_true = clamp(o112483_0_clamp_false, vec3(0.0), vec3(1.0));
-vec3 o112483_0_1_rgb = o112483_0_clamp_false;
-float o112476_0_1_f = xvisd_ascii(o112483_0_1_rgb.xy, p_o112476_st, p_o112476_sl, p_o112476_b*1.0, (p_o112476_a == 0.0 ? o112486_0_1_f: p_o112476_a), p_o112476_dps, vec2(p_o112476_dpx, p_o112476_dpy), p_o112476_da, true);
-float o112493_0_clamp_false = o112476_0_1_f*o112492_0_1_f;
-float o112493_0_clamp_true = clamp(o112493_0_clamp_false, 0.0, 1.0);
-float o112493_0_1_f = o112493_0_clamp_false;
-float o112494_0_x = o112493_0_1_f*(p_o112494_max-p_o112494_min);float o112494_0_1_f = p_o112494_min+o112494_0_x-mod(o112494_0_x, max(p_o112494_step, 0.00000001));
-vec4 o112495_0_1_rgba = o112495_gradient_gradient_fct(o112492_0_1_f);
-vec4 o112508_0_s1 = vec4(vec3(o112494_0_1_f), 1.0);
-vec4 o112508_0_s2 = o112495_0_1_rgba;
-float o112508_0_a = p_o112508_amount*1.0;
-vec4 o112508_0_2_rgba = vec4(blend_multiply((uv), o112508_0_s1.rgb, o112508_0_s2.rgb, o112508_0_a*o112508_0_s1.a), min(1.0, o112508_0_s2.a+o112508_0_a*o112508_0_s1.a));
-float o112512_0_x = o112492_0_1_f*(p_o112512_max-p_o112512_min);float o112512_0_1_f = p_o112512_min+o112512_0_x-mod(o112512_0_x, max(p_o112512_step, 0.00000001));
-vec4 o112521_0_1_rgba = vec4(p_o112521_color_r, p_o112521_color_g, p_o112521_color_b, p_o112521_color_a);
-vec4 o112520_0_s1 = vec4(vec3(o112512_0_1_f), 1.0);
-vec4 o112520_0_s2 = o112521_0_1_rgba;
-float o112520_0_a = p_o112520_amount*1.0;
-vec4 o112520_0_2_rgba = vec4(blend_hard_light((uv), o112520_0_s1.rgb, o112520_0_s2.rgb, o112520_0_a*o112520_0_s1.a), min(1.0, o112520_0_s2.a+o112520_0_a*o112520_0_s1.a));
-vec4 o112523_0_1_rgba = vec4(p_o112523_color_r, p_o112523_color_g, p_o112523_color_b, p_o112523_color_a);
-vec4 o112522_0_s1 = o112520_0_2_rgba;
-vec4 o112522_0_s2 = o112523_0_1_rgba;
-float o112522_0_a = p_o112522_amount*1.0;
-vec4 o112522_0_2_rgba = vec4(blend_normal((uv), o112522_0_s1.rgb, o112522_0_s2.rgb, o112522_0_a*o112522_0_s1.a), min(1.0, o112522_0_s2.a+o112522_0_a*o112522_0_s1.a));
-vec4 o112513_0_s1 = o112508_0_2_rgba;
-vec4 o112513_0_s2 = o112522_0_2_rgba;
-float o112513_0_a = p_o112513_amount*1.0;
-vec4 o112513_0_2_rgba = vec4(blend_lighten((uv), o112513_0_s1.rgb, o112513_0_s2.rgb, o112513_0_a*o112513_0_s1.a), min(1.0, o112513_0_s2.a+o112513_0_a*o112513_0_s1.a));
+vec4 o142124_0_1_rgba = vec4(((transform2((uv), vec2(p_o142124_translate_x*(2.0*1.0-1.0), p_o142124_translate_y*(2.0*1.0-1.0)), p_o142124_rotate*0.01745329251*(2.0*1.0-1.0), vec2(p_o142124_scale_x*(2.0*1.0-1.0), p_o142124_scale_y*(2.0*1.0-1.0))))), 0.0, 1.0);
+float o142134_1_1_f = o142124_0_1_rgba.g;
+float o142135_0_clamp_false = o142134_1_1_f*p_o142135_default_in2;
+float o142135_0_clamp_true = clamp(o142135_0_clamp_false, 0.0, 1.0);
+float o142135_0_2_f = o142135_0_clamp_false;
+float o142136_0_clamp_false = floor(o142135_0_2_f);
+float o142136_0_clamp_true = clamp(o142136_0_clamp_false, 0.0, 1.0);
+float o142136_0_1_f = o142136_0_clamp_false;
+float o142156_0_clamp_false = o142136_0_1_f/p_o142156_default_in2;
+float o142156_0_clamp_true = clamp(o142156_0_clamp_false, 0.0, 1.0);
+float o142156_0_2_f = o142156_0_clamp_false;
+vec3 o142126_0_clamp_false = ((o142124_0_1_rgba).rgb)*vec3(p_o142126_d_in2_x, p_o142126_d_in2_y, p_o142126_d_in2_z);
+vec3 o142126_0_clamp_true = clamp(o142126_0_clamp_false, vec3(0.0), vec3(1.0));
+vec3 o142126_0_2_rgb = o142126_0_clamp_false;
+vec3 o142127_0_clamp_false = floor(o142126_0_2_rgb);
+vec3 o142127_0_clamp_true = clamp(o142127_0_clamp_false, vec3(0.0), vec3(1.0));
+vec3 o142127_0_1_rgb = o142127_0_clamp_false;
+vec4 o142125_0_bb = vec4(o142127_0_1_rgb, 1.0);float o142125_0_1_f = mix(p_o142125_edgecolor, rand(vec2(float((seed_o142125+fract(_seed_variation_))), rand(vec2(rand(o142125_0_bb.xy), rand(o142125_0_bb.zw))))), step(0.0000001, dot(o142125_0_bb.zw, vec2(1.0))));
+float o142128_0_clamp_false = o142125_0_1_f*p_o142128_default_in2;
+float o142128_0_clamp_true = clamp(o142128_0_clamp_false, 0.0, 1.0);
+float o142128_0_2_f = o142128_0_clamp_false;
+float o142186_0_1_f = (elapsed_time);
+float o142188_0_x = o142125_0_1_f*(p_o142188_max-p_o142188_min);float o142188_0_1_f = p_o142188_min+o142188_0_x-mod(o142188_0_x, max(p_o142188_step, 0.00000001));
+float o142187_0_clamp_false = o142186_0_1_f/o142188_0_1_f;
+float o142187_0_clamp_true = clamp(o142187_0_clamp_false, 0.0, 1.0);
+float o142187_0_1_f = o142187_0_clamp_false;
+float o142157_0_clamp_false = o142128_0_2_f+o142187_0_1_f;
+float o142157_0_clamp_true = clamp(o142157_0_clamp_false, 0.0, 1.0);
+float o142157_0_1_f = o142157_0_clamp_false;
+float o142137_0_clamp_false = o142156_0_2_f-o142157_0_1_f;
+float o142137_0_clamp_true = clamp(o142137_0_clamp_false, 0.0, 1.0);
+float o142137_0_1_f = o142137_0_clamp_false;
+float o142138_0_clamp_false = fract(o142137_0_1_f);
+float o142138_0_clamp_true = clamp(o142138_0_clamp_false, 0.0, 1.0);
+float o142138_0_1_f = o142138_0_clamp_false;
+float o142159_0_x = o142138_0_1_f*(p_o142159_max-p_o142159_min);float o142159_0_1_f = p_o142159_min+o142159_0_x-mod(o142159_0_x, max(p_o142159_step, 0.00000001));
+float o142160_0_clamp_false = o142159_0_1_f+p_o142160_default_in2;
+float o142160_0_clamp_true = clamp(o142160_0_clamp_false, 0.0, 1.0);
+float o142160_0_2_f = o142160_0_clamp_true;
+float o142158_0_clamp_false = fract(o142160_0_2_f);
+float o142158_0_clamp_true = clamp(o142158_0_clamp_false, 0.0, 1.0);
+float o142158_0_1_f = o142158_0_clamp_false;
+vec3 o142129_0_clamp_false = ((o142124_0_1_rgba).rgb)*vec3(p_o142129_d_in2_x, p_o142129_d_in2_y, p_o142129_d_in2_z);
+vec3 o142129_0_clamp_true = clamp(o142129_0_clamp_false, vec3(0.0), vec3(1.0));
+vec3 o142129_0_2_rgb = o142129_0_clamp_false;
+vec3 o142131_0_clamp_false = floor(o142129_0_2_rgb);
+vec3 o142131_0_clamp_true = clamp(o142131_0_clamp_false, vec3(0.0), vec3(1.0));
+vec3 o142131_0_1_rgb = o142131_0_clamp_false;
+vec4 o142132_0_bb = vec4(o142131_0_1_rgb, 1.0);float o142132_0_1_f = mix(p_o142132_edgecolor, rand(vec2(float((seed_o142132+fract(_seed_variation_))), rand(vec2(rand(o142132_0_bb.xy), rand(o142132_0_bb.zw))))), step(0.0000001, dot(o142132_0_bb.zw, vec2(1.0))));
+float o142162_0_clamp_false = o142132_0_1_f+(elapsed_time/100.0);
+float o142162_0_clamp_true = clamp(o142162_0_clamp_false, 0.0, 1.0);
+float o142162_0_2_f = o142162_0_clamp_false;
+float o142163_0_clamp_false = fract(o142162_0_2_f);
+float o142163_0_clamp_true = clamp(o142163_0_clamp_false, 0.0, 1.0);
+float o142163_0_1_f = o142163_0_clamp_false;
+float o142161_0_clamp_false = o142158_0_1_f+o142163_0_1_f;
+float o142161_0_clamp_true = clamp(o142161_0_clamp_false, 0.0, 1.0);
+float o142161_0_1_f = o142161_0_clamp_false;
+float o142133_0_x = o142161_0_1_f*(p_o142133_max-p_o142133_min);float o142133_0_1_f = p_o142133_min+o142133_0_x-mod(o142133_0_x, max(p_o142133_step, 0.00000001));
+vec4 o142124_0_5_rgba = vec4(((transform2((transform2((uv), vec2(p_o142169_translate_x*(2.0*1.0-1.0), p_o142169_translate_y*(2.0*1.0-1.0)), p_o142169_rotate*0.01745329251*(2.0*1.0-1.0), vec2(p_o142169_scale_x*(2.0*1.0-1.0), p_o142169_scale_y*(2.0*1.0-1.0)))), vec2(p_o142124_translate_x*(2.0*1.0-1.0), p_o142124_translate_y*(2.0*1.0-1.0)), p_o142124_rotate*0.01745329251*(2.0*1.0-1.0), vec2(p_o142124_scale_x*(2.0*1.0-1.0), p_o142124_scale_y*(2.0*1.0-1.0))))), 0.0, 1.0);
+vec3 o142129_3_clamp_false = ((o142124_0_5_rgba).rgb)*vec3(p_o142129_d_in2_x, p_o142129_d_in2_y, p_o142129_d_in2_z);
+vec3 o142129_3_clamp_true = clamp(o142129_3_clamp_false, vec3(0.0), vec3(1.0));
+vec3 o142129_0_5_rgb = o142129_3_clamp_false;
+vec3 o142130_0_clamp_false = fract(o142129_0_5_rgb);
+vec3 o142130_0_clamp_true = clamp(o142130_0_clamp_false, vec3(0.0), vec3(1.0));
+vec3 o142130_0_1_rgb = o142130_0_clamp_false;
+vec4 o142169_0_1_rgba = vec4(o142130_0_1_rgb, 1.0);
+float o142167_0_1_sdf2d = kc(((o142169_0_1_rgba).rgb).xy-0.5, int(p_o142167_char*o142133_0_1_f), p_o142167_scale, int(p_o142167_gs)) - p_o142167_rad;
+float o142168_0_1_f = clamp(p_o142168_base-o142167_0_1_sdf2d/max(p_o142168_bevel, 0.00001), 0.0, 1.0);
+float o142190_0_x = o142161_0_1_f*(p_o142190_max-p_o142190_min);float o142190_0_1_f = p_o142190_min+o142190_0_x-mod(o142190_0_x, max(p_o142190_step, 0.00000001));
+float o142189_0_1_f = xvisd_ascii(((o142169_0_1_rgba).rgb).xy, p_o142189_st, p_o142189_sl, p_o142189_b*1.0, (p_o142189_a == 0.0 ? o142190_0_1_f: p_o142189_a), p_o142189_dps, vec2(p_o142189_dpx, p_o142189_dpy), p_o142189_da, false);
+vec3 o142191_0_false = clamp((vec4(vec3(o142132_0_1_f), 1.0).rgb-vec3(p_o142191_value))/max(0.0001, p_o142191_width)+vec3(0.5), vec3(0.0), vec3(1.0));
+vec3 o142191_0_true = vec3(1.0)-o142191_0_false;vec4 o142191_0_1_rgba = vec4(o142191_0_false, vec4(vec3(o142132_0_1_f), 1.0).a);
+vec4 o142192_0_s1 = vec4(vec3(o142168_0_1_f), 1.0);
+vec4 o142192_0_s2 = vec4(vec3(o142189_0_1_f), 1.0);
+float o142192_0_a = p_o142192_amount*(dot((o142191_0_1_rgba).rgb, vec3(1.0))/3.0);
+vec4 o142192_0_1_rgba = vec4(blend_normal((uv), o142192_0_s1.rgb, o142192_0_s2.rgb, o142192_0_a*o142192_0_s1.a), min(1.0, o142192_0_s2.a+o142192_0_a*o142192_0_s1.a));
+float o142139_0_clamp_false = (dot((o142192_0_1_rgba).rgb, vec3(1.0))/3.0)*o142138_0_1_f;
+float o142139_0_clamp_true = clamp(o142139_0_clamp_false, 0.0, 1.0);
+float o142139_0_1_f = o142139_0_clamp_true;
+float o142140_0_x = o142139_0_1_f*(p_o142140_max-p_o142140_min);float o142140_0_1_f = p_o142140_min+o142140_0_x-mod(o142140_0_x, max(p_o142140_step, 0.00000001));
+vec4 o142141_0_1_rgba = o142141_gradient_gradient_fct(o142138_0_1_f);
+vec4 o142154_0_s1 = vec4(vec3(o142140_0_1_f), 1.0);
+vec4 o142154_0_s2 = o142141_0_1_rgba;
+float o142154_0_a = p_o142154_amount*1.0;
+vec4 o142154_0_2_rgba = vec4(blend_multiply((uv), o142154_0_s1.rgb, o142154_0_s2.rgb, o142154_0_a*o142154_0_s1.a), min(1.0, o142154_0_s2.a+o142154_0_a*o142154_0_s1.a));
+vec4 o142170_0_1_rgba = o142170_gradient_gradient_fct(o142138_0_1_f);
+vec4 o142165_0_1_rgba = vec4(p_o142165_color_r, p_o142165_color_g, p_o142165_color_b, p_o142165_color_a);
+vec4 o142164_0_s1 = o142170_0_1_rgba;
+vec4 o142164_0_s2 = o142165_0_1_rgba;
+float o142164_0_a = p_o142164_amount*1.0;
+vec4 o142164_0_2_rgba = vec4(blend_multiply((uv), o142164_0_s1.rgb, o142164_0_s2.rgb, o142164_0_a*o142164_0_s1.a), min(1.0, o142164_0_s2.a+o142164_0_a*o142164_0_s1.a));
+vec4 o142184_0_s1 = o142154_0_2_rgba;
+vec4 o142184_0_s2 = o142164_0_2_rgba;
+float o142184_0_a = p_o142184_amount*1.0;
+vec4 o142184_0_2_rgba = vec4(blend_multiply((uv), o142184_0_s1.rgb, o142184_0_s2.rgb, o142184_0_a*o142184_0_s1.a), min(1.0, o142184_0_s2.a+o142184_0_a*o142184_0_s1.a));
+vec3 o142185_0_clamp_false = ((o142184_0_2_rgba).rgb)*vec3(p_o142185_d_in2_x, p_o142185_d_in2_y, p_o142185_d_in2_z);
+vec3 o142185_0_clamp_true = clamp(o142185_0_clamp_false, vec3(0.0), vec3(1.0));
+vec3 o142185_0_2_rgb = o142185_0_clamp_false;
+vec4 o142183_0_s1 = vec4(o142185_0_2_rgb, 1.0);
+vec4 o142183_0_s2 = o142154_0_2_rgba;
+float o142183_0_a = p_o142183_amount*(dot((o142170_0_1_rgba).rgb, vec3(1.0))/3.0);
+vec4 o142183_0_1_rgba = vec4(blend_normal((uv), o142183_0_s1.rgb, o142183_0_s2.rgb, o142183_0_a*o142183_0_s1.a), min(1.0, o142183_0_s2.a+o142183_0_a*o142183_0_s1.a));
 
-	vec3 albedo_tex = ((o112513_0_2_rgba).rgb).rgb;
-	albedo_tex = mix(pow((albedo_tex + vec3(0.055)) * (1.0 / (1.0 + 0.055)),vec3(2.4)),albedo_tex * (1.0 / 12.92),lessThan(albedo_tex,vec3(0.04045)));
-	ALBEDO = albedo_tex*vec4(p_o112475_albedo_color_r, p_o112475_albedo_color_g, p_o112475_albedo_color_b, p_o112475_albedo_color_a).rgb;
-	METALLIC = 1.0*p_o112475_metallic;
-	ROUGHNESS = 1.0*p_o112475_roughness;
-	NORMAL = vec3(0.5);
-	EMISSION = vec3(0.0)*p_o112475_emission_energy;
+	vec4 color_tex = o142183_0_1_rgba;
+	color_tex = mix(pow((color_tex + vec4(0.055)) * (1.0 / (1.0 + 0.055)),vec4(2.4)),color_tex * (1.0 / 12.92),lessThan(color_tex,vec4(0.04045)));
+	ALBEDO = color_tex.rgb;
+	ALPHA = color_tex.a;
 
 }
 

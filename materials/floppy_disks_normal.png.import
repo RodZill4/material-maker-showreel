@@ -2,7 +2,7 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dou6m5ay648g0"
+uid="uid://cwdufjyrjjxsj"
 path.s3tc="res://.godot/imported/floppy_disks_normal.png-636a5b67ab28aee517919b6804db5322.s3tc.ctex"
 path.etc2="res://.godot/imported/floppy_disks_normal.png-636a5b67ab28aee517919b6804db5322.etc2.ctex"
 metadata={
@@ -25,8 +25,8 @@ compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
+roughness/mode=1
+roughness/src_normal="res://materials/floppy_disks_normal.png"
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

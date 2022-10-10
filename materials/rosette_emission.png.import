@@ -2,28 +2,26 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cdugcbs60qcl0"
-path.s3tc="res://.godot/imported/rosette_emission.png-ba5e30ca4d0435408c0bac7456ab483b.s3tc.ctex"
-path.etc2="res://.godot/imported/rosette_emission.png-ba5e30ca4d0435408c0bac7456ab483b.etc2.ctex"
+uid="uid://biehw8ax0vt4j"
+path="res://.godot/imported/rosette_emission.png-ba5e30ca4d0435408c0bac7456ab483b.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://materials/rosette_emission.png"
-dest_files=["res://.godot/imported/rosette_emission.png-ba5e30ca4d0435408c0bac7456ab483b.s3tc.ctex", "res://.godot/imported/rosette_emission.png-ba5e30ca4d0435408c0bac7456ab483b.etc2.ctex"]
+dest_files=["res://.godot/imported/rosette_emission.png-ba5e30ca4d0435408c0bac7456ab483b.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -33,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

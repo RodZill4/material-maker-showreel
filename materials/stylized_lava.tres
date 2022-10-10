@@ -1,17 +1,15 @@
-[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://dcjp0yac3esr2"]
-
-[ext_resource type="Shader" path="res://materials/stylized_lava.gdshader" id="1"]
-[ext_resource type="Texture2D" uid="uid://2scacht0kw43" path="res://materials/stylized_lava_texture_1.png" id="2"]
-[ext_resource type="Texture2D" uid="uid://dubi01lu3gt7i" path="res://materials/stylized_lava_texture_2.png" id="3"]
-
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+[ext_resource path="stylized_lava.gdshader" type="Shader" id=1]
+[ext_resource path="stylized_lava_texture_1.png" type="Texture" id=2]
+[ext_resource path="stylized_lava_texture_2.png" type="Texture" id=3]
+[ext_resource path="stylized_lava_texture_3.png" type="Texture" id=4]
+[ext_resource path="stylized_lava_texture_4.png" type="Texture" id=5]
 [resource]
-render_priority = 0
-shader = ExtResource("1")
-shader_param/depth_flip = null
-shader_param/depth_max_layers = null
-shader_param/depth_min_layers = null
-shader_param/texture_1 = ExtResource("2")
-shader_param/texture_2 = ExtResource("3")
-shader_param/uv1_offset = null
-shader_param/uv1_scale = Vector3(4, 2, 0)
-shader_param/variation = null
+shader = ExtResource( 1 )
+shader_param/texture_1 = ExtResource( 2 )
+shader_param/texture_2 = ExtResource( 3 )
+shader_param/texture_3 = ExtResource( 4 )
+shader_param/texture_4 = ExtResource( 5 )
+
+
+

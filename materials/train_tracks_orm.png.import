@@ -2,7 +2,7 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c6k2ec8jcsg3x"
+uid="uid://ntmpstp2qd4"
 path.s3tc="res://.godot/imported/train_tracks_orm.png-ba56247130f67ad70a21e512d38ac82a.s3tc.ctex"
 path.etc2="res://.godot/imported/train_tracks_orm.png-ba56247130f67ad70a21e512d38ac82a.etc2.ctex"
 metadata={
@@ -25,8 +25,8 @@ compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=8
-roughness/src_normal="res://materials/train_tracks_normal.png"
+roughness/mode=0
+roughness/src_normal=""
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

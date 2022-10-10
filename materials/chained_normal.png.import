@@ -2,7 +2,7 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c2w8oykhmgu41"
+uid="uid://bqxm4rhxnv7cu"
 path.s3tc="res://.godot/imported/chained_normal.png-e58e02903237412dfe8ce041a0ec4267.s3tc.ctex"
 path.etc2="res://.godot/imported/chained_normal.png-e58e02903237412dfe8ce041a0ec4267.etc2.ctex"
 metadata={
@@ -25,8 +25,8 @@ compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
+roughness/mode=1
+roughness/src_normal="res://materials/chained_normal.png"
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

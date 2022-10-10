@@ -1,26 +1,19 @@
-[gd_resource type="StandardMaterial3D" load_steps=5 format=3 uid="uid://bpouv3lfy3w31"]
+[gd_resource type="ORMMaterial3D" load_steps=5 format=3 uid="uid://0jw2iupvhyx0"]
 
-[ext_resource type="Texture2D" uid="uid://bj1qb6nsy5b3q" path="res://materials/bookcase_albedo.png" id="1"]
-[ext_resource type="Texture2D" uid="uid://bakhheyeafgtg" path="res://materials/bookcase_orm.png" id="2"]
-[ext_resource type="Texture2D" uid="uid://cdmv11hdf0y8h" path="res://materials/bookcase_normal.png" id="3"]
-[ext_resource type="Texture2D" uid="uid://b8dqb6r07lm5l" path="res://materials/bookcase_depth.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://wcumyl53fc65" path="res://materials/bookcase_albedo.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://bb4kullut8cwt" path="res://materials/bookcase_orm.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://6kg7d2bg82xr" path="res://materials/bookcase_normal.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://babto2w62o31" path="res://materials/bookcase_heightmap.png" id="4"]
 
 [resource]
 albedo_texture = ExtResource("1")
-metallic_texture = ExtResource("2")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("2")
-roughness_texture_channel = 1
+orm_texture = ExtResource("2")
 normal_enabled = true
 normal_texture = ExtResource("3")
-ao_enabled = true
-ao_light_affect = 1.0
-ao_texture = ExtResource("2")
 heightmap_enabled = true
-heightmap_scale = 0.1
+heightmap_scale = 13.149
 heightmap_deep_parallax = true
-heightmap_min_layers = 8
+heightmap_min_layers = 32
 heightmap_max_layers = 64
 heightmap_texture = ExtResource("4")
-heightmap_flip_texture = true
-uv1_scale = Vector3(6, 3, 1)
+uv1_scale = Vector3(2, 2, 2)

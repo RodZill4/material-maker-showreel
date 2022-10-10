@@ -2,7 +2,7 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cc78lpfbqyxy4"
+uid="uid://c37h26yecar6v"
 path.s3tc="res://.godot/imported/beach_normal.png-345edfe96474aa46ec3aeb5784fa7498.s3tc.ctex"
 path.etc2="res://.godot/imported/beach_normal.png-345edfe96474aa46ec3aeb5784fa7498.etc2.ctex"
 metadata={
@@ -25,8 +25,8 @@ compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
+roughness/mode=1
+roughness/src_normal="res://materials/beach_normal.png"
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

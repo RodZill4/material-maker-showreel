@@ -42,6 +42,11 @@ vec3 hsv2rgb(vec3 c) {
 }
 
 
+float box3d(vec3 uv, vec3 s) {
+	vec3 q = abs(uv) - s;
+	return length(max(q, 0.0))+min(max(q.x, max(q.y, q.z)), 0.0);
+}
+
 vec2 sdf3d_smooth_union(vec2 d1, vec2 d2, float k) {
     float h = clamp(0.5+0.5*(d2.x-d1.x)/k, 0.0, 1.0);
     return vec2(mix(d2.x, d1.x, h)-k*h*(1.0-h), mix(d2.y, d1.y, step(d1.x, d2.x)));
@@ -55,6 +60,11 @@ vec2 sdf3d_smooth_subtraction(vec2 d1, vec2 d2, float k ) {
 vec2 sdf3d_smooth_intersection(vec2 d1, vec2 d2, float k ) {
     float h = clamp(0.5-0.5*(d2.x-d1.x)/k, 0.0, 1.0);
     return vec2(mix(d2.x, d1.x, h)+k*h*(1.0-h), mix(d1.y, d2.y, step(d1.x, d2.x)));
+}
+
+float sdCylinder(vec3 p, float h, float r) {
+	vec2 d = abs(vec2(length(p.xz), p.y)) - vec2(r, h);
+	return min(max(d.x, d.y),0.0) + length(max(d, 0.0));
 }
 
 vec3 circle_repeat_transform(vec3 p, float count) {
@@ -124,300 +134,288 @@ vec3 tex3d_rotate(vec3 p, vec3 a) {
 	return rv;
 }
 
-const float p_o10758_ax = 180.000000000;
-const float p_o10758_ay = 0.000000000;
-const float p_o10758_az = 0.000000000;
-const float p_o10777_x = 0.000000000;
-const float p_o10777_y = -0.050000000;
-const float p_o10777_z = 0.000000000;
-const float p_o10759_k = 0.050000000;
-const float p_o10757_x = 0.000000000;
-const float p_o10757_y = 0.310000000;
-const float p_o10757_z = 0.000000000;
-const float p_o10756_sx = 0.500000000;
-const float p_o10756_sy = 0.300000000;
-const float p_o10756_sz = 0.500000000;
-const float p_o10756_r = 0.000000000;
-const float p_o10760_r = 0.400000000;
-const float p_o10771_x = 0.000000000;
-const float p_o10771_y = 0.040000000;
-const float p_o10771_z = 0.000000000;
-const float p_o10770_ax = 90.000000000;
-const float p_o10770_ay = 0.000000000;
-const float p_o10770_az = 0.000000000;
-const float p_o10767_k = 0.110000000;
-const float p_o10764_c = 5.000000000;
-const float p_o10765_x = 0.000000000;
-const float p_o10765_y = 0.320000000;
-const float p_o10765_z = 0.000000000;
-const float p_o10763_l = 0.010000000;
-const float p_o10763_r = 0.140000000;
-const float p_o10768_ax = 0.000000000;
-const float p_o10768_ay = 0.000000000;
-const float p_o10768_az = 30.000000000;
-const float p_o10766_c = 5.000000000;
-const float p_o10769_x = 0.000000000;
-const float p_o10769_y = 0.320000000;
-const float p_o10769_z = 0.000000000;
-const float p_o10762_x = 0.000000000;
-const float p_o10762_y = 0.120000000;
-const float p_o10762_z = 0.000000000;
-const float p_o10755_r = 0.030000000;
-const float p_o10754_l = 0.020000000;
-const float p_o10754_r = 0.350000000;
-const float p_o10773_x = 0.000000000;
-const float p_o10773_y = 0.270000000;
-const float p_o10773_z = 0.000000000;
-const float p_o10774_r = 0.070000000;
-const float p_o10775_l = 0.020000000;
-const float p_o10775_r = 0.350000000;
-const float p_o10785_x = 0.000000000;
-const float p_o10785_y = 0.230000000;
-const float p_o10785_z = 0.000000000;
-const float p_o10784_ax = -90.000000000;
-const float p_o10784_ay = 0.000000000;
-const float p_o10784_az = 0.000000000;
-const float p_o10779_k = 0.070000000;
-const float p_o10781_x = 0.000000000;
-const float p_o10781_y = 0.000000000;
-const float p_o10781_z = -0.110000000;
-const float p_o10782_c = 5.000000000;
-const float p_o10780_l = 0.460000000;
-const float p_o10780_r = 0.120000000;
-const float p_o10778_R = 0.360000000;
-const float p_o10778_r = 0.090000000;
-const float p_o10788_x = 0.000000000;
-const float p_o10788_y = 0.430000000;
-const float p_o10788_z = 0.000000000;
-const float p_o10787_r = 0.030000000;
-const float p_o10786_l = 0.030000000;
-const float p_o10786_r = 0.380000000;
-vec2 o10753_input_distance(vec3 p, float _seed_variation_) {
-vec3 o10756_0_q = abs((((rotate3d((p), -vec3(p_o10758_ax, p_o10758_ay, p_o10758_az)*0.01745329251))-vec3(p_o10777_x, p_o10777_y, p_o10777_z))-vec3(p_o10757_x, p_o10757_y, p_o10757_z))) - vec3(p_o10756_sx, p_o10756_sy, p_o10756_sz);
-float o10756_0_1_sdf3d = length(max(o10756_0_q,0.0))+min(max(o10756_0_q.x,max(o10756_0_q.y,o10756_0_q.z)),0.0)-p_o10756_r;
-vec2 o10757_0_1_sdf3dc = vec2(o10756_0_1_sdf3d, 0.0);
-float o10760_0_1_sdf3d = length(((rotate3d((p), -vec3(p_o10758_ax, p_o10758_ay, p_o10758_az)*0.01745329251))-vec3(p_o10777_x, p_o10777_y, p_o10777_z)))-p_o10760_r;
-vec2 o10759_0_1_sdf3dc = sdf3d_smooth_subtraction(o10757_0_1_sdf3dc, vec2(o10760_0_1_sdf3d, 0.0), p_o10759_k);
-vec2 o10763_0_d = abs(vec2(length(((circle_repeat_transform((rotate3d((((rotate3d((p), -vec3(p_o10758_ax, p_o10758_ay, p_o10758_az)*0.01745329251))-vec3(p_o10777_x, p_o10777_y, p_o10777_z))-vec3(p_o10771_x, p_o10771_y, p_o10771_z)), -vec3(p_o10770_ax, p_o10770_ay, p_o10770_az)*0.01745329251)), p_o10764_c))-vec3(p_o10765_x, p_o10765_y, p_o10765_z)).xy),((circle_repeat_transform((rotate3d((((rotate3d((p), -vec3(p_o10758_ax, p_o10758_ay, p_o10758_az)*0.01745329251))-vec3(p_o10777_x, p_o10777_y, p_o10777_z))-vec3(p_o10771_x, p_o10771_y, p_o10771_z)), -vec3(p_o10770_ax, p_o10770_ay, p_o10770_az)*0.01745329251)), p_o10764_c))-vec3(p_o10765_x, p_o10765_y, p_o10765_z)).z)) - vec2(p_o10763_r,p_o10763_l);
-float o10763_0_1_sdf3d = min(max(o10763_0_d.x,o10763_0_d.y),0.0) + length(max(o10763_0_d,0.0));
-vec2 o10765_0_1_sdf3dc = vec2(o10763_0_1_sdf3d, 0.0);
-vec2 o10764_0_1_sdf3dc = o10765_0_1_sdf3dc;
-vec2 o10763_2_d = abs(vec2(length(((circle_repeat_transform((rotate3d((rotate3d((((rotate3d((p), -vec3(p_o10758_ax, p_o10758_ay, p_o10758_az)*0.01745329251))-vec3(p_o10777_x, p_o10777_y, p_o10777_z))-vec3(p_o10771_x, p_o10771_y, p_o10771_z)), -vec3(p_o10770_ax, p_o10770_ay, p_o10770_az)*0.01745329251)), -vec3(p_o10768_ax, p_o10768_ay, p_o10768_az)*0.01745329251)), p_o10766_c))-vec3(p_o10769_x, p_o10769_y, p_o10769_z)).xy),((circle_repeat_transform((rotate3d((rotate3d((((rotate3d((p), -vec3(p_o10758_ax, p_o10758_ay, p_o10758_az)*0.01745329251))-vec3(p_o10777_x, p_o10777_y, p_o10777_z))-vec3(p_o10771_x, p_o10771_y, p_o10771_z)), -vec3(p_o10770_ax, p_o10770_ay, p_o10770_az)*0.01745329251)), -vec3(p_o10768_ax, p_o10768_ay, p_o10768_az)*0.01745329251)), p_o10766_c))-vec3(p_o10769_x, p_o10769_y, p_o10769_z)).z)) - vec2(p_o10763_r,p_o10763_l);
-float o10763_0_3_sdf3d = min(max(o10763_2_d.x,o10763_2_d.y),0.0) + length(max(o10763_2_d,0.0));
-vec2 o10769_0_1_sdf3dc = vec2(o10763_0_3_sdf3d, 0.0);
-vec2 o10766_0_1_sdf3dc = o10769_0_1_sdf3dc;
-vec2 o10768_0_1_sdf3dc = o10766_0_1_sdf3dc;
-vec2 o10767_0_1_sdf3dc = sdf3d_smooth_union(o10764_0_1_sdf3dc, o10768_0_1_sdf3dc, p_o10767_k);
-vec2 o10770_0_1_sdf3dc = o10767_0_1_sdf3dc;
-vec2 o10771_0_1_sdf3dc = o10770_0_1_sdf3dc;
-vec2 o10761_0_1_sdf3dc = sdf3dc_union(o10759_0_1_sdf3dc, o10771_0_1_sdf3dc);
-vec2 o10754_0_d = abs(vec2(length((((rotate3d((p), -vec3(p_o10758_ax, p_o10758_ay, p_o10758_az)*0.01745329251))-vec3(p_o10777_x, p_o10777_y, p_o10777_z))-vec3(p_o10762_x, p_o10762_y, p_o10762_z)).xz),(((rotate3d((p), -vec3(p_o10758_ax, p_o10758_ay, p_o10758_az)*0.01745329251))-vec3(p_o10777_x, p_o10777_y, p_o10777_z))-vec3(p_o10762_x, p_o10762_y, p_o10762_z)).y)) - vec2(p_o10754_r,p_o10754_l);
-float o10754_0_1_sdf3d = min(max(o10754_0_d.x,o10754_0_d.y),0.0) + length(max(o10754_0_d,0.0));
-vec2 o10755_0_v = vec2(o10754_0_1_sdf3d, 0.0);vec2 o10755_0_1_sdf3dc = vec2(o10755_0_v.x-p_o10755_r, o10755_0_v.y);
-vec2 o10762_0_1_sdf3dc = o10755_0_1_sdf3dc;
-vec2 o10772_0_1_sdf3dc = sdf3dc_union(o10761_0_1_sdf3dc, o10762_0_1_sdf3dc);
-vec2 o10775_0_d = abs(vec2(length((((rotate3d((p), -vec3(p_o10758_ax, p_o10758_ay, p_o10758_az)*0.01745329251))-vec3(p_o10777_x, p_o10777_y, p_o10777_z))-vec3(p_o10773_x, p_o10773_y, p_o10773_z)).xz),(((rotate3d((p), -vec3(p_o10758_ax, p_o10758_ay, p_o10758_az)*0.01745329251))-vec3(p_o10777_x, p_o10777_y, p_o10777_z))-vec3(p_o10773_x, p_o10773_y, p_o10773_z)).y)) - vec2(p_o10775_r,p_o10775_l);
-float o10775_0_1_sdf3d = min(max(o10775_0_d.x,o10775_0_d.y),0.0) + length(max(o10775_0_d,0.0));
-vec2 o10774_0_v = vec2(o10775_0_1_sdf3d, 0.0);vec2 o10774_0_1_sdf3dc = vec2(o10774_0_v.x-p_o10774_r, o10774_0_v.y);
-vec2 o10773_0_1_sdf3dc = o10774_0_1_sdf3dc;
-vec2 o10776_0_1_sdf3dc = sdf3dc_union(o10772_0_1_sdf3dc, o10773_0_1_sdf3dc);
-vec2 o10780_0_d = abs(vec2(length((circle_repeat_transform(((rotate3d((((rotate3d((p), -vec3(p_o10758_ax, p_o10758_ay, p_o10758_az)*0.01745329251))-vec3(p_o10777_x, p_o10777_y, p_o10777_z))-vec3(p_o10785_x, p_o10785_y, p_o10785_z)), -vec3(p_o10784_ax, p_o10784_ay, p_o10784_az)*0.01745329251))-vec3(p_o10781_x, p_o10781_y, p_o10781_z)), p_o10782_c)).xz),(circle_repeat_transform(((rotate3d((((rotate3d((p), -vec3(p_o10758_ax, p_o10758_ay, p_o10758_az)*0.01745329251))-vec3(p_o10777_x, p_o10777_y, p_o10777_z))-vec3(p_o10785_x, p_o10785_y, p_o10785_z)), -vec3(p_o10784_ax, p_o10784_ay, p_o10784_az)*0.01745329251))-vec3(p_o10781_x, p_o10781_y, p_o10781_z)), p_o10782_c)).y)) - vec2(p_o10780_r,p_o10780_l);
-float o10780_0_1_sdf3d = min(max(o10780_0_d.x,o10780_0_d.y),0.0) + length(max(o10780_0_d,0.0));
-vec2 o10782_0_1_sdf3dc = vec2(o10780_0_1_sdf3d, 0.0);
-vec2 o10781_0_1_sdf3dc = o10782_0_1_sdf3dc;
-vec2 o10778_0_q = vec2(length((rotate3d((((rotate3d((p), -vec3(p_o10758_ax, p_o10758_ay, p_o10758_az)*0.01745329251))-vec3(p_o10777_x, p_o10777_y, p_o10777_z))-vec3(p_o10785_x, p_o10785_y, p_o10785_z)), -vec3(p_o10784_ax, p_o10784_ay, p_o10784_az)*0.01745329251)).xy)-p_o10778_R,(rotate3d((((rotate3d((p), -vec3(p_o10758_ax, p_o10758_ay, p_o10758_az)*0.01745329251))-vec3(p_o10777_x, p_o10777_y, p_o10777_z))-vec3(p_o10785_x, p_o10785_y, p_o10785_z)), -vec3(p_o10784_ax, p_o10784_ay, p_o10784_az)*0.01745329251)).z);
-float o10778_0_1_sdf3d = length(o10778_0_q)-p_o10778_r;
-vec2 o10779_0_1_sdf3dc = sdf3d_smooth_subtraction(o10781_0_1_sdf3dc, vec2(o10778_0_1_sdf3d, 0.0), p_o10779_k);
-vec2 o10784_0_1_sdf3dc = o10779_0_1_sdf3dc;
-vec2 o10785_0_1_sdf3dc = o10784_0_1_sdf3dc;
-vec2 o10783_0_1_sdf3dc = sdf3dc_union(o10776_0_1_sdf3dc, o10785_0_1_sdf3dc);
-vec2 o10786_0_d = abs(vec2(length((((rotate3d((p), -vec3(p_o10758_ax, p_o10758_ay, p_o10758_az)*0.01745329251))-vec3(p_o10777_x, p_o10777_y, p_o10777_z))-vec3(p_o10788_x, p_o10788_y, p_o10788_z)).xz),(((rotate3d((p), -vec3(p_o10758_ax, p_o10758_ay, p_o10758_az)*0.01745329251))-vec3(p_o10777_x, p_o10777_y, p_o10777_z))-vec3(p_o10788_x, p_o10788_y, p_o10788_z)).y)) - vec2(p_o10786_r,p_o10786_l);
-float o10786_0_1_sdf3d = min(max(o10786_0_d.x,o10786_0_d.y),0.0) + length(max(o10786_0_d,0.0));
-vec2 o10787_0_v = vec2(o10786_0_1_sdf3d, 0.0);vec2 o10787_0_1_sdf3dc = vec2(o10787_0_v.x-p_o10787_r, o10787_0_v.y);
-vec2 o10788_0_1_sdf3dc = o10787_0_1_sdf3dc;
-vec2 o10789_0_1_sdf3dc = sdf3dc_union(o10783_0_1_sdf3dc, o10788_0_1_sdf3dc);
-vec2 o10777_0_1_sdf3dc = o10789_0_1_sdf3dc;
-vec2 o10758_0_1_sdf3dc = o10777_0_1_sdf3dc;
+const float p_o1732894_ax = 180.000000000;
+const float p_o1732894_ay = 0.000000000;
+const float p_o1732894_az = 0.000000000;
+const float p_o1732913_x = 0.000000000;
+const float p_o1732913_y = -0.050000000;
+const float p_o1732913_z = 0.000000000;
+const float p_o1732895_k = 0.050000000;
+const float p_o1732893_x = 0.000000000;
+const float p_o1732893_y = 0.310000000;
+const float p_o1732893_z = 0.000000000;
+const float p_o1732892_sx = 0.500000000;
+const float p_o1732892_sy = 0.300000000;
+const float p_o1732892_sz = 0.500000000;
+const float p_o1732892_r = 0.000000000;
+const float p_o1732896_r = 0.400000000;
+const float p_o1732907_x = 0.000000000;
+const float p_o1732907_y = 0.040000000;
+const float p_o1732907_z = 0.000000000;
+const float p_o1732906_ax = 90.000000000;
+const float p_o1732906_ay = 0.000000000;
+const float p_o1732906_az = 0.000000000;
+const float p_o1732903_k = 0.110000000;
+const float p_o1732900_c = 5.000000000;
+const float p_o1732901_x = 0.000000000;
+const float p_o1732901_y = 0.320000000;
+const float p_o1732901_z = 0.000000000;
+const float p_o1732899_l = 0.010000000;
+const float p_o1732899_r = 0.140000000;
+const float p_o1732904_ax = 0.000000000;
+const float p_o1732904_ay = 0.000000000;
+const float p_o1732904_az = 30.000000000;
+const float p_o1732902_c = 5.000000000;
+const float p_o1732905_x = 0.000000000;
+const float p_o1732905_y = 0.320000000;
+const float p_o1732905_z = 0.000000000;
+const float p_o1732898_x = 0.000000000;
+const float p_o1732898_y = 0.120000000;
+const float p_o1732898_z = 0.000000000;
+const float p_o1732891_r = 0.030000000;
+const float p_o1732890_l = 0.020000000;
+const float p_o1732890_r = 0.350000000;
+const float p_o1732909_x = 0.000000000;
+const float p_o1732909_y = 0.270000000;
+const float p_o1732909_z = 0.000000000;
+const float p_o1732910_r = 0.070000000;
+const float p_o1732911_l = 0.020000000;
+const float p_o1732911_r = 0.350000000;
+const float p_o1732921_x = 0.000000000;
+const float p_o1732921_y = 0.230000000;
+const float p_o1732921_z = 0.000000000;
+const float p_o1732920_ax = -90.000000000;
+const float p_o1732920_ay = 0.000000000;
+const float p_o1732920_az = 0.000000000;
+const float p_o1732915_k = 0.070000000;
+const float p_o1732917_x = 0.000000000;
+const float p_o1732917_y = 0.000000000;
+const float p_o1732917_z = -0.110000000;
+const float p_o1732918_c = 5.000000000;
+const float p_o1732916_l = 0.460000000;
+const float p_o1732916_r = 0.120000000;
+const float p_o1732914_R = 0.360000000;
+const float p_o1732914_r = 0.090000000;
+const float p_o1732924_x = 0.000000000;
+const float p_o1732924_y = 0.430000000;
+const float p_o1732924_z = 0.000000000;
+const float p_o1732923_r = 0.030000000;
+const float p_o1732922_l = 0.030000000;
+const float p_o1732922_r = 0.380000000;
+vec2 o1732889_input_distance(vec3 p, float _seed_variation_) {
+float o1732892_0_1_sdf3d = box3d((((rotate3d((p), -vec3(p_o1732894_ax, p_o1732894_ay, p_o1732894_az)*0.01745329251))-vec3(p_o1732913_x, p_o1732913_y, p_o1732913_z))-vec3(p_o1732893_x, p_o1732893_y, p_o1732893_z)), vec3(p_o1732892_sx, p_o1732892_sy, p_o1732892_sz))-p_o1732892_r;
+vec2 o1732893_0_1_sdf3dc = vec2(o1732892_0_1_sdf3d, 0.0);
+float o1732896_0_1_sdf3d = length(((rotate3d((p), -vec3(p_o1732894_ax, p_o1732894_ay, p_o1732894_az)*0.01745329251))-vec3(p_o1732913_x, p_o1732913_y, p_o1732913_z)))-p_o1732896_r;
+vec2 o1732895_0_1_sdf3dc = sdf3d_smooth_subtraction(o1732893_0_1_sdf3dc, vec2(o1732896_0_1_sdf3d, 0.0), p_o1732895_k);
+float o1732899_0_1_sdf3d = sdCylinder(((circle_repeat_transform((rotate3d((((rotate3d((p), -vec3(p_o1732894_ax, p_o1732894_ay, p_o1732894_az)*0.01745329251))-vec3(p_o1732913_x, p_o1732913_y, p_o1732913_z))-vec3(p_o1732907_x, p_o1732907_y, p_o1732907_z)), -vec3(p_o1732906_ax, p_o1732906_ay, p_o1732906_az)*0.01745329251)), p_o1732900_c))-vec3(p_o1732901_x, p_o1732901_y, p_o1732901_z)).xzy, p_o1732899_l, p_o1732899_r);
+vec2 o1732901_0_1_sdf3dc = vec2(o1732899_0_1_sdf3d, 0.0);
+vec2 o1732900_0_1_sdf3dc = o1732901_0_1_sdf3dc;
+float o1732899_0_3_sdf3d = sdCylinder(((circle_repeat_transform((rotate3d((rotate3d((((rotate3d((p), -vec3(p_o1732894_ax, p_o1732894_ay, p_o1732894_az)*0.01745329251))-vec3(p_o1732913_x, p_o1732913_y, p_o1732913_z))-vec3(p_o1732907_x, p_o1732907_y, p_o1732907_z)), -vec3(p_o1732906_ax, p_o1732906_ay, p_o1732906_az)*0.01745329251)), -vec3(p_o1732904_ax, p_o1732904_ay, p_o1732904_az)*0.01745329251)), p_o1732902_c))-vec3(p_o1732905_x, p_o1732905_y, p_o1732905_z)).xzy, p_o1732899_l, p_o1732899_r);
+vec2 o1732905_0_1_sdf3dc = vec2(o1732899_0_3_sdf3d, 0.0);
+vec2 o1732902_0_1_sdf3dc = o1732905_0_1_sdf3dc;
+vec2 o1732904_0_1_sdf3dc = o1732902_0_1_sdf3dc;
+vec2 o1732903_0_1_sdf3dc = sdf3d_smooth_union(o1732900_0_1_sdf3dc, o1732904_0_1_sdf3dc, p_o1732903_k);
+vec2 o1732906_0_1_sdf3dc = o1732903_0_1_sdf3dc;
+vec2 o1732907_0_1_sdf3dc = o1732906_0_1_sdf3dc;
+vec2 o1732897_0_1_sdf3dc = sdf3dc_union(o1732895_0_1_sdf3dc, o1732907_0_1_sdf3dc);
+float o1732890_0_1_sdf3d = sdCylinder((((rotate3d((p), -vec3(p_o1732894_ax, p_o1732894_ay, p_o1732894_az)*0.01745329251))-vec3(p_o1732913_x, p_o1732913_y, p_o1732913_z))-vec3(p_o1732898_x, p_o1732898_y, p_o1732898_z)), p_o1732890_l, p_o1732890_r);
+vec2 o1732891_0_v = vec2(o1732890_0_1_sdf3d, 0.0);vec2 o1732891_0_1_sdf3dc = vec2(o1732891_0_v.x-p_o1732891_r, o1732891_0_v.y);
+vec2 o1732898_0_1_sdf3dc = o1732891_0_1_sdf3dc;
+vec2 o1732908_0_1_sdf3dc = sdf3dc_union(o1732897_0_1_sdf3dc, o1732898_0_1_sdf3dc);
+float o1732911_0_1_sdf3d = sdCylinder((((rotate3d((p), -vec3(p_o1732894_ax, p_o1732894_ay, p_o1732894_az)*0.01745329251))-vec3(p_o1732913_x, p_o1732913_y, p_o1732913_z))-vec3(p_o1732909_x, p_o1732909_y, p_o1732909_z)), p_o1732911_l, p_o1732911_r);
+vec2 o1732910_0_v = vec2(o1732911_0_1_sdf3d, 0.0);vec2 o1732910_0_1_sdf3dc = vec2(o1732910_0_v.x-p_o1732910_r, o1732910_0_v.y);
+vec2 o1732909_0_1_sdf3dc = o1732910_0_1_sdf3dc;
+vec2 o1732912_0_1_sdf3dc = sdf3dc_union(o1732908_0_1_sdf3dc, o1732909_0_1_sdf3dc);
+float o1732916_0_1_sdf3d = sdCylinder((circle_repeat_transform(((rotate3d((((rotate3d((p), -vec3(p_o1732894_ax, p_o1732894_ay, p_o1732894_az)*0.01745329251))-vec3(p_o1732913_x, p_o1732913_y, p_o1732913_z))-vec3(p_o1732921_x, p_o1732921_y, p_o1732921_z)), -vec3(p_o1732920_ax, p_o1732920_ay, p_o1732920_az)*0.01745329251))-vec3(p_o1732917_x, p_o1732917_y, p_o1732917_z)), p_o1732918_c)), p_o1732916_l, p_o1732916_r);
+vec2 o1732918_0_1_sdf3dc = vec2(o1732916_0_1_sdf3d, 0.0);
+vec2 o1732917_0_1_sdf3dc = o1732918_0_1_sdf3dc;
+vec2 o1732914_0_q = vec2(length((rotate3d((((rotate3d((p), -vec3(p_o1732894_ax, p_o1732894_ay, p_o1732894_az)*0.01745329251))-vec3(p_o1732913_x, p_o1732913_y, p_o1732913_z))-vec3(p_o1732921_x, p_o1732921_y, p_o1732921_z)), -vec3(p_o1732920_ax, p_o1732920_ay, p_o1732920_az)*0.01745329251)).xy)-p_o1732914_R,(rotate3d((((rotate3d((p), -vec3(p_o1732894_ax, p_o1732894_ay, p_o1732894_az)*0.01745329251))-vec3(p_o1732913_x, p_o1732913_y, p_o1732913_z))-vec3(p_o1732921_x, p_o1732921_y, p_o1732921_z)), -vec3(p_o1732920_ax, p_o1732920_ay, p_o1732920_az)*0.01745329251)).z);
+float o1732914_0_1_sdf3d = length(o1732914_0_q)-p_o1732914_r;
+vec2 o1732915_0_1_sdf3dc = sdf3d_smooth_subtraction(o1732917_0_1_sdf3dc, vec2(o1732914_0_1_sdf3d, 0.0), p_o1732915_k);
+vec2 o1732920_0_1_sdf3dc = o1732915_0_1_sdf3dc;
+vec2 o1732921_0_1_sdf3dc = o1732920_0_1_sdf3dc;
+vec2 o1732919_0_1_sdf3dc = sdf3dc_union(o1732912_0_1_sdf3dc, o1732921_0_1_sdf3dc);
+float o1732922_0_1_sdf3d = sdCylinder((((rotate3d((p), -vec3(p_o1732894_ax, p_o1732894_ay, p_o1732894_az)*0.01745329251))-vec3(p_o1732913_x, p_o1732913_y, p_o1732913_z))-vec3(p_o1732924_x, p_o1732924_y, p_o1732924_z)), p_o1732922_l, p_o1732922_r);
+vec2 o1732923_0_v = vec2(o1732922_0_1_sdf3d, 0.0);vec2 o1732923_0_1_sdf3dc = vec2(o1732923_0_v.x-p_o1732923_r, o1732923_0_v.y);
+vec2 o1732924_0_1_sdf3dc = o1732923_0_1_sdf3dc;
+vec2 o1732925_0_1_sdf3dc = sdf3dc_union(o1732919_0_1_sdf3dc, o1732924_0_1_sdf3dc);
+vec2 o1732913_0_1_sdf3dc = o1732925_0_1_sdf3dc;
+vec2 o1732894_0_1_sdf3dc = o1732913_0_1_sdf3dc;
 
-return o10758_0_1_sdf3dc;
+return o1732894_0_1_sdf3dc;
 }
-const float p_o10832_ax = 180.000000000;
-const float p_o10832_ay = 0.000000000;
-const float p_o10832_az = 0.000000000;
-const float p_o10831_x = -0.000000000;
-const float p_o10831_y = -0.050000000;
-const float p_o10831_z = 0.000000000;
-const float p_o10861_d = 0.010000000;
-const float p_o10862_g_0_pos = 0.672727000;
-const float p_o10862_g_0_r = 0.273438007;
-const float p_o10862_g_0_g = 0.134582996;
-const float p_o10862_g_0_b = 0.000000000;
-const float p_o10862_g_0_a = 1.000000000;
-const float p_o10862_g_1_pos = 0.845455000;
-const float p_o10862_g_1_r = 0.273438007;
-const float p_o10862_g_1_g = 0.134582996;
-const float p_o10862_g_1_b = 0.000000000;
-const float p_o10862_g_1_a = 1.000000000;
-vec4 o10862_g_gradient_fct(float x) {
-  if (x < p_o10862_g_0_pos) {
-    return vec4(p_o10862_g_0_r,p_o10862_g_0_g,p_o10862_g_0_b,p_o10862_g_0_a);
-  } else if (x < p_o10862_g_1_pos) {
-    return mix(vec4(p_o10862_g_0_r,p_o10862_g_0_g,p_o10862_g_0_b,p_o10862_g_0_a), vec4(p_o10862_g_1_r,p_o10862_g_1_g,p_o10862_g_1_b,p_o10862_g_1_a), ((x-p_o10862_g_0_pos)/(p_o10862_g_1_pos-p_o10862_g_0_pos)));
+const float p_o1732968_ax = 180.000000000;
+const float p_o1732968_ay = 0.000000000;
+const float p_o1732968_az = 0.000000000;
+const float p_o1732967_x = 0.000000000;
+const float p_o1732967_y = -0.050000000;
+const float p_o1732967_z = 0.000000000;
+const float p_o1732997_d = 0.010000000;
+const float p_o1732998_g_0_pos = 0.672727000;
+const float p_o1732998_g_0_r = 0.273438007;
+const float p_o1732998_g_0_g = 0.134582996;
+const float p_o1732998_g_0_b = 0.000000000;
+const float p_o1732998_g_0_a = 1.000000000;
+const float p_o1732998_g_1_pos = 0.845455000;
+const float p_o1732998_g_1_r = 0.273438007;
+const float p_o1732998_g_1_g = 0.134582996;
+const float p_o1732998_g_1_b = 0.000000000;
+const float p_o1732998_g_1_a = 1.000000000;
+vec4 o1732998_g_gradient_fct(float x) {
+  if (x < p_o1732998_g_0_pos) {
+    return vec4(p_o1732998_g_0_r,p_o1732998_g_0_g,p_o1732998_g_0_b,p_o1732998_g_0_a);
+  } else if (x < p_o1732998_g_1_pos) {
+    return mix(vec4(p_o1732998_g_0_r,p_o1732998_g_0_g,p_o1732998_g_0_b,p_o1732998_g_0_a), vec4(p_o1732998_g_1_r,p_o1732998_g_1_g,p_o1732998_g_1_b,p_o1732998_g_1_a), ((x-p_o1732998_g_0_pos)/(p_o1732998_g_1_pos-p_o1732998_g_0_pos)));
   }
-  return vec4(p_o10862_g_1_r,p_o10862_g_1_g,p_o10862_g_1_b,p_o10862_g_1_a);
+  return vec4(p_o1732998_g_1_r,p_o1732998_g_1_g,p_o1732998_g_1_b,p_o1732998_g_1_a);
 }
-const float p_o10860_d = 0.010000000;
-const float p_o10847_g_0_pos = 0.909091000;
-const float p_o10847_g_0_r = 0.960937977;
-const float p_o10847_g_0_g = 0.827799976;
-const float p_o10847_g_0_b = 0.108856000;
-const float p_o10847_g_0_a = 1.000000000;
-const float p_o10847_g_1_pos = 1.000000000;
-const float p_o10847_g_1_r = 0.960937977;
-const float p_o10847_g_1_g = 0.827799976;
-const float p_o10847_g_1_b = 0.108856000;
-const float p_o10847_g_1_a = 1.000000000;
-vec4 o10847_g_gradient_fct(float x) {
-  if (x < p_o10847_g_0_pos) {
-    return vec4(p_o10847_g_0_r,p_o10847_g_0_g,p_o10847_g_0_b,p_o10847_g_0_a);
-  } else if (x < p_o10847_g_1_pos) {
-    return mix(vec4(p_o10847_g_0_r,p_o10847_g_0_g,p_o10847_g_0_b,p_o10847_g_0_a), vec4(p_o10847_g_1_r,p_o10847_g_1_g,p_o10847_g_1_b,p_o10847_g_1_a), ((x-p_o10847_g_0_pos)/(p_o10847_g_1_pos-p_o10847_g_0_pos)));
+const float p_o1732996_d = 0.010000000;
+const float p_o1732983_g_0_pos = 0.909091000;
+const float p_o1732983_g_0_r = 0.960937977;
+const float p_o1732983_g_0_g = 0.827799976;
+const float p_o1732983_g_0_b = 0.108856000;
+const float p_o1732983_g_0_a = 1.000000000;
+const float p_o1732983_g_1_pos = 1.000000000;
+const float p_o1732983_g_1_r = 0.960937977;
+const float p_o1732983_g_1_g = 0.827799976;
+const float p_o1732983_g_1_b = 0.108856000;
+const float p_o1732983_g_1_a = 1.000000000;
+vec4 o1732983_g_gradient_fct(float x) {
+  if (x < p_o1732983_g_0_pos) {
+    return vec4(p_o1732983_g_0_r,p_o1732983_g_0_g,p_o1732983_g_0_b,p_o1732983_g_0_a);
+  } else if (x < p_o1732983_g_1_pos) {
+    return mix(vec4(p_o1732983_g_0_r,p_o1732983_g_0_g,p_o1732983_g_0_b,p_o1732983_g_0_a), vec4(p_o1732983_g_1_r,p_o1732983_g_1_g,p_o1732983_g_1_b,p_o1732983_g_1_a), ((x-p_o1732983_g_0_pos)/(p_o1732983_g_1_pos-p_o1732983_g_0_pos)));
   }
-  return vec4(p_o10847_g_1_r,p_o10847_g_1_g,p_o10847_g_1_b,p_o10847_g_1_a);
+  return vec4(p_o1732983_g_1_r,p_o1732983_g_1_g,p_o1732983_g_1_b,p_o1732983_g_1_a);
 }
-const float p_o10833_d = 0.010000000;
-const float p_o10834_g_0_pos = 0.900000000;
-const float p_o10834_g_0_r = 0.960937977;
-const float p_o10834_g_0_g = 0.188739002;
-const float p_o10834_g_0_b = 0.108856000;
-const float p_o10834_g_0_a = 1.000000000;
-const float p_o10834_g_1_pos = 1.000000000;
-const float p_o10834_g_1_r = 0.960937977;
-const float p_o10834_g_1_g = 0.188739002;
-const float p_o10834_g_1_b = 0.108856000;
-const float p_o10834_g_1_a = 1.000000000;
-vec4 o10834_g_gradient_fct(float x) {
-  if (x < p_o10834_g_0_pos) {
-    return vec4(p_o10834_g_0_r,p_o10834_g_0_g,p_o10834_g_0_b,p_o10834_g_0_a);
-  } else if (x < p_o10834_g_1_pos) {
-    return mix(vec4(p_o10834_g_0_r,p_o10834_g_0_g,p_o10834_g_0_b,p_o10834_g_0_a), vec4(p_o10834_g_1_r,p_o10834_g_1_g,p_o10834_g_1_b,p_o10834_g_1_a), ((x-p_o10834_g_0_pos)/(p_o10834_g_1_pos-p_o10834_g_0_pos)));
+const float p_o1732969_d = 0.010000000;
+const float p_o1732970_g_0_pos = 0.900000000;
+const float p_o1732970_g_0_r = 0.960937977;
+const float p_o1732970_g_0_g = 0.188739002;
+const float p_o1732970_g_0_b = 0.108856000;
+const float p_o1732970_g_0_a = 1.000000000;
+const float p_o1732970_g_1_pos = 1.000000000;
+const float p_o1732970_g_1_r = 0.960937977;
+const float p_o1732970_g_1_g = 0.188739002;
+const float p_o1732970_g_1_b = 0.108856000;
+const float p_o1732970_g_1_a = 1.000000000;
+vec4 o1732970_g_gradient_fct(float x) {
+  if (x < p_o1732970_g_0_pos) {
+    return vec4(p_o1732970_g_0_r,p_o1732970_g_0_g,p_o1732970_g_0_b,p_o1732970_g_0_a);
+  } else if (x < p_o1732970_g_1_pos) {
+    return mix(vec4(p_o1732970_g_0_r,p_o1732970_g_0_g,p_o1732970_g_0_b,p_o1732970_g_0_a), vec4(p_o1732970_g_1_r,p_o1732970_g_1_g,p_o1732970_g_1_b,p_o1732970_g_1_a), ((x-p_o1732970_g_0_pos)/(p_o1732970_g_1_pos-p_o1732970_g_0_pos)));
   }
-  return vec4(p_o10834_g_1_r,p_o10834_g_1_g,p_o10834_g_1_b,p_o10834_g_1_a);
+  return vec4(p_o1732970_g_1_r,p_o1732970_g_1_g,p_o1732970_g_1_b,p_o1732970_g_1_a);
 }
-const float p_o10817_d = 0.010000000;
-const float p_o10818_g_0_pos = 0.745454000;
-const float p_o10818_g_0_r = 0.000000000;
-const float p_o10818_g_0_g = 0.683593988;
-const float p_o10818_g_0_b = 0.138854995;
-const float p_o10818_g_0_a = 1.000000000;
-const float p_o10818_g_1_pos = 0.936364000;
-const float p_o10818_g_1_r = 0.000000000;
-const float p_o10818_g_1_g = 0.683593988;
-const float p_o10818_g_1_b = 0.138854995;
-const float p_o10818_g_1_a = 1.000000000;
-vec4 o10818_g_gradient_fct(float x) {
-  if (x < p_o10818_g_0_pos) {
-    return vec4(p_o10818_g_0_r,p_o10818_g_0_g,p_o10818_g_0_b,p_o10818_g_0_a);
-  } else if (x < p_o10818_g_1_pos) {
-    return mix(vec4(p_o10818_g_0_r,p_o10818_g_0_g,p_o10818_g_0_b,p_o10818_g_0_a), vec4(p_o10818_g_1_r,p_o10818_g_1_g,p_o10818_g_1_b,p_o10818_g_1_a), ((x-p_o10818_g_0_pos)/(p_o10818_g_1_pos-p_o10818_g_0_pos)));
+const float p_o1732953_d = 0.010000000;
+const float p_o1732954_g_0_pos = 0.745454000;
+const float p_o1732954_g_0_r = 0.000000000;
+const float p_o1732954_g_0_g = 0.683593988;
+const float p_o1732954_g_0_b = 0.138854995;
+const float p_o1732954_g_0_a = 1.000000000;
+const float p_o1732954_g_1_pos = 0.936364000;
+const float p_o1732954_g_1_r = 0.000000000;
+const float p_o1732954_g_1_g = 0.683593988;
+const float p_o1732954_g_1_b = 0.138854995;
+const float p_o1732954_g_1_a = 1.000000000;
+vec4 o1732954_g_gradient_fct(float x) {
+  if (x < p_o1732954_g_0_pos) {
+    return vec4(p_o1732954_g_0_r,p_o1732954_g_0_g,p_o1732954_g_0_b,p_o1732954_g_0_a);
+  } else if (x < p_o1732954_g_1_pos) {
+    return mix(vec4(p_o1732954_g_0_r,p_o1732954_g_0_g,p_o1732954_g_0_b,p_o1732954_g_0_a), vec4(p_o1732954_g_1_r,p_o1732954_g_1_g,p_o1732954_g_1_b,p_o1732954_g_1_a), ((x-p_o1732954_g_0_pos)/(p_o1732954_g_1_pos-p_o1732954_g_0_pos)));
   }
-  return vec4(p_o10818_g_1_r,p_o10818_g_1_g,p_o10818_g_1_b,p_o10818_g_1_a);
+  return vec4(p_o1732954_g_1_r,p_o1732954_g_1_g,p_o1732954_g_1_b,p_o1732954_g_1_a);
 }
-const float p_o10790_g_0_pos = 0.754545000;
-const float p_o10790_g_0_r = 0.753906012;
-const float p_o10790_g_0_g = 0.575553000;
-const float p_o10790_g_0_b = 0.418181986;
-const float p_o10790_g_0_a = 1.000000000;
-const float p_o10790_g_1_pos = 0.890909000;
-const float p_o10790_g_1_r = 0.753906012;
-const float p_o10790_g_1_g = 0.575553000;
-const float p_o10790_g_1_b = 0.418181986;
-const float p_o10790_g_1_a = 1.000000000;
-vec4 o10790_g_gradient_fct(float x) {
-  if (x < p_o10790_g_0_pos) {
-    return vec4(p_o10790_g_0_r,p_o10790_g_0_g,p_o10790_g_0_b,p_o10790_g_0_a);
-  } else if (x < p_o10790_g_1_pos) {
-    return mix(vec4(p_o10790_g_0_r,p_o10790_g_0_g,p_o10790_g_0_b,p_o10790_g_0_a), vec4(p_o10790_g_1_r,p_o10790_g_1_g,p_o10790_g_1_b,p_o10790_g_1_a), ((x-p_o10790_g_0_pos)/(p_o10790_g_1_pos-p_o10790_g_0_pos)));
+const float p_o1732926_g_0_pos = 0.754545000;
+const float p_o1732926_g_0_r = 0.753906012;
+const float p_o1732926_g_0_g = 0.575553000;
+const float p_o1732926_g_0_b = 0.418181986;
+const float p_o1732926_g_0_a = 1.000000000;
+const float p_o1732926_g_1_pos = 0.890909000;
+const float p_o1732926_g_1_r = 0.753906012;
+const float p_o1732926_g_1_g = 0.575553000;
+const float p_o1732926_g_1_b = 0.418181986;
+const float p_o1732926_g_1_a = 1.000000000;
+vec4 o1732926_g_gradient_fct(float x) {
+  if (x < p_o1732926_g_0_pos) {
+    return vec4(p_o1732926_g_0_r,p_o1732926_g_0_g,p_o1732926_g_0_b,p_o1732926_g_0_a);
+  } else if (x < p_o1732926_g_1_pos) {
+    return mix(vec4(p_o1732926_g_0_r,p_o1732926_g_0_g,p_o1732926_g_0_b,p_o1732926_g_0_a), vec4(p_o1732926_g_1_r,p_o1732926_g_1_g,p_o1732926_g_1_b,p_o1732926_g_1_a), ((x-p_o1732926_g_0_pos)/(p_o1732926_g_1_pos-p_o1732926_g_0_pos)));
   }
-  return vec4(p_o10790_g_1_r,p_o10790_g_1_g,p_o10790_g_1_b,p_o10790_g_1_a);
+  return vec4(p_o1732926_g_1_r,p_o1732926_g_1_g,p_o1732926_g_1_b,p_o1732926_g_1_a);
 }
-vec3 o10753_input_albedo(vec4 p, float _seed_variation_) {
-vec3 o10862_0_1_tex3d = o10862_g_gradient_fct(dot(vec3(((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).xyz-vec3(p_o10831_x, p_o10831_y, p_o10831_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).w))).x+0.5), vec3(1.0))/3.0).rgb;
-vec3 o10847_0_1_tex3d = o10847_g_gradient_fct(dot(vec3(((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).xyz-vec3(p_o10831_x, p_o10831_y, p_o10831_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).w))).x+0.5), vec3(1.0))/3.0).rgb;
-vec3 o10834_0_1_tex3d = o10834_g_gradient_fct(dot(vec3(((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).xyz-vec3(p_o10831_x, p_o10831_y, p_o10831_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).w))).x+0.5), vec3(1.0))/3.0).rgb;
-vec3 o10818_0_1_tex3d = o10818_g_gradient_fct(dot(vec3(((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).xyz-vec3(p_o10831_x, p_o10831_y, p_o10831_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).w))).x+0.5), vec3(1.0))/3.0).rgb;
-vec3 o10790_0_1_tex3d = o10790_g_gradient_fct(dot(vec3(((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).xyz-vec3(p_o10831_x, p_o10831_y, p_o10831_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).w))).x+0.5), vec3(1.0))/3.0).rgb;
-vec2 o10763_0_d = abs(vec2(length(((circle_repeat_transform((rotate3d((((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).xyz-vec3(p_o10831_x, p_o10831_y, p_o10831_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).w)).xyz)-vec3(p_o10771_x, p_o10771_y, p_o10771_z)), -vec3(p_o10770_ax, p_o10770_ay, p_o10770_az)*0.01745329251)), p_o10764_c))-vec3(p_o10765_x, p_o10765_y, p_o10765_z)).xy),((circle_repeat_transform((rotate3d((((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).xyz-vec3(p_o10831_x, p_o10831_y, p_o10831_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).w)).xyz)-vec3(p_o10771_x, p_o10771_y, p_o10771_z)), -vec3(p_o10770_ax, p_o10770_ay, p_o10770_az)*0.01745329251)), p_o10764_c))-vec3(p_o10765_x, p_o10765_y, p_o10765_z)).z)) - vec2(p_o10763_r,p_o10763_l);
-float o10763_0_1_sdf3d = min(max(o10763_0_d.x,o10763_0_d.y),0.0) + length(max(o10763_0_d,0.0));
-vec2 o10765_0_1_sdf3dc = vec2(o10763_0_1_sdf3d, 0.0);
-vec2 o10764_0_1_sdf3dc = o10765_0_1_sdf3dc;
-vec2 o10763_2_d = abs(vec2(length(((circle_repeat_transform((rotate3d((rotate3d((((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).xyz-vec3(p_o10831_x, p_o10831_y, p_o10831_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).w)).xyz)-vec3(p_o10771_x, p_o10771_y, p_o10771_z)), -vec3(p_o10770_ax, p_o10770_ay, p_o10770_az)*0.01745329251)), -vec3(p_o10768_ax, p_o10768_ay, p_o10768_az)*0.01745329251)), p_o10766_c))-vec3(p_o10769_x, p_o10769_y, p_o10769_z)).xy),((circle_repeat_transform((rotate3d((rotate3d((((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).xyz-vec3(p_o10831_x, p_o10831_y, p_o10831_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).w)).xyz)-vec3(p_o10771_x, p_o10771_y, p_o10771_z)), -vec3(p_o10770_ax, p_o10770_ay, p_o10770_az)*0.01745329251)), -vec3(p_o10768_ax, p_o10768_ay, p_o10768_az)*0.01745329251)), p_o10766_c))-vec3(p_o10769_x, p_o10769_y, p_o10769_z)).z)) - vec2(p_o10763_r,p_o10763_l);
-float o10763_0_3_sdf3d = min(max(o10763_2_d.x,o10763_2_d.y),0.0) + length(max(o10763_2_d,0.0));
-vec2 o10769_0_1_sdf3dc = vec2(o10763_0_3_sdf3d, 0.0);
-vec2 o10766_0_1_sdf3dc = o10769_0_1_sdf3dc;
-vec2 o10768_0_1_sdf3dc = o10766_0_1_sdf3dc;
-vec2 o10767_0_1_sdf3dc = sdf3d_smooth_union(o10764_0_1_sdf3dc, o10768_0_1_sdf3dc, p_o10767_k);
-vec2 o10770_0_1_sdf3dc = o10767_0_1_sdf3dc;
-vec2 o10771_0_1_sdf3dc = o10770_0_1_sdf3dc;
-vec3 o10817_0_1_tex3d = mix(o10818_0_1_tex3d, o10790_0_1_tex3d, clamp((o10771_0_1_sdf3dc).x/max(p_o10817_d, 0.0001), 0.0, 1.0));
-vec2 o10754_0_d = abs(vec2(length((((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).xyz-vec3(p_o10831_x, p_o10831_y, p_o10831_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).w)).xyz)-vec3(p_o10762_x, p_o10762_y, p_o10762_z)).xz),(((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).xyz-vec3(p_o10831_x, p_o10831_y, p_o10831_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).w)).xyz)-vec3(p_o10762_x, p_o10762_y, p_o10762_z)).y)) - vec2(p_o10754_r,p_o10754_l);
-float o10754_0_1_sdf3d = min(max(o10754_0_d.x,o10754_0_d.y),0.0) + length(max(o10754_0_d,0.0));
-vec2 o10755_0_v = vec2(o10754_0_1_sdf3d, 0.0);vec2 o10755_0_1_sdf3dc = vec2(o10755_0_v.x-p_o10755_r, o10755_0_v.y);
-vec2 o10762_0_1_sdf3dc = o10755_0_1_sdf3dc;
-vec3 o10833_0_1_tex3d = mix(o10834_0_1_tex3d, o10817_0_1_tex3d, clamp((o10762_0_1_sdf3dc).x/max(p_o10833_d, 0.0001), 0.0, 1.0));
-vec2 o10780_0_d = abs(vec2(length((circle_repeat_transform(((rotate3d((((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).xyz-vec3(p_o10831_x, p_o10831_y, p_o10831_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).w)).xyz)-vec3(p_o10785_x, p_o10785_y, p_o10785_z)), -vec3(p_o10784_ax, p_o10784_ay, p_o10784_az)*0.01745329251))-vec3(p_o10781_x, p_o10781_y, p_o10781_z)), p_o10782_c)).xz),(circle_repeat_transform(((rotate3d((((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).xyz-vec3(p_o10831_x, p_o10831_y, p_o10831_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).w)).xyz)-vec3(p_o10785_x, p_o10785_y, p_o10785_z)), -vec3(p_o10784_ax, p_o10784_ay, p_o10784_az)*0.01745329251))-vec3(p_o10781_x, p_o10781_y, p_o10781_z)), p_o10782_c)).y)) - vec2(p_o10780_r,p_o10780_l);
-float o10780_0_1_sdf3d = min(max(o10780_0_d.x,o10780_0_d.y),0.0) + length(max(o10780_0_d,0.0));
-vec2 o10782_0_1_sdf3dc = vec2(o10780_0_1_sdf3d, 0.0);
-vec2 o10781_0_1_sdf3dc = o10782_0_1_sdf3dc;
-vec2 o10778_0_q = vec2(length((rotate3d((((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).xyz-vec3(p_o10831_x, p_o10831_y, p_o10831_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).w)).xyz)-vec3(p_o10785_x, p_o10785_y, p_o10785_z)), -vec3(p_o10784_ax, p_o10784_ay, p_o10784_az)*0.01745329251)).xy)-p_o10778_R,(rotate3d((((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).xyz-vec3(p_o10831_x, p_o10831_y, p_o10831_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).w)).xyz)-vec3(p_o10785_x, p_o10785_y, p_o10785_z)), -vec3(p_o10784_ax, p_o10784_ay, p_o10784_az)*0.01745329251)).z);
-float o10778_0_1_sdf3d = length(o10778_0_q)-p_o10778_r;
-vec2 o10779_0_1_sdf3dc = sdf3d_smooth_subtraction(o10781_0_1_sdf3dc, vec2(o10778_0_1_sdf3d, 0.0), p_o10779_k);
-vec2 o10784_0_1_sdf3dc = o10779_0_1_sdf3dc;
-vec2 o10785_0_1_sdf3dc = o10784_0_1_sdf3dc;
-vec3 o10860_0_1_tex3d = mix(o10847_0_1_tex3d, o10833_0_1_tex3d, clamp((o10785_0_1_sdf3dc).x/max(p_o10860_d, 0.0001), 0.0, 1.0));
-vec2 o10775_0_d = abs(vec2(length((((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).xyz-vec3(p_o10831_x, p_o10831_y, p_o10831_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).w)).xyz)-vec3(p_o10773_x, p_o10773_y, p_o10773_z)).xz),(((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).xyz-vec3(p_o10831_x, p_o10831_y, p_o10831_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o10832_ax, p_o10832_ay, p_o10832_az)*0.01745329251), (p).w)).w)).xyz)-vec3(p_o10773_x, p_o10773_y, p_o10773_z)).y)) - vec2(p_o10775_r,p_o10775_l);
-float o10775_0_1_sdf3d = min(max(o10775_0_d.x,o10775_0_d.y),0.0) + length(max(o10775_0_d,0.0));
-vec2 o10774_0_v = vec2(o10775_0_1_sdf3d, 0.0);vec2 o10774_0_1_sdf3dc = vec2(o10774_0_v.x-p_o10774_r, o10774_0_v.y);
-vec2 o10773_0_1_sdf3dc = o10774_0_1_sdf3dc;
-vec3 o10861_0_1_tex3d = mix(o10862_0_1_tex3d, o10860_0_1_tex3d, clamp((o10773_0_1_sdf3dc).x/max(p_o10861_d, 0.0001), 0.0, 1.0));
-vec3 o10831_0_1_tex3d = o10861_0_1_tex3d;
-vec3 o10832_0_1_tex3d = o10831_0_1_tex3d;
+vec3 o1732889_input_albedo(vec4 p, float _seed_variation_) {
+vec3 o1732998_0_1_tex3d = o1732998_g_gradient_fct(dot(vec3(((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).xyz-vec3(p_o1732967_x, p_o1732967_y, p_o1732967_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).w))).x+0.5), vec3(1.0))/3.0).rgb;
+vec3 o1732983_0_1_tex3d = o1732983_g_gradient_fct(dot(vec3(((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).xyz-vec3(p_o1732967_x, p_o1732967_y, p_o1732967_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).w))).x+0.5), vec3(1.0))/3.0).rgb;
+vec3 o1732970_0_1_tex3d = o1732970_g_gradient_fct(dot(vec3(((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).xyz-vec3(p_o1732967_x, p_o1732967_y, p_o1732967_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).w))).x+0.5), vec3(1.0))/3.0).rgb;
+vec3 o1732954_0_1_tex3d = o1732954_g_gradient_fct(dot(vec3(((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).xyz-vec3(p_o1732967_x, p_o1732967_y, p_o1732967_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).w))).x+0.5), vec3(1.0))/3.0).rgb;
+vec3 o1732926_0_1_tex3d = o1732926_g_gradient_fct(dot(vec3(((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).xyz-vec3(p_o1732967_x, p_o1732967_y, p_o1732967_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).w))).x+0.5), vec3(1.0))/3.0).rgb;
+float o1732899_0_1_sdf3d = sdCylinder(((circle_repeat_transform((rotate3d((((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).xyz-vec3(p_o1732967_x, p_o1732967_y, p_o1732967_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).w)).xyz)-vec3(p_o1732907_x, p_o1732907_y, p_o1732907_z)), -vec3(p_o1732906_ax, p_o1732906_ay, p_o1732906_az)*0.01745329251)), p_o1732900_c))-vec3(p_o1732901_x, p_o1732901_y, p_o1732901_z)).xzy, p_o1732899_l, p_o1732899_r);
+vec2 o1732901_0_1_sdf3dc = vec2(o1732899_0_1_sdf3d, 0.0);
+vec2 o1732900_0_1_sdf3dc = o1732901_0_1_sdf3dc;
+float o1732899_0_3_sdf3d = sdCylinder(((circle_repeat_transform((rotate3d((rotate3d((((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).xyz-vec3(p_o1732967_x, p_o1732967_y, p_o1732967_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).w)).xyz)-vec3(p_o1732907_x, p_o1732907_y, p_o1732907_z)), -vec3(p_o1732906_ax, p_o1732906_ay, p_o1732906_az)*0.01745329251)), -vec3(p_o1732904_ax, p_o1732904_ay, p_o1732904_az)*0.01745329251)), p_o1732902_c))-vec3(p_o1732905_x, p_o1732905_y, p_o1732905_z)).xzy, p_o1732899_l, p_o1732899_r);
+vec2 o1732905_0_1_sdf3dc = vec2(o1732899_0_3_sdf3d, 0.0);
+vec2 o1732902_0_1_sdf3dc = o1732905_0_1_sdf3dc;
+vec2 o1732904_0_1_sdf3dc = o1732902_0_1_sdf3dc;
+vec2 o1732903_0_1_sdf3dc = sdf3d_smooth_union(o1732900_0_1_sdf3dc, o1732904_0_1_sdf3dc, p_o1732903_k);
+vec2 o1732906_0_1_sdf3dc = o1732903_0_1_sdf3dc;
+vec2 o1732907_0_1_sdf3dc = o1732906_0_1_sdf3dc;
+vec3 o1732953_0_1_tex3d = mix(o1732954_0_1_tex3d, o1732926_0_1_tex3d, clamp((o1732907_0_1_sdf3dc).x/max(p_o1732953_d, 0.0001), 0.0, 1.0));
+float o1732890_0_1_sdf3d = sdCylinder((((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).xyz-vec3(p_o1732967_x, p_o1732967_y, p_o1732967_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).w)).xyz)-vec3(p_o1732898_x, p_o1732898_y, p_o1732898_z)), p_o1732890_l, p_o1732890_r);
+vec2 o1732891_0_v = vec2(o1732890_0_1_sdf3d, 0.0);vec2 o1732891_0_1_sdf3dc = vec2(o1732891_0_v.x-p_o1732891_r, o1732891_0_v.y);
+vec2 o1732898_0_1_sdf3dc = o1732891_0_1_sdf3dc;
+vec3 o1732969_0_1_tex3d = mix(o1732970_0_1_tex3d, o1732953_0_1_tex3d, clamp((o1732898_0_1_sdf3dc).x/max(p_o1732969_d, 0.0001), 0.0, 1.0));
+float o1732916_0_1_sdf3d = sdCylinder((circle_repeat_transform(((rotate3d((((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).xyz-vec3(p_o1732967_x, p_o1732967_y, p_o1732967_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).w)).xyz)-vec3(p_o1732921_x, p_o1732921_y, p_o1732921_z)), -vec3(p_o1732920_ax, p_o1732920_ay, p_o1732920_az)*0.01745329251))-vec3(p_o1732917_x, p_o1732917_y, p_o1732917_z)), p_o1732918_c)), p_o1732916_l, p_o1732916_r);
+vec2 o1732918_0_1_sdf3dc = vec2(o1732916_0_1_sdf3d, 0.0);
+vec2 o1732917_0_1_sdf3dc = o1732918_0_1_sdf3dc;
+vec2 o1732914_0_q = vec2(length((rotate3d((((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).xyz-vec3(p_o1732967_x, p_o1732967_y, p_o1732967_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).w)).xyz)-vec3(p_o1732921_x, p_o1732921_y, p_o1732921_z)), -vec3(p_o1732920_ax, p_o1732920_ay, p_o1732920_az)*0.01745329251)).xy)-p_o1732914_R,(rotate3d((((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).xyz-vec3(p_o1732967_x, p_o1732967_y, p_o1732967_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).w)).xyz)-vec3(p_o1732921_x, p_o1732921_y, p_o1732921_z)), -vec3(p_o1732920_ax, p_o1732920_ay, p_o1732920_az)*0.01745329251)).z);
+float o1732914_0_1_sdf3d = length(o1732914_0_q)-p_o1732914_r;
+vec2 o1732915_0_1_sdf3dc = sdf3d_smooth_subtraction(o1732917_0_1_sdf3dc, vec2(o1732914_0_1_sdf3d, 0.0), p_o1732915_k);
+vec2 o1732920_0_1_sdf3dc = o1732915_0_1_sdf3dc;
+vec2 o1732921_0_1_sdf3dc = o1732920_0_1_sdf3dc;
+vec3 o1732996_0_1_tex3d = mix(o1732983_0_1_tex3d, o1732969_0_1_tex3d, clamp((o1732921_0_1_sdf3dc).x/max(p_o1732996_d, 0.0001), 0.0, 1.0));
+float o1732911_0_1_sdf3d = sdCylinder((((vec4((vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).xyz-vec3(p_o1732967_x, p_o1732967_y, p_o1732967_z), (vec4(tex3d_rotate((p).xyz, -vec3(p_o1732968_ax, p_o1732968_ay, p_o1732968_az)*0.01745329251), (p).w)).w)).xyz)-vec3(p_o1732909_x, p_o1732909_y, p_o1732909_z)), p_o1732911_l, p_o1732911_r);
+vec2 o1732910_0_v = vec2(o1732911_0_1_sdf3d, 0.0);vec2 o1732910_0_1_sdf3dc = vec2(o1732910_0_v.x-p_o1732910_r, o1732910_0_v.y);
+vec2 o1732909_0_1_sdf3dc = o1732910_0_1_sdf3dc;
+vec3 o1732997_0_1_tex3d = mix(o1732998_0_1_tex3d, o1732996_0_1_tex3d, clamp((o1732909_0_1_sdf3dc).x/max(p_o1732997_d, 0.0001), 0.0, 1.0));
+vec3 o1732967_0_1_tex3d = o1732997_0_1_tex3d;
+vec3 o1732968_0_1_tex3d = o1732967_0_1_tex3d;
 
-return o10832_0_1_tex3d;
+return o1732968_0_1_tex3d;
 }
-vec3 o10753_input_metallic(vec4 p, float _seed_variation_) {
+vec3 o1732889_input_metallic(vec4 p, float _seed_variation_) {
 
 return vec3(0.0);
 }
-const float p_o10803_g_0_pos = 0.918182000;
-const float p_o10803_g_0_r = 0.777343988;
-const float p_o10803_g_0_g = 0.777343988;
-const float p_o10803_g_0_b = 0.777343988;
-const float p_o10803_g_0_a = 1.000000000;
-const float p_o10803_g_1_pos = 1.000000000;
-const float p_o10803_g_1_r = 0.777343988;
-const float p_o10803_g_1_g = 0.777343988;
-const float p_o10803_g_1_b = 0.777343988;
-const float p_o10803_g_1_a = 1.000000000;
-vec4 o10803_g_gradient_fct(float x) {
-  if (x < p_o10803_g_0_pos) {
-    return vec4(p_o10803_g_0_r,p_o10803_g_0_g,p_o10803_g_0_b,p_o10803_g_0_a);
-  } else if (x < p_o10803_g_1_pos) {
-    return mix(vec4(p_o10803_g_0_r,p_o10803_g_0_g,p_o10803_g_0_b,p_o10803_g_0_a), vec4(p_o10803_g_1_r,p_o10803_g_1_g,p_o10803_g_1_b,p_o10803_g_1_a), ((x-p_o10803_g_0_pos)/(p_o10803_g_1_pos-p_o10803_g_0_pos)));
+const float p_o1732939_g_0_pos = 0.918182000;
+const float p_o1732939_g_0_r = 0.777343988;
+const float p_o1732939_g_0_g = 0.777343988;
+const float p_o1732939_g_0_b = 0.777343988;
+const float p_o1732939_g_0_a = 1.000000000;
+const float p_o1732939_g_1_pos = 1.000000000;
+const float p_o1732939_g_1_r = 0.777343988;
+const float p_o1732939_g_1_g = 0.777343988;
+const float p_o1732939_g_1_b = 0.777343988;
+const float p_o1732939_g_1_a = 1.000000000;
+vec4 o1732939_g_gradient_fct(float x) {
+  if (x < p_o1732939_g_0_pos) {
+    return vec4(p_o1732939_g_0_r,p_o1732939_g_0_g,p_o1732939_g_0_b,p_o1732939_g_0_a);
+  } else if (x < p_o1732939_g_1_pos) {
+    return mix(vec4(p_o1732939_g_0_r,p_o1732939_g_0_g,p_o1732939_g_0_b,p_o1732939_g_0_a), vec4(p_o1732939_g_1_r,p_o1732939_g_1_g,p_o1732939_g_1_b,p_o1732939_g_1_a), ((x-p_o1732939_g_0_pos)/(p_o1732939_g_1_pos-p_o1732939_g_0_pos)));
   }
-  return vec4(p_o10803_g_1_r,p_o10803_g_1_g,p_o10803_g_1_b,p_o10803_g_1_a);
+  return vec4(p_o1732939_g_1_r,p_o1732939_g_1_g,p_o1732939_g_1_b,p_o1732939_g_1_a);
 }
-vec3 o10753_input_roughness(vec4 p, float _seed_variation_) {
-vec3 o10803_0_1_tex3d = o10803_g_gradient_fct(dot(vec3(((p)).x+0.5), vec3(1.0))/3.0).rgb;
+vec3 o1732889_input_roughness(vec4 p, float _seed_variation_) {
+vec3 o1732939_0_1_tex3d = o1732939_g_gradient_fct(dot(vec3(((p)).x+0.5), vec3(1.0))/3.0).rgb;
 
-return o10803_0_1_tex3d;
+return o1732939_0_1_tex3d;
 }
 
 
 vec2 GetDist(vec3 p) {
     float _seed_variation_ = seed_variation;
 
-	vec2 d = o10753_input_distance(p, _seed_variation_);
+	vec2 d = o1732889_input_distance(p, _seed_variation_);
 
 	return d;
 }
@@ -457,8 +455,8 @@ void vertex() {
 }
 void fragment() {
     float _seed_variation_ = seed_variation;
-	vec3 ro = world_camera*0.6;
-	vec3 rd =  normalize(world_position*0.6 - ro);
+	vec3 ro = world_camera;
+	vec3 rd =  normalize(world_position - ro);
 	
 	vec2 rm  = RayMarch(ro, rd);
 	float d = rm.x;
@@ -467,9 +465,9 @@ void fragment() {
 	} else {
 		vec3 p = ro + rd * d;
 
-		ALBEDO = o10753_input_albedo(vec4(p, rm.y), _seed_variation_);
-		ROUGHNESS = o10753_input_roughness(vec4(p, rm.y), _seed_variation_).x;
-		METALLIC = o10753_input_metallic(vec4(p, rm.y), _seed_variation_).x;
+		ALBEDO = o1732889_input_albedo(vec4(p, rm.y), _seed_variation_);
+		ROUGHNESS = o1732889_input_roughness(vec4(p, rm.y), _seed_variation_).x;
+		METALLIC = o1732889_input_metallic(vec4(p, rm.y), _seed_variation_).x;
 
 		NORMAL = (INV_VIEW_MATRIX*vec4(GetNormal(p), 0.0)).xyz;
 	}

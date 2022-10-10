@@ -1,7 +1,7 @@
 shader_type spatial;
 render_mode blend_mix,cull_back,diffuse_burley,specular_schlick_ggx
 ;
-uniform vec3 uv1_offset = vec3(1.0, 1.0, 1.0);
+uniform vec3 uv1_offset = vec3(0.0, 0.0, 0.0);
 uniform vec3 uv1_scale = vec3(1.0, 1.0, 1.0);
 uniform int depth_min_layers = 8;
 uniform int depth_max_layers = 16;
@@ -48,7 +48,7 @@ vec3 hsv2rgb(vec3 c) {
 }
 
 
-float fbm_value(vec2 coord, vec2 size, float offset, float seed) {
+float value_noise_2d(vec2 coord, vec2 size, float offset, float seed) {
 	vec2 o = floor(coord)+rand2(vec2(seed, 1.0-seed))+size;
 	vec2 f = fract(coord);
 	float p00 = rand(mod(o, size));
@@ -63,7 +63,24 @@ float fbm_value(vec2 coord, vec2 size, float offset, float seed) {
 	return mix(mix(p00, p10, t.x), mix(p01, p11, t.x), t.y);
 }
 
-float fbm_perlin(vec2 coord, vec2 size, float offset, float seed) {
+float fbm_2d_value(vec2 coord, vec2 size, int folds, int octaves, float persistence, float offset, float seed) {
+	float normalize_factor = 0.0;
+	float value = 0.0;
+	float scale = 1.0;
+	for (int i = 0; i < octaves; i++) {
+		float noise = value_noise_2d(coord*size, size, offset, seed);
+		for (int f = 0; f < folds; ++f) {
+			noise = abs(2.0*noise-1.0);
+		}
+		value += noise * scale;
+		normalize_factor += scale;
+		size *= 2.0;
+		scale *= persistence;
+	}
+	return value / normalize_factor;
+}
+
+float perlin_noise_2d(vec2 coord, vec2 size, float offset, float seed) {
 	vec2 o = floor(coord)+rand2(vec2(seed, 1.0-seed))+size;
 	vec2 f = fract(coord);
 	float a00 = rand(mod(o, size)) * 6.28318530718 + offset * 6.28318530718;
@@ -82,25 +99,59 @@ float fbm_perlin(vec2 coord, vec2 size, float offset, float seed) {
 	return 0.5 + mix(mix(p00, p10, t.x), mix(p01, p11, t.x), t.y);
 }
 
-float fbm_perlinabs(vec2 coord, vec2 size, float offset, float seed) {
-	return abs(2.0*fbm_perlin(coord, size, offset, seed)-1.0);
+float fbm_2d_perlin(vec2 coord, vec2 size, int folds, int octaves, float persistence, float offset, float seed) {
+	float normalize_factor = 0.0;
+	float value = 0.0;
+	float scale = 1.0;
+	for (int i = 0; i < octaves; i++) {
+		float noise = perlin_noise_2d(coord*size, size, offset, seed);
+		for (int f = 0; f < folds; ++f) {
+			noise = abs(2.0*noise-1.0);
+		}
+		value += noise * scale;
+		normalize_factor += scale;
+		size *= 2.0;
+		scale *= persistence;
+	}
+	return value / normalize_factor;
 }
 
-float mod289(float x) {
+float perlinabs_noise_2d(vec2 coord, vec2 size, float offset, float seed) {
+	return abs(2.0*perlin_noise_2d(coord, size, offset, seed)-1.0);
+}
+
+float fbm_2d_perlinabs(vec2 coord, vec2 size, int folds, int octaves, float persistence, float offset, float seed) {
+	float normalize_factor = 0.0;
+	float value = 0.0;
+	float scale = 1.0;
+	for (int i = 0; i < octaves; i++) {
+		float noise = perlinabs_noise_2d(coord*size, size, offset, seed);
+		for (int f = 0; f < folds; ++f) {
+			noise = abs(2.0*noise-1.0);
+		}
+		value += noise * scale;
+		normalize_factor += scale;
+		size *= 2.0;
+		scale *= persistence;
+	}
+	return value / normalize_factor;
+}
+
+float fbm_2d_mod289(float x) {
     return x - floor(x * (1.0 / 289.0)) * 289.0;
 }
 
-float permute(float x) {
-    return mod289(((x * 34.0) + 1.0) * x);
+float fbm_2d_permute(float x) {
+    return fbm_2d_mod289(((x * 34.0) + 1.0) * x);
 }
 
-vec2 rgrad2(vec2 p, float rot, float seed) {
-	float u = permute(permute(p.x) + p.y) * 0.0243902439 + rot; // Rotate by shift
+vec2 fbm_2d_rgrad2(vec2 p, float rot, float seed) {
+	float u = fbm_2d_permute(fbm_2d_permute(p.x) + p.y) * 0.0243902439 + rot; // Rotate by shift
 	u = fract(u) * 6.28318530718; // 2*pi
 	return vec2(cos(u), sin(u));
 }
 
-float fbm_simplex(vec2 coord, vec2 size, float offset, float seed) {
+float simplex_noise_2d(vec2 coord, vec2 size, float offset, float seed) {
 	coord *= 2.0; // needed for it to tile
 	coord += rand2(vec2(seed, 1.0-seed)) + size;
 	size *= 2.0; // needed for it to tile
@@ -121,9 +172,9 @@ float fbm_simplex(vec2 coord, vec2 size, float offset, float seed) {
     vec3 yw = mod(vec3(p0.y, p1.y, p2.y), size.y);
     vec3 iuw = xw + 0.5 * yw;
     vec3 ivw = yw;
-    vec2 g0 = rgrad2(vec2(iuw.x, ivw.x), offset, seed);
-    vec2 g1 = rgrad2(vec2(iuw.y, ivw.y), offset, seed);
-    vec2 g2 = rgrad2(vec2(iuw.z, ivw.z), offset, seed);
+    vec2 g0 = fbm_2d_rgrad2(vec2(iuw.x, ivw.x), offset, seed);
+    vec2 g1 = fbm_2d_rgrad2(vec2(iuw.y, ivw.y), offset, seed);
+    vec2 g2 = fbm_2d_rgrad2(vec2(iuw.z, ivw.z), offset, seed);
     vec3 w = vec3(dot(g0, d0), dot(g1, d1), dot(g2, d2));
     vec3 t = 0.8 - vec3(dot(d0, d0), dot(d1, d1), dot(d2, d2));
     t = max(t, vec3(0.0));
@@ -133,7 +184,24 @@ float fbm_simplex(vec2 coord, vec2 size, float offset, float seed) {
     return 0.5 + 5.5 * n;
 }
 
-float fbm_cellular(vec2 coord, vec2 size, float offset, float seed) {
+float fbm_2d_simplex(vec2 coord, vec2 size, int folds, int octaves, float persistence, float offset, float seed) {
+	float normalize_factor = 0.0;
+	float value = 0.0;
+	float scale = 1.0;
+	for (int i = 0; i < octaves; i++) {
+		float noise = simplex_noise_2d(coord*size, size, offset, seed);
+		for (int f = 0; f < folds; ++f) {
+			noise = abs(2.0*noise-1.0);
+		}
+		value += noise * scale;
+		normalize_factor += scale;
+		size *= 2.0;
+		scale *= persistence;
+	}
+	return value / normalize_factor;
+}
+
+float cellular_noise_2d(vec2 coord, vec2 size, float offset, float seed) {
 	vec2 o = floor(coord)+rand2(vec2(seed, 1.0-seed))+size;
 	vec2 f = fract(coord);
 	float min_dist = 2.0;
@@ -150,7 +218,24 @@ float fbm_cellular(vec2 coord, vec2 size, float offset, float seed) {
 	return min_dist;
 }
 
-float fbm_cellular2(vec2 coord, vec2 size, float offset, float seed) {
+float fbm_2d_cellular(vec2 coord, vec2 size, int folds, int octaves, float persistence, float offset, float seed) {
+	float normalize_factor = 0.0;
+	float value = 0.0;
+	float scale = 1.0;
+	for (int i = 0; i < octaves; i++) {
+		float noise = cellular_noise_2d(coord*size, size, offset, seed);
+		for (int f = 0; f < folds; ++f) {
+			noise = abs(2.0*noise-1.0);
+		}
+		value += noise * scale;
+		normalize_factor += scale;
+		size *= 2.0;
+		scale *= persistence;
+	}
+	return value / normalize_factor;
+}
+
+float cellular2_noise_2d(vec2 coord, vec2 size, float offset, float seed) {
 	vec2 o = floor(coord)+rand2(vec2(seed, 1.0-seed))+size;
 	vec2 f = fract(coord);
 	float min_dist1 = 2.0;
@@ -173,7 +258,24 @@ float fbm_cellular2(vec2 coord, vec2 size, float offset, float seed) {
 	return min_dist2-min_dist1;
 }
 
-float fbm_cellular3(vec2 coord, vec2 size, float offset, float seed) {
+float fbm_2d_cellular2(vec2 coord, vec2 size, int folds, int octaves, float persistence, float offset, float seed) {
+	float normalize_factor = 0.0;
+	float value = 0.0;
+	float scale = 1.0;
+	for (int i = 0; i < octaves; i++) {
+		float noise = cellular2_noise_2d(coord*size, size, offset, seed);
+		for (int f = 0; f < folds; ++f) {
+			noise = abs(2.0*noise-1.0);
+		}
+		value += noise * scale;
+		normalize_factor += scale;
+		size *= 2.0;
+		scale *= persistence;
+	}
+	return value / normalize_factor;
+}
+
+float cellular3_noise_2d(vec2 coord, vec2 size, float offset, float seed) {
 	vec2 o = floor(coord)+rand2(vec2(seed, 1.0-seed))+size;
 	vec2 f = fract(coord);
 	float min_dist = 2.0;
@@ -190,7 +292,24 @@ float fbm_cellular3(vec2 coord, vec2 size, float offset, float seed) {
 	return min_dist;
 }
 
-float fbm_cellular4(vec2 coord, vec2 size, float offset, float seed) {
+float fbm_2d_cellular3(vec2 coord, vec2 size, int folds, int octaves, float persistence, float offset, float seed) {
+	float normalize_factor = 0.0;
+	float value = 0.0;
+	float scale = 1.0;
+	for (int i = 0; i < octaves; i++) {
+		float noise = cellular3_noise_2d(coord*size, size, offset, seed);
+		for (int f = 0; f < folds; ++f) {
+			noise = abs(2.0*noise-1.0);
+		}
+		value += noise * scale;
+		normalize_factor += scale;
+		size *= 2.0;
+		scale *= persistence;
+	}
+	return value / normalize_factor;
+}
+
+float cellular4_noise_2d(vec2 coord, vec2 size, float offset, float seed) {
 	vec2 o = floor(coord)+rand2(vec2(seed, 1.0-seed))+size;
 	vec2 f = fract(coord);
 	float min_dist1 = 2.0;
@@ -213,7 +332,24 @@ float fbm_cellular4(vec2 coord, vec2 size, float offset, float seed) {
 	return min_dist2-min_dist1;
 }
 
-float fbm_cellular5(vec2 coord, vec2 size, float offset, float seed) {
+float fbm_2d_cellular4(vec2 coord, vec2 size, int folds, int octaves, float persistence, float offset, float seed) {
+	float normalize_factor = 0.0;
+	float value = 0.0;
+	float scale = 1.0;
+	for (int i = 0; i < octaves; i++) {
+		float noise = cellular4_noise_2d(coord*size, size, offset, seed);
+		for (int f = 0; f < folds; ++f) {
+			noise = abs(2.0*noise-1.0);
+		}
+		value += noise * scale;
+		normalize_factor += scale;
+		size *= 2.0;
+		scale *= persistence;
+	}
+	return value / normalize_factor;
+}
+
+float cellular5_noise_2d(vec2 coord, vec2 size, float offset, float seed) {
 	vec2 o = floor(coord)+rand2(vec2(seed, 1.0-seed))+size;
 	vec2 f = fract(coord);
 	float min_dist = 2.0;
@@ -230,7 +366,24 @@ float fbm_cellular5(vec2 coord, vec2 size, float offset, float seed) {
 	return min_dist;
 }
 
-float fbm_cellular6(vec2 coord, vec2 size, float offset, float seed) {
+float fbm_2d_cellular5(vec2 coord, vec2 size, int folds, int octaves, float persistence, float offset, float seed) {
+	float normalize_factor = 0.0;
+	float value = 0.0;
+	float scale = 1.0;
+	for (int i = 0; i < octaves; i++) {
+		float noise = cellular5_noise_2d(coord*size, size, offset, seed);
+		for (int f = 0; f < folds; ++f) {
+			noise = abs(2.0*noise-1.0);
+		}
+		value += noise * scale;
+		normalize_factor += scale;
+		size *= 2.0;
+		scale *= persistence;
+	}
+	return value / normalize_factor;
+}
+
+float cellular6_noise_2d(vec2 coord, vec2 size, float offset, float seed) {
 	vec2 o = floor(coord)+rand2(vec2(seed, 1.0-seed))+size;
 	vec2 f = fract(coord);
 	float min_dist1 = 2.0;
@@ -253,8 +406,25 @@ float fbm_cellular6(vec2 coord, vec2 size, float offset, float seed) {
 	return min_dist2-min_dist1;
 }
 
+float fbm_2d_cellular6(vec2 coord, vec2 size, int folds, int octaves, float persistence, float offset, float seed) {
+	float normalize_factor = 0.0;
+	float value = 0.0;
+	float scale = 1.0;
+	for (int i = 0; i < octaves; i++) {
+		float noise = cellular6_noise_2d(coord*size, size, offset, seed);
+		for (int f = 0; f < folds; ++f) {
+			noise = abs(2.0*noise-1.0);
+		}
+		value += noise * scale;
+		normalize_factor += scale;
+		size *= 2.0;
+		scale *= persistence;
+	}
+	return value / normalize_factor;
+}
+
 // MIT License Inigo Quilez - https://www.shadertoy.com/view/Xd23Dh
-float fbm_voronoise( vec2 coord, vec2 size, float offset, float seed) {
+float voronoise_noise_2d( vec2 coord, vec2 size, float offset, float seed) {
     vec2 i = floor(coord) + rand2(vec2(seed, 1.0-seed)) + size;
     vec2 f = fract(coord);
     
@@ -273,6 +443,24 @@ float fbm_voronoise( vec2 coord, vec2 size, float offset, float seed) {
 	
     return a.x/a.y;
 }
+
+float fbm_2d_voronoise(vec2 coord, vec2 size, int folds, int octaves, float persistence, float offset, float seed) {
+	float normalize_factor = 0.0;
+	float value = 0.0;
+	float scale = 1.0;
+	for (int i = 0; i < octaves; i++) {
+		float noise = voronoise_noise_2d(coord*size, size, offset, seed);
+		for (int f = 0; f < folds; ++f) {
+			noise = abs(2.0*noise-1.0);
+		}
+		value += noise * scale;
+		normalize_factor += scale;
+		size *= 2.0;
+		scale *= persistence;
+	}
+	return value / normalize_factor;
+}
+
 vec2 transform2_clamp(vec2 uv) {
 	return clamp(uv, vec2(0.0), vec2(1.0));
 }
@@ -359,11 +547,11 @@ vec3 blend_difference(vec2 uv, vec3 c1, vec3 c2, float opacity) {
 }
 
 vec3 blend_additive(vec2 uv, vec3 c1, vec3 c2, float oppacity) {
-	return clamp(c2 + c1 * oppacity, vec3(0.0), vec3(1.0));
+	return c2 + c1 * oppacity;
 }
 
 vec3 blend_addsub(vec2 uv, vec3 c1, vec3 c2, float oppacity) {
-	return clamp(c2 + (c1 - .5) * 2.0 * oppacity, vec3(0.0), vec3(1.0));
+	return c2 + (c1 - .5) * 2.0 * oppacity;
 }
 uniform sampler2D texture_2;
 const float texture_2_size = 1024.0;
@@ -377,102 +565,86 @@ const float texture_3_size = 1024.0;
 uniform sampler2D texture_5;
 const float texture_5_size = 1024.0;
 
-const float p_o135055_albedo_color_r = 1.000000000;
-const float p_o135055_albedo_color_g = 1.000000000;
-const float p_o135055_albedo_color_b = 1.000000000;
-const float p_o135055_albedo_color_a = 1.000000000;
-const float p_o135055_metallic = 0.000000000;
-const float p_o135055_roughness = 1.000000000;
-const float p_o135055_emission_energy = 0.510000000;
-const float p_o135055_normal = 1.000000000;
-const float p_o135055_ao = 1.000000000;
-const float p_o135055_depth_scale = 0.500000000;
-float o135055_input_depth_tex(vec2 uv, float _seed_variation_) {
+const float p_o1510706_albedo_color_r = 0.000000000;
+const float p_o1510706_albedo_color_g = 0.000000000;
+const float p_o1510706_albedo_color_b = 0.000000000;
+const float p_o1510706_albedo_color_a = 1.000000000;
+const float p_o1510706_metallic = 0.000000000;
+const float p_o1510706_roughness = 1.000000000;
+const float p_o1510706_emission_energy = 0.510000000;
+const float p_o1510706_normal = 1.000000000;
+const float p_o1510706_ao = 1.000000000;
+const float p_o1510706_depth_scale = 0.500000000;
+float o1510706_input_depth_tex(vec2 uv, float _seed_variation_) {
 
 return 0.0;
 }
-const float p_o135569_translate_x = 0.010000000;
-const float p_o135569_translate_y = 0.000000000;
-const float p_o135569_rotate = 0.000000000;
-const float p_o135569_scale_x = 1.000000000;
-const float p_o135569_scale_y = 1.000000000;
-const float p_o135598_amount = 0.760000000;
-const float p_o135597_translate_x = 0.000000000;
-const float p_o135597_rotate = 0.000000000;
-const float p_o135597_scale_x = 7.300000000;
-const float p_o135597_scale_y = 1.000000000;
-const float seed_o135593 = 0.000000000;
-const float p_o135593_scale_x = 6.000000000;
-const float p_o135593_scale_y = 6.000000000;
-const float p_o135593_folds = 0.000000000;
-const float p_o135593_iterations = 1.000000000;
-const float p_o135593_persistence = 0.500000000;
-float o135593_fbm(vec2 coord, vec2 size, int folds, int octaves, float persistence, float offset, float seed, float _seed_variation_) {
-	float normalize_factor = 0.0;
-	float value = 0.0;
-	float scale = 1.0;
-	for (int i = 0; i < octaves; i++) {
-		float noise = fbm_value(coord*size, size, offset, seed);
-		for (int f = 0; f < folds; ++f) {
-			noise = abs(2.0*noise-1.0);
-		}
-		value += noise * scale;
-		normalize_factor += scale;
-		size *= 2.0;
-		scale *= persistence;
-	}
-	return value / normalize_factor;
-}
-const float p_o135590_translate_x = 0.000000000;
-const float p_o135590_rotate = 0.000000000;
-const float p_o135590_scale_x = 1.000000000;
-const float p_o135590_scale_y = 1.000000000;
-const float p_o135745_amount = 1.000000000;
-const float p_o135216_amount = 1.000000000;
-const float p_o135185_translate_x = 0.000000000;
-const float p_o135185_translate_y = 0.000000000;
-const float p_o135185_scale_x = 1.000000000;
-const float p_o135185_scale_y = 1.000000000;
-const float p_o135748_translate_x = 0.000000000;
-const float p_o135748_translate_y = 0.000000000;
-const float p_o135748_scale_x = 1.000000000;
-const float p_o135748_scale_y = 1.000000000;
+const float p_o1511217_translate_x = 0.010000000;
+const float p_o1511217_translate_y = 0.000000000;
+const float p_o1511217_rotate = 0.000000000;
+const float p_o1511217_scale_x = 1.000000000;
+const float p_o1511217_scale_y = 1.000000000;
+const float p_o1511240_amount = 0.760000000;
+const float p_o1511239_translate_x = 0.000000000;
+const float p_o1511239_rotate = 0.000000000;
+const float p_o1511239_scale_x = 7.300000000;
+const float p_o1511239_scale_y = 1.000000000;
+const float seed_o1511238 = 0.000000000;
+const float p_o1511238_scale_x = 6.000000000;
+const float p_o1511238_scale_y = 6.000000000;
+const float p_o1511238_folds = 0.000000000;
+const float p_o1511238_iterations = 1.000000000;
+const float p_o1511238_persistence = 0.500000000;
+const float p_o1511235_translate_x = 0.000000000;
+const float p_o1511235_rotate = 0.000000000;
+const float p_o1511235_scale_x = 1.000000000;
+const float p_o1511235_scale_y = 1.000000000;
+const float p_o1511387_amount = 1.000000000;
+const float p_o1510867_amount = 1.000000000;
+const float p_o1510836_translate_x = 0.000000000;
+const float p_o1510836_translate_y = 0.000000000;
+const float p_o1510836_scale_x = 1.000000000;
+const float p_o1510836_scale_y = 1.000000000;
+const float p_o1511390_translate_x = 0.000000000;
+const float p_o1511390_translate_y = 0.000000000;
+const float p_o1511390_scale_x = 1.000000000;
+const float p_o1511390_scale_y = 1.000000000;
 
 
 void fragment() {
 	float _seed_variation_ = variation;
 	vec2 uv = fract(UV);
-float o135593_0_1_f = o135593_fbm((fract(transform2((uv), vec2(p_o135597_translate_x*(2.0*1.0-1.0), (elapsed_time)*(2.0*1.0-1.0)), p_o135597_rotate*0.01745329251*(2.0*1.0-1.0), vec2(p_o135597_scale_x*(2.0*1.0-1.0), p_o135597_scale_y*(2.0*1.0-1.0))))), vec2(p_o135593_scale_x, p_o135593_scale_y), int(p_o135593_folds), int(p_o135593_iterations), p_o135593_persistence, (elapsed_time/2.0), (seed_o135593+fract(_seed_variation_)), _seed_variation_);
-vec4 o135597_0_1_rgba = vec4(vec3(o135593_0_1_f), 1.0);
-vec4 o135588_0 = textureLod(texture_1, fract(transform2((uv), vec2(p_o135590_translate_x*(2.0*1.0-1.0), (elapsed_time/15.0)*(2.0*1.0-1.0)), p_o135590_rotate*0.01745329251*(2.0*1.0-1.0), vec2(p_o135590_scale_x*(2.0*1.0-1.0), p_o135590_scale_y*(2.0*1.0-1.0)))), 0.0);
-vec4 o135590_0_1_rgba = o135588_0;
-vec4 o135598_0_s1 = o135597_0_1_rgba;
-vec4 o135598_0_s2 = o135590_0_1_rgba;
-float o135598_0_a = p_o135598_amount*1.0;
-vec4 o135598_0_2_rgba = vec4(blend_multiply((uv), o135598_0_s1.rgb, o135598_0_s2.rgb, o135598_0_a*o135598_0_s1.a), min(1.0, o135598_0_s2.a+o135598_0_a*o135598_0_s1.a));
-vec4 o135743_0 = textureLod(texture_2, (transform2_clamp(transform2((uv), vec2(p_o135569_translate_x*(2.0*(dot((o135598_0_2_rgba).rgb, vec3(1.0))/3.0)-1.0), p_o135569_translate_y*(2.0*1.0-1.0)), p_o135569_rotate*0.01745329251*(2.0*1.0-1.0), vec2(p_o135569_scale_x*(2.0*1.0-1.0), p_o135569_scale_y*(2.0*1.0-1.0))))), 0.0);
-vec4 o135183_0 = textureLod(texture_3, transform2_clamp(transform2((transform2_clamp(transform2((uv), vec2(p_o135569_translate_x*(2.0*(dot((o135598_0_2_rgba).rgb, vec3(1.0))/3.0)-1.0), p_o135569_translate_y*(2.0*1.0-1.0)), p_o135569_rotate*0.01745329251*(2.0*1.0-1.0), vec2(p_o135569_scale_x*(2.0*1.0-1.0), p_o135569_scale_y*(2.0*1.0-1.0))))), vec2(p_o135185_translate_x*(2.0*1.0-1.0), p_o135185_translate_y*(2.0*1.0-1.0)), (elapsed_time*125.0)*0.01745329251*(2.0*1.0-1.0), vec2(p_o135185_scale_x*(2.0*1.0-1.0), p_o135185_scale_y*(2.0*1.0-1.0)))), 0.0);
-vec4 o135185_0_1_rgba = o135183_0;
-vec4 o135214_0 = textureLod(texture_4, (transform2_clamp(transform2((uv), vec2(p_o135569_translate_x*(2.0*(dot((o135598_0_2_rgba).rgb, vec3(1.0))/3.0)-1.0), p_o135569_translate_y*(2.0*1.0-1.0)), p_o135569_rotate*0.01745329251*(2.0*1.0-1.0), vec2(p_o135569_scale_x*(2.0*1.0-1.0), p_o135569_scale_y*(2.0*1.0-1.0))))), 0.0);
-vec4 o135216_0_s1 = o135185_0_1_rgba;
-vec4 o135216_0_s2 = o135214_0;
-float o135216_0_a = p_o135216_amount*1.0;
-vec4 o135216_0_2_rgba = vec4(blend_screen((transform2_clamp(transform2((uv), vec2(p_o135569_translate_x*(2.0*(dot((o135598_0_2_rgba).rgb, vec3(1.0))/3.0)-1.0), p_o135569_translate_y*(2.0*1.0-1.0)), p_o135569_rotate*0.01745329251*(2.0*1.0-1.0), vec2(p_o135569_scale_x*(2.0*1.0-1.0), p_o135569_scale_y*(2.0*1.0-1.0))))), o135216_0_s1.rgb, o135216_0_s2.rgb, o135216_0_a*o135216_0_s1.a), min(1.0, o135216_0_s2.a+o135216_0_a*o135216_0_s1.a));
-vec4 o135746_0 = textureLod(texture_5, (transform2((transform2_clamp(transform2((uv), vec2(p_o135569_translate_x*(2.0*(dot((o135598_0_2_rgba).rgb, vec3(1.0))/3.0)-1.0), p_o135569_translate_y*(2.0*1.0-1.0)), p_o135569_rotate*0.01745329251*(2.0*1.0-1.0), vec2(p_o135569_scale_x*(2.0*1.0-1.0), p_o135569_scale_y*(2.0*1.0-1.0))))), vec2(p_o135748_translate_x*(2.0*1.0-1.0), p_o135748_translate_y*(2.0*1.0-1.0)), (elapsed_time*125.0)*0.01745329251*(2.0*1.0-1.0), vec2(p_o135748_scale_x*(2.0*1.0-1.0), p_o135748_scale_y*(2.0*1.0-1.0)))), 0.0);
-vec4 o135748_0_1_rgba = o135746_0;
-vec4 o135745_0_s1 = o135743_0;
-vec4 o135745_0_s2 = o135216_0_2_rgba;
-float o135745_0_a = p_o135745_amount*(dot((o135748_0_1_rgba).rgb, vec3(1.0))/3.0);
-vec4 o135745_0_1_rgba = vec4(blend_screen((transform2_clamp(transform2((uv), vec2(p_o135569_translate_x*(2.0*(dot((o135598_0_2_rgba).rgb, vec3(1.0))/3.0)-1.0), p_o135569_translate_y*(2.0*1.0-1.0)), p_o135569_rotate*0.01745329251*(2.0*1.0-1.0), vec2(p_o135569_scale_x*(2.0*1.0-1.0), p_o135569_scale_y*(2.0*1.0-1.0))))), o135745_0_s1.rgb, o135745_0_s2.rgb, o135745_0_a*o135745_0_s1.a), min(1.0, o135745_0_s2.a+o135745_0_a*o135745_0_s1.a));
-vec4 o135569_0_1_rgba = o135745_0_1_rgba;
+float o1511238_0_1_f = fbm_2d_value((fract(transform2((uv), vec2(p_o1511239_translate_x*(2.0*1.0-1.0), (elapsed_time)*(2.0*1.0-1.0)), p_o1511239_rotate*0.01745329251*(2.0*1.0-1.0), vec2(p_o1511239_scale_x*(2.0*1.0-1.0), p_o1511239_scale_y*(2.0*1.0-1.0))))), vec2(p_o1511238_scale_x, p_o1511238_scale_y), int(p_o1511238_folds), int(p_o1511238_iterations), p_o1511238_persistence, (elapsed_time/2.0), (seed_o1511238+fract(_seed_variation_)));
+vec4 o1511239_0_1_rgba = vec4(vec3(o1511238_0_1_f), 1.0);
+vec4 o1511233_0 = textureLod(texture_1, fract(transform2((uv), vec2(p_o1511235_translate_x*(2.0*1.0-1.0), (elapsed_time/15.0)*(2.0*1.0-1.0)), p_o1511235_rotate*0.01745329251*(2.0*1.0-1.0), vec2(p_o1511235_scale_x*(2.0*1.0-1.0), p_o1511235_scale_y*(2.0*1.0-1.0)))), 0.0);
+vec4 o1511235_0_1_rgba = o1511233_0;
+vec4 o1511240_0_s1 = o1511239_0_1_rgba;
+vec4 o1511240_0_s2 = o1511235_0_1_rgba;
+float o1511240_0_a = p_o1511240_amount*1.0;
+vec4 o1511240_0_2_rgba = vec4(blend_multiply((uv), o1511240_0_s1.rgb, o1511240_0_s2.rgb, o1511240_0_a*o1511240_0_s1.a), min(1.0, o1511240_0_s2.a+o1511240_0_a*o1511240_0_s1.a));
+vec4 o1511385_0 = textureLod(texture_2, (transform2_clamp(transform2((uv), vec2(p_o1511217_translate_x*(2.0*(dot((o1511240_0_2_rgba).rgb, vec3(1.0))/3.0)-1.0), p_o1511217_translate_y*(2.0*1.0-1.0)), p_o1511217_rotate*0.01745329251*(2.0*1.0-1.0), vec2(p_o1511217_scale_x*(2.0*1.0-1.0), p_o1511217_scale_y*(2.0*1.0-1.0))))), 0.0);
+vec4 o1510834_0 = textureLod(texture_3, transform2_clamp(transform2((transform2_clamp(transform2((uv), vec2(p_o1511217_translate_x*(2.0*(dot((o1511240_0_2_rgba).rgb, vec3(1.0))/3.0)-1.0), p_o1511217_translate_y*(2.0*1.0-1.0)), p_o1511217_rotate*0.01745329251*(2.0*1.0-1.0), vec2(p_o1511217_scale_x*(2.0*1.0-1.0), p_o1511217_scale_y*(2.0*1.0-1.0))))), vec2(p_o1510836_translate_x*(2.0*1.0-1.0), p_o1510836_translate_y*(2.0*1.0-1.0)), (elapsed_time*125.0)*0.01745329251*(2.0*1.0-1.0), vec2(p_o1510836_scale_x*(2.0*1.0-1.0), p_o1510836_scale_y*(2.0*1.0-1.0)))), 0.0);
+vec4 o1510836_0_1_rgba = o1510834_0;
+vec4 o1510865_0 = textureLod(texture_4, (transform2_clamp(transform2((uv), vec2(p_o1511217_translate_x*(2.0*(dot((o1511240_0_2_rgba).rgb, vec3(1.0))/3.0)-1.0), p_o1511217_translate_y*(2.0*1.0-1.0)), p_o1511217_rotate*0.01745329251*(2.0*1.0-1.0), vec2(p_o1511217_scale_x*(2.0*1.0-1.0), p_o1511217_scale_y*(2.0*1.0-1.0))))), 0.0);
+vec4 o1510867_0_s1 = o1510836_0_1_rgba;
+vec4 o1510867_0_s2 = o1510865_0;
+float o1510867_0_a = p_o1510867_amount*1.0;
+vec4 o1510867_0_2_rgba = vec4(blend_screen((transform2_clamp(transform2((uv), vec2(p_o1511217_translate_x*(2.0*(dot((o1511240_0_2_rgba).rgb, vec3(1.0))/3.0)-1.0), p_o1511217_translate_y*(2.0*1.0-1.0)), p_o1511217_rotate*0.01745329251*(2.0*1.0-1.0), vec2(p_o1511217_scale_x*(2.0*1.0-1.0), p_o1511217_scale_y*(2.0*1.0-1.0))))), o1510867_0_s1.rgb, o1510867_0_s2.rgb, o1510867_0_a*o1510867_0_s1.a), min(1.0, o1510867_0_s2.a+o1510867_0_a*o1510867_0_s1.a));
+vec4 o1511388_0 = textureLod(texture_5, (transform2((transform2_clamp(transform2((uv), vec2(p_o1511217_translate_x*(2.0*(dot((o1511240_0_2_rgba).rgb, vec3(1.0))/3.0)-1.0), p_o1511217_translate_y*(2.0*1.0-1.0)), p_o1511217_rotate*0.01745329251*(2.0*1.0-1.0), vec2(p_o1511217_scale_x*(2.0*1.0-1.0), p_o1511217_scale_y*(2.0*1.0-1.0))))), vec2(p_o1511390_translate_x*(2.0*1.0-1.0), p_o1511390_translate_y*(2.0*1.0-1.0)), (elapsed_time*125.0)*0.01745329251*(2.0*1.0-1.0), vec2(p_o1511390_scale_x*(2.0*1.0-1.0), p_o1511390_scale_y*(2.0*1.0-1.0)))), 0.0);
+vec4 o1511390_0_1_rgba = o1511388_0;
+vec4 o1511387_0_s1 = o1511385_0;
+vec4 o1511387_0_s2 = o1510867_0_2_rgba;
+float o1511387_0_a = p_o1511387_amount*(dot((o1511390_0_1_rgba).rgb, vec3(1.0))/3.0);
+vec4 o1511387_0_1_rgba = vec4(blend_screen((transform2_clamp(transform2((uv), vec2(p_o1511217_translate_x*(2.0*(dot((o1511240_0_2_rgba).rgb, vec3(1.0))/3.0)-1.0), p_o1511217_translate_y*(2.0*1.0-1.0)), p_o1511217_rotate*0.01745329251*(2.0*1.0-1.0), vec2(p_o1511217_scale_x*(2.0*1.0-1.0), p_o1511217_scale_y*(2.0*1.0-1.0))))), o1511387_0_s1.rgb, o1511387_0_s2.rgb, o1511387_0_a*o1511387_0_s1.a), min(1.0, o1511387_0_s2.a+o1511387_0_a*o1511387_0_s1.a));
+vec4 o1511217_0_1_rgba = o1511387_0_1_rgba;
 
-	vec3 albedo_tex = ((o135569_0_1_rgba).rgb).rgb;
+	vec3 albedo_tex = vec3(1.0).rgb;
 	albedo_tex = mix(pow((albedo_tex + vec3(0.055)) * (1.0 / (1.0 + 0.055)),vec3(2.4)),albedo_tex * (1.0 / 12.92),lessThan(albedo_tex,vec3(0.04045)));
-	ALBEDO = albedo_tex*vec4(p_o135055_albedo_color_r, p_o135055_albedo_color_g, p_o135055_albedo_color_b, p_o135055_albedo_color_a).rgb;
-	METALLIC = 1.0*p_o135055_metallic;
-	ROUGHNESS = 1.0*p_o135055_roughness;
+	ALBEDO = albedo_tex*vec4(p_o1510706_albedo_color_r, p_o1510706_albedo_color_g, p_o1510706_albedo_color_b, p_o1510706_albedo_color_a).rgb;
+	METALLIC = 1.0*p_o1510706_metallic;
+	ROUGHNESS = 1.0*p_o1510706_roughness;
 	NORMAL = vec3(0.5);
-	EMISSION = ((o135569_0_1_rgba).rgb)*p_o135055_emission_energy;
+	EMISSION = ((o1511217_0_1_rgba).rgb)*p_o1510706_emission_energy;
 
 }
 

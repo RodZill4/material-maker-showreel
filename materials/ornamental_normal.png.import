@@ -2,7 +2,7 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d2l5yi2ejq6iw"
+uid="uid://cmywb5iim8jrr"
 path.s3tc="res://.godot/imported/ornamental_normal.png-92c16e9b07e9e7efc610e4c046bafadd.s3tc.ctex"
 path.etc2="res://.godot/imported/ornamental_normal.png-92c16e9b07e9e7efc610e4c046bafadd.etc2.ctex"
 metadata={
@@ -25,8 +25,8 @@ compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
+roughness/mode=1
+roughness/src_normal="res://materials/ornamental_normal.png"
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

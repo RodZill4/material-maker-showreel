@@ -53,10 +53,10 @@ func _ready():
 	set_process(false)
 	material_names = []
 	materials = {}
-	var dir : Directory = Directory.new()
+	var dir = DirAccess.open("res://materials")
 	var tinymesh : BoxMesh = BoxMesh.new()
 	tinymesh.size = Vector3(0.01, 0.01, 0.01)
-	if dir.open("res://materials") == OK:
+	if dir != null:
 		dir.list_dir_begin()
 		var file_name = dir.get_next()
 		while file_name != "":
@@ -68,7 +68,7 @@ func _ready():
 					var mesh_instance : MeshInstance3D = MeshInstance3D.new()
 					mesh_instance.position.x = 0.1
 					mesh_instance.mesh = tinymesh
-					mesh_instance.set_surface_override_material(0, material)
+					mesh_instance.material_override = material
 					add_child(mesh_instance)
 					if materials.keys().size() > 10000:
 						break
@@ -80,16 +80,16 @@ func _ready():
 
 var next_material : String = ""
 func change_material():
-	meshes[0].set_surface_override_material(0, meshes[1].get_surface_override_material(0))
+	meshes[0].material_override = meshes[1].material_override
 	if current_material >= material_names.size() or current_material < 0:
 		$AnimationPlayer1.stop()
 		$AnimationPlayer2.play("Rotate final")
 		$MeshPivot1/MeshPivot2/CirclePivot.rotation.x = $MeshPivot1.rotation.x
 		shader_time = 0.0
-		circle.get_surface_override_material(0).set_shader_param("shader_time", 0.0)
+		circle.material_override.set_shader_parameter("shader_time", 0.0)
 		set_process(true)
 	else:
-		meshes[1].set_surface_override_material(0, materials[material_names[current_material]])
+		meshes[1].material_override = materials[material_names[current_material]]
 		next_material = material_names[current_material]
 		current_material += 1
 
@@ -107,5 +107,5 @@ func end():
 
 func _process(delta):
 	shader_time += delta
-	circle.get_surface_override_material(0).set_shader_param("shader_time", shader_time)
+	circle.material_override.set_shader_parameter("shader_time", shader_time)
 	

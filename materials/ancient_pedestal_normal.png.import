@@ -2,7 +2,7 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://4l7sjujgtofi"
+uid="uid://dmgj307h352em"
 path.s3tc="res://.godot/imported/ancient_pedestal_normal.png-408bac3c4b7d43fab17d804af84d5867.s3tc.ctex"
 path.etc2="res://.godot/imported/ancient_pedestal_normal.png-408bac3c4b7d43fab17d804af84d5867.etc2.ctex"
 metadata={
@@ -25,8 +25,8 @@ compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
+roughness/mode=1
+roughness/src_normal="res://materials/ancient_pedestal_normal.png"
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

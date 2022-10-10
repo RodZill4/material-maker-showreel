@@ -13,7 +13,7 @@ dest_files=["res://.godot/imported/DroidSansFallback.ttf-d9ab97bc54c6179621c195a
 [params]
 
 Rendering=null
-antialiased=true
+antialiasing=1
 generate_mipmaps=false
 multichannel_signed_distance_field=false
 msdf_pixel_range=8

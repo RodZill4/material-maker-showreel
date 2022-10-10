@@ -1,23 +1,23 @@
-[gd_resource type="ShaderMaterial" load_steps=7 format=3 uid="uid://dhg6ctm0gni1b"]
+[gd_resource type="ShaderMaterial" load_steps=7 format=3 uid="uid://htgi24yfduj7"]
 
 [ext_resource type="Shader" path="res://materials/animated_radar.gdshader" id="1"]
-[ext_resource type="Texture2D" uid="uid://bykyngvispo65" path="res://materials/animated_radar_texture_1.png" id="2"]
-[ext_resource type="Texture2D" uid="uid://dp7gk4xb2mlf0" path="res://materials/animated_radar_texture_2.png" id="3"]
-[ext_resource type="Texture2D" uid="uid://bycpytfadgrmr" path="res://materials/animated_radar_texture_3.png" id="4"]
-[ext_resource type="Texture2D" uid="uid://y6pygs2bhhi7" path="res://materials/animated_radar_texture_5.png" id="5"]
-[ext_resource type="Texture2D" uid="uid://8b3c7dcpw5nq" path="res://materials/animated_radar_texture_4.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://c84e2dqip8v7c" path="res://materials/animated_radar_texture_1.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://diu3sncplhoii" path="res://materials/animated_radar_texture_2.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://fyxjmxipulpn" path="res://materials/animated_radar_texture_3.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://bs6l5m85e56dm" path="res://materials/animated_radar_texture_4.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://sxy8152vl1ra" path="res://materials/animated_radar_texture_5.png" id="6"]
 
 [resource]
 render_priority = 0
 shader = ExtResource("1")
-shader_param/depth_flip = Vector2(1, 1)
-shader_param/depth_max_layers = 16
-shader_param/depth_min_layers = 8
-shader_param/texture_1 = ExtResource("2")
-shader_param/texture_2 = ExtResource("3")
-shader_param/texture_3 = ExtResource("4")
-shader_param/texture_4 = ExtResource("6")
-shader_param/texture_5 = ExtResource("5")
-shader_param/uv1_offset = Vector3(0.5, 0, 0)
-shader_param/uv1_scale = Vector3(2, 1, 1)
-shader_param/variation = 0.0
+shader_parameter/depth_flip = null
+shader_parameter/depth_max_layers = null
+shader_parameter/depth_min_layers = null
+shader_parameter/texture_1 = ExtResource("2")
+shader_parameter/texture_2 = ExtResource("3")
+shader_parameter/texture_3 = ExtResource("4")
+shader_parameter/texture_4 = ExtResource("5")
+shader_parameter/texture_5 = ExtResource("6")
+shader_parameter/uv1_offset = null
+shader_parameter/uv1_scale = null
+shader_parameter/variation = null

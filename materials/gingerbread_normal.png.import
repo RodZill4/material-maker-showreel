@@ -2,7 +2,7 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bt7fk63c65j7o"
+uid="uid://cbs8d7ckjuyvv"
 path.s3tc="res://.godot/imported/gingerbread_normal.png-7e332ff7974901801c323a43089b7809.s3tc.ctex"
 path.etc2="res://.godot/imported/gingerbread_normal.png-7e332ff7974901801c323a43089b7809.etc2.ctex"
 metadata={
@@ -25,8 +25,8 @@ compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
+roughness/mode=1
+roughness/src_normal="res://materials/gingerbread_normal.png"
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

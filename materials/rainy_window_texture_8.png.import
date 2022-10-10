@@ -2,28 +2,26 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://n01xbu3a0e51"
-path.s3tc="res://.godot/imported/rainy_window_texture_8.png-bb36161ff25a1c4c3bcf149ddccc6c13.s3tc.ctex"
-path.etc2="res://.godot/imported/rainy_window_texture_8.png-bb36161ff25a1c4c3bcf149ddccc6c13.etc2.ctex"
+uid="uid://wjy6cgqyyeuh"
+path="res://.godot/imported/rainy_window_texture_8.png-bb36161ff25a1c4c3bcf149ddccc6c13.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://materials/rainy_window_texture_8.png"
-dest_files=["res://.godot/imported/rainy_window_texture_8.png-bb36161ff25a1c4c3bcf149ddccc6c13.s3tc.ctex", "res://.godot/imported/rainy_window_texture_8.png-bb36161ff25a1c4c3bcf149ddccc6c13.etc2.ctex"]
+dest_files=["res://.godot/imported/rainy_window_texture_8.png-bb36161ff25a1c4c3bcf149ddccc6c13.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -33,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

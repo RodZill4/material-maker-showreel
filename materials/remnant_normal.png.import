@@ -2,7 +2,7 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://drfhimo8ha47b"
+uid="uid://b1phqm2fk5xnv"
 path.s3tc="res://.godot/imported/remnant_normal.png-f3720e0cf5f0f5b4b2e690ea59d3c8aa.s3tc.ctex"
 path.etc2="res://.godot/imported/remnant_normal.png-f3720e0cf5f0f5b4b2e690ea59d3c8aa.etc2.ctex"
 metadata={
@@ -25,8 +25,8 @@ compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
+roughness/mode=1
+roughness/src_normal="res://materials/remnant_normal.png"
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false
