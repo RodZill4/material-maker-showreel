@@ -4,23 +4,22 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://b7f8d1c5f8mjw"
 path.s3tc="res://.godot/imported/scarabs_on_hieroglyphs_texture_3.png-e054e31b3f56324a4fd1c82a9b213457.s3tc.ctex"
-path.etc2="res://.godot/imported/scarabs_on_hieroglyphs_texture_3.png-e054e31b3f56324a4fd1c82a9b213457.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
+"imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://materials/scarabs_on_hieroglyphs_texture_3.png"
-dest_files=["res://.godot/imported/scarabs_on_hieroglyphs_texture_3.png-e054e31b3f56324a4fd1c82a9b213457.s3tc.ctex", "res://.godot/imported/scarabs_on_hieroglyphs_texture_3.png-e054e31b3f56324a4fd1c82a9b213457.etc2.ctex"]
+dest_files=["res://.godot/imported/scarabs_on_hieroglyphs_texture_3.png-e054e31b3f56324a4fd1c82a9b213457.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true

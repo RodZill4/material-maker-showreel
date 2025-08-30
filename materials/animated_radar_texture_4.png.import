@@ -4,23 +4,22 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bs6l5m85e56dm"
 path.s3tc="res://.godot/imported/animated_radar_texture_4.png-2eb20e15b031b6057340e782f1ba0d05.s3tc.ctex"
-path.etc2="res://.godot/imported/animated_radar_texture_4.png-2eb20e15b031b6057340e782f1ba0d05.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
+"imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://materials/animated_radar_texture_4.png"
-dest_files=["res://.godot/imported/animated_radar_texture_4.png-2eb20e15b031b6057340e782f1ba0d05.s3tc.ctex", "res://.godot/imported/animated_radar_texture_4.png-2eb20e15b031b6057340e782f1ba0d05.etc2.ctex"]
+dest_files=["res://.godot/imported/animated_radar_texture_4.png-2eb20e15b031b6057340e782f1ba0d05.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true

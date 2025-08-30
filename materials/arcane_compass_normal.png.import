@@ -4,23 +4,22 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bj7u5dxpap5g6"
 path.s3tc="res://.godot/imported/arcane_compass_normal.png-ea64b40679c7dd7c97a8c0ff4d6a4f2e.s3tc.ctex"
-path.etc2="res://.godot/imported/arcane_compass_normal.png-ea64b40679c7dd7c97a8c0ff4d6a4f2e.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
+"imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://materials/arcane_compass_normal.png"
-dest_files=["res://.godot/imported/arcane_compass_normal.png-ea64b40679c7dd7c97a8c0ff4d6a4f2e.s3tc.ctex", "res://.godot/imported/arcane_compass_normal.png-ea64b40679c7dd7c97a8c0ff4d6a4f2e.etc2.ctex"]
+dest_files=["res://.godot/imported/arcane_compass_normal.png-ea64b40679c7dd7c97a8c0ff4d6a4f2e.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=true

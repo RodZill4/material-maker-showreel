@@ -4,23 +4,22 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://fr4ogc2i3x2h"
 path.s3tc="res://.godot/imported/smaugs_treasure_orm.png-266c67e810a52012d5883f0a3fae61a7.s3tc.ctex"
-path.etc2="res://.godot/imported/smaugs_treasure_orm.png-266c67e810a52012d5883f0a3fae61a7.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
+"imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://materials/smaugs_treasure_orm.png"
-dest_files=["res://.godot/imported/smaugs_treasure_orm.png-266c67e810a52012d5883f0a3fae61a7.s3tc.ctex", "res://.godot/imported/smaugs_treasure_orm.png-266c67e810a52012d5883f0a3fae61a7.etc2.ctex"]
+dest_files=["res://.godot/imported/smaugs_treasure_orm.png-266c67e810a52012d5883f0a3fae61a7.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true

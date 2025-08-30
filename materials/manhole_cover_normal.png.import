@@ -4,23 +4,22 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dv56iiibkutua"
 path.s3tc="res://.godot/imported/manhole_cover_normal.png-0582963aee1e7e66141ac69b16163014.s3tc.ctex"
-path.etc2="res://.godot/imported/manhole_cover_normal.png-0582963aee1e7e66141ac69b16163014.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
+"imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://materials/manhole_cover_normal.png"
-dest_files=["res://.godot/imported/manhole_cover_normal.png-0582963aee1e7e66141ac69b16163014.s3tc.ctex", "res://.godot/imported/manhole_cover_normal.png-0582963aee1e7e66141ac69b16163014.etc2.ctex"]
+dest_files=["res://.godot/imported/manhole_cover_normal.png-0582963aee1e7e66141ac69b16163014.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=true
