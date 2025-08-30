@@ -1,0 +1,1708 @@
+{
+	"connections": [
+		{
+			"from": "colorize",
+			"from_port": 0,
+			"to": "dilate_2",
+			"to_port": 0
+		},
+		{
+			"from": "dilate",
+			"from_port": 0,
+			"to": "tones_map",
+			"to_port": 0
+		},
+		{
+			"from": "dilate_2",
+			"from_port": 0,
+			"to": "tones_map_2",
+			"to_port": 0
+		},
+		{
+			"from": "tones_map",
+			"from_port": 0,
+			"to": "math",
+			"to_port": 0
+		},
+		{
+			"from": "tones_map_2",
+			"from_port": 0,
+			"to": "math",
+			"to_port": 1
+		},
+		{
+			"from": "math",
+			"from_port": 0,
+			"to": "gaussian_blur",
+			"to_port": 0
+		},
+		{
+			"from": "reroute",
+			"from_port": 0,
+			"to": "dilate",
+			"to_port": 0
+		},
+		{
+			"from": "reroute",
+			"from_port": 0,
+			"to": "colorize",
+			"to_port": 0
+		},
+		{
+			"from": "tile2x2_4",
+			"from_port": 0,
+			"to": "tile2x2_2",
+			"to_port": 0
+		},
+		{
+			"from": "tile2x2_5",
+			"from_port": 0,
+			"to": "tile2x2_2",
+			"to_port": 1
+		},
+		{
+			"from": "image",
+			"from_port": 0,
+			"to": "tile2x2_4",
+			"to_port": 0
+		},
+		{
+			"from": "tile2x2_8",
+			"from_port": 0,
+			"to": "tile2x2_7",
+			"to_port": 0
+		},
+		{
+			"from": "tile2x2_6",
+			"from_port": 0,
+			"to": "tile2x2_7",
+			"to_port": 1
+		},
+		{
+			"from": "image_8",
+			"from_port": 0,
+			"to": "tile2x2_6",
+			"to_port": 1
+		},
+		{
+			"from": "tile2x2_2",
+			"from_port": 0,
+			"to": "tile2x2_9",
+			"to_port": 0
+		},
+		{
+			"from": "tile2x2_7",
+			"from_port": 0,
+			"to": "tile2x2_9",
+			"to_port": 1
+		},
+		{
+			"from": "image_9",
+			"from_port": 0,
+			"to": "tile2x2_4",
+			"to_port": 2
+		},
+		{
+			"from": "image_10",
+			"from_port": 0,
+			"to": "tile2x2_4",
+			"to_port": 3
+		},
+		{
+			"from": "image_11",
+			"from_port": 0,
+			"to": "tile2x2_5",
+			"to_port": 2
+		},
+		{
+			"from": "image_12",
+			"from_port": 0,
+			"to": "tile2x2_5",
+			"to_port": 3
+		},
+		{
+			"from": "image_13",
+			"from_port": 0,
+			"to": "tile2x2_8",
+			"to_port": 2
+		},
+		{
+			"from": "image_14",
+			"from_port": 0,
+			"to": "tile2x2_8",
+			"to_port": 3
+		},
+		{
+			"from": "image_15",
+			"from_port": 0,
+			"to": "tile2x2_6",
+			"to_port": 2
+		},
+		{
+			"from": "image_16",
+			"from_port": 0,
+			"to": "tile2x2_6",
+			"to_port": 3
+		},
+		{
+			"from": "image_17",
+			"from_port": 0,
+			"to": "tile2x2_13",
+			"to_port": 0
+		},
+		{
+			"from": "image_18",
+			"from_port": 0,
+			"to": "tile2x2_13",
+			"to_port": 1
+		},
+		{
+			"from": "image_19",
+			"from_port": 0,
+			"to": "tile2x2_11",
+			"to_port": 0
+		},
+		{
+			"from": "image_20",
+			"from_port": 0,
+			"to": "tile2x2_11",
+			"to_port": 1
+		},
+		{
+			"from": "image_21",
+			"from_port": 0,
+			"to": "tile2x2_12",
+			"to_port": 0
+		},
+		{
+			"from": "image_22",
+			"from_port": 0,
+			"to": "tile2x2_12",
+			"to_port": 1
+		},
+		{
+			"from": "image_23",
+			"from_port": 0,
+			"to": "tile2x2_10",
+			"to_port": 0
+		},
+		{
+			"from": "image_24",
+			"from_port": 0,
+			"to": "tile2x2_10",
+			"to_port": 1
+		},
+		{
+			"from": "tile2x2_13",
+			"from_port": 0,
+			"to": "tile2x2_2",
+			"to_port": 2
+		},
+		{
+			"from": "tile2x2_11",
+			"from_port": 0,
+			"to": "tile2x2_2",
+			"to_port": 3
+		},
+		{
+			"from": "tile2x2_12",
+			"from_port": 0,
+			"to": "tile2x2_7",
+			"to_port": 2
+		},
+		{
+			"from": "tile2x2_10",
+			"from_port": 0,
+			"to": "tile2x2_7",
+			"to_port": 3
+		},
+		{
+			"from": "tile2x2_9",
+			"from_port": 0,
+			"to": "math_2",
+			"to_port": 1
+		},
+		{
+			"from": "math_2",
+			"from_port": 0,
+			"to": "reroute",
+			"to_port": 0
+		},
+		{
+			"from": "tiler",
+			"from_port": 0,
+			"to": "math_3",
+			"to_port": 1
+		},
+		{
+			"from": "shape",
+			"from_port": 0,
+			"to": "tiler",
+			"to_port": 0
+		},
+		{
+			"from": "math_3",
+			"from_port": 0,
+			"to": "math_2",
+			"to_port": 0
+		},
+		{
+			"from": "tones_step",
+			"from_port": 0,
+			"to": "math_4",
+			"to_port": 0
+		},
+		{
+			"from": "rotate",
+			"from_port": 0,
+			"to": "math_5",
+			"to_port": 0
+		},
+		{
+			"from": "math_5",
+			"from_port": 0,
+			"to": "tones_step",
+			"to_port": 0
+		},
+		{
+			"from": "uniform_greyscale",
+			"from_port": 0,
+			"to": "math_6",
+			"to_port": 0
+		},
+		{
+			"from": "shape_3",
+			"from_port": 0,
+			"to": "math_6",
+			"to_port": 1
+		},
+		{
+			"from": "math_6",
+			"from_port": 0,
+			"to": "math_7",
+			"to_port": 0
+		},
+		{
+			"from": "math_7",
+			"from_port": 0,
+			"to": "math_4",
+			"to_port": 1
+		},
+		{
+			"from": "shape_2",
+			"from_port": 0,
+			"to": "math_7",
+			"to_port": 1
+		},
+		{
+			"from": "sdf_3",
+			"from_port": 0,
+			"to": "sdshow",
+			"to_port": 0
+		},
+		{
+			"from": "sdshow",
+			"from_port": 0,
+			"to": "invert",
+			"to_port": 0
+		},
+		{
+			"from": "invert",
+			"from_port": 0,
+			"to": "translate",
+			"to_port": 0
+		},
+		{
+			"from": "translate",
+			"from_port": 0,
+			"to": "transform2",
+			"to_port": 0
+		},
+		{
+			"from": "math_8",
+			"from_port": 0,
+			"to": "math_5",
+			"to_port": 1
+		},
+		{
+			"from": "transform2",
+			"from_port": 0,
+			"to": "math_8",
+			"to_port": 1
+		},
+		{
+			"from": "shape_4",
+			"from_port": 0,
+			"to": "math_9",
+			"to_port": 1
+		},
+		{
+			"from": "math_9",
+			"from_port": 0,
+			"to": "math_8",
+			"to_port": 0
+		},
+		{
+			"from": "image",
+			"from_port": 0,
+			"to": "tile2x2_4",
+			"to_port": 1
+		},
+		{
+			"from": "image",
+			"from_port": 0,
+			"to": "tile2x2_5",
+			"to_port": 0
+		},
+		{
+			"from": "image",
+			"from_port": 0,
+			"to": "tile2x2_5",
+			"to_port": 1
+		},
+		{
+			"from": "image",
+			"from_port": 0,
+			"to": "tile2x2_8",
+			"to_port": 0
+		},
+		{
+			"from": "image",
+			"from_port": 0,
+			"to": "tile2x2_8",
+			"to_port": 1
+		},
+		{
+			"from": "image",
+			"from_port": 0,
+			"to": "tile2x2_6",
+			"to_port": 0
+		},
+		{
+			"from": "math_4",
+			"from_port": 0,
+			"to": "blend",
+			"to_port": 2
+		},
+		{
+			"from": "gradient",
+			"from_port": 0,
+			"to": "blend",
+			"to_port": 0
+		},
+		{
+			"from": "uniform",
+			"from_port": 0,
+			"to": "blend",
+			"to_port": 1
+		},
+		{
+			"from": "blend",
+			"from_port": 0,
+			"to": "scale",
+			"to_port": 0
+		},
+		{
+			"from": "scale",
+			"from_port": 0,
+			"to": "Material",
+			"to_port": 0
+		},
+		{
+			"from": "gaussian_blur",
+			"from_port": 0,
+			"to": "pack_2x32_to_4x16_3",
+			"to_port": 0
+		},
+		{
+			"from": "image_25",
+			"from_port": 0,
+			"to": "pack_4x16_to_2x32_3",
+			"to_port": 0
+		},
+		{
+			"from": "pack_4x16_to_2x32_3",
+			"from_port": 0,
+			"to": "rotate",
+			"to_port": 0
+		}
+	],
+	"label": "Graph",
+	"longdesc": "",
+	"name": "288",
+	"node_position": {
+		"x": 0,
+		"y": 0
+	},
+	"nodes": [
+		{
+			"export": {
+
+			},
+			"export_paths": {
+				"Godot": "D:/Dev/material-maker-showreel-g4/materials/mm_animated_logo"
+			},
+			"name": "Material",
+			"node_position": {
+				"x": 1840,
+				"y": 780
+			},
+			"parameters": {
+				"blend": 1
+			},
+			"seed_int": 0,
+			"shader_model": {
+				"code": "",
+				"custom": "",
+				"exports": {
+					"Godot": {
+						"export_extension": "tres",
+						"files": [
+							{
+								"file_name": "$(path_prefix).tres",
+								"template": "[gd_resource type=\"ShaderMaterial\" load_steps=2 format=2]\n[ext_resource path=\"$(file_prefix).gdshader\" type=\"Shader\" id=1]\n$begin_buffers\n[ext_resource path=\"$(file_prefix)_texture_$(buffer_index).png\" type=\"Texture\" id=$(expr:$(buffer_index)+1)]\n$end_buffers\n[resource]\nshader = ExtResource( 1 )\n$begin_buffers\nshader_param/texture_$(buffer_index) = ExtResource( $(expr:$(buffer_index)+1) )\n$end_buffers\n",
+								"type": "template"
+							},
+							{
+								"file_name": "$(path_prefix).gdshader",
+								"template": "shader_type spatial;\n$begin_generate\nrender_mode unshaded, blend_$blend;\n$end_generate\nuniform vec3 uv1_scale = vec3(1.0, 1.0, 1.0);\nuniform vec3 uv1_offset = vec3(0.0, 0.0, 0.0);\nuniform float variation = 0.0;\nvarying float elapsed_time;\nvoid vertex() {\n\telapsed_time = TIME;\n\tUV = UV*uv1_scale.xy+uv1_offset.xy;\n}\n$definitions float_uniform_to_const,rename_buffers\nvoid fragment() {\n\tfloat _seed_variation_ = variation;\n\tvec2 uv = fract(UV);\n$begin_generate rename_buffers\n\tvec4 color_tex = $color_tex(uv);\n\tcolor_tex = mix(pow((color_tex + vec4(0.055)) * (1.0 / (1.0 + 0.055)),vec4(2.4)),color_tex * (1.0 / 12.92),lessThan(color_tex,vec4(0.04045)));\n\tALBEDO = color_tex.rgb;\n\tALPHA = color_tex.a;\n$end_generate\n}\n",
+								"type": "template"
+							},
+							{
+								"file_name": "$(path_prefix)_texture_$(buffer_index).png",
+								"type": "buffers"
+							}
+						]
+					},
+					"Unity": {
+						"export_extension": "mat",
+						"files": [
+							{
+								"file_name": "$(path_prefix).shader",
+								"template": "Shader \"Unlit/NewUnlitShader\"\n{\n    Properties\n    {\n    }\n    SubShader\n    {\n        Tags { \"RenderType\"=\"Opaque\" }\n        LOD 100\n        Pass\n        {\n        \tBlend One One\n            CGPROGRAM\n            #pragma vertex vert\n            #pragma fragment frag\n            // make fog work\n            #pragma multi_compile_fog\n            #include \"UnityCG.cginc\"\n            struct appdata\n            {\n                float4 vertex : POSITION;\n                float2 uv : TEXCOORD0;\n            };\n            struct v2f\n            {\n                float2 uv : TEXCOORD0;\n                UNITY_FOG_COORDS(1)\n                float4 vertex : SV_POSITION;\n            };\n$definitions hlsl,rename_buffers,unity\n\t\t\n\t\t\tv2f vert (appdata v) {\n\t\t\t\tv2f o;\n\t\t\t\to.vertex = UnityObjectToClipPos(v.vertex);\n\t\t\t\to.uv = v.uv;\n\t\t\t\tUNITY_TRANSFER_FOG(o,o.vertex);\n\t\t\t\treturn o;\n\t\t\t}\n\t\t\tfixed4 frag (v2f i) : SV_Target {\n\t\t\t\tfloat _seed_variation_ = 0.0;\n\t\t\t\tfloat2 uv = i.uv;\n$begin_generate hlsl,rename_buffers,unity\n                // sample the generated texture\n                fixed4 col = $color_tex(uv);\n$end_generate\n                // apply fog\n                UNITY_APPLY_FOG(i.fogCoord, col);\n                return col;\n            }\n            ENDCG\n        }\n    }\n}\n",
+								"type": "template"
+							},
+							{
+								"file_name": "$(path_prefix)_texture_$(buffer_index).png",
+								"type": "buffers"
+							},
+							{
+								"file_name": "$(path_prefix)_texture_$(buffer_index).png.meta",
+								"template": "fileFormatVersion: 2\nguid: $uid(tex_$(buffer_index))\nTextureImporter:\n  internalIDToNameTable: []\n  externalObjects: {}\n  serializedVersion: 11\n  mipmaps:\n    mipMapMode: 0\n    enableMipMap: 1\n    sRGBTexture: 1\n    linearTexture: 0\n    fadeOut: 0\n    borderMipMap: 0\n    mipMapsPreserveCoverage: 0\n    alphaTestReferenceValue: 0.5\n    mipMapFadeDistanceStart: 1\n    mipMapFadeDistanceEnd: 3\n  bumpmap:\n    convertToNormalMap: 0\n    externalNormalMap: 0\n    heightScale: 0.25\n    normalMapFilter: 0\n  isReadable: 0\n  streamingMipmaps: 0\n  streamingMipmapsPriority: 0\n  vTOnly: 0\n  grayScaleToAlpha: 0\n  generateCubemap: 6\n  cubemapConvolution: 0\n  seamlessCubemap: 0\n  textureFormat: 1\n  maxTextureSize: 2048\n  textureSettings:\n    serializedVersion: 2\n    filterMode: -1\n    aniso: -1\n    mipBias: -100\n    wrapU: -1\n    wrapV: -1\n    wrapW: -1\n  nPOTScale: 1\n  lightmap: 0\n  compressionQuality: 50\n  spriteMode: 0\n  spriteExtrude: 1\n  spriteMeshType: 1\n  alignment: 0\n  spritePivot: {x: 0.5, y: 0.5}\n  spritePixelsToUnits: 100\n  spriteBorder: {x: 0, y: 0, z: 0, w: 0}\n  spriteGenerateFallbackPhysicsShape: 1\n  alphaUsage: 1\n  alphaIsTransparency: 0\n  spriteTessellationDetail: -1\n  textureType: 0\n  textureShape: 1\n  singleChannelComponent: 0\n  flipbookRows: 1\n  flipbookColumns: 1\n  maxTextureSizeSet: 0\n  compressionQualitySet: 0\n  textureFormatSet: 0\n  ignorePngGamma: 0\n  applyGammaDecoding: 0\n  platformSettings:\n  - serializedVersion: 3\n    buildTarget: DefaultTexturePlatform\n    maxTextureSize: 2048\n    resizeAlgorithm: 0\n    textureFormat: -1\n    textureCompression: 1\n    compressionQuality: 50\n    crunchedCompression: 0\n    allowsAlphaSplitting: 0\n    overridden: 0\n    androidETC2FallbackOverride: 0\n    forceMaximumCompressionQuality_BC6H_BC7: 0\n  spriteSheet:\n    serializedVersion: 2\n    sprites: []\n    outline: []\n    physicsShape: []\n    bones: []\n    spriteID: \n    internalID: 0\n    vertices: []\n    indices: \n    edges: []\n    weights: []\n    secondaryTextures: []\n  spritePackingTag: \n  pSDRemoveMatte: 0\n  pSDShowRemoveMatteOption: 0\n  userData: \n  assetBundleName: \n  assetBundleVariant: \n",
+								"type": "buffer_templates"
+							},
+							{
+								"file_name": "$(path_prefix).mat",
+								"template": "%YAML 1.1\n%TAG !u! tag:unity3d.com,2011:\n--- !u!21 &2100000\nMaterial:\n  serializedVersion: 6\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {fileID: 0}\n  m_PrefabInstance: {fileID: 0}\n  m_PrefabAsset: {fileID: 0}\n  m_Name: test2\n  m_Shader: {fileID: 4800000, guid: $uid(shader), type: 3}\n  m_ShaderKeywords: \n  m_LightmapFlags: 4\n  m_EnableInstancingVariants: 0\n  m_DoubleSidedGI: 0\n  m_CustomRenderQueue: -1\n  stringTagMap: {}\n  disabledShaderPasses: []\n  m_SavedProperties:\n    serializedVersion: 3\n    m_TexEnvs:\n    - _MainTex:\n        m_Texture: {fileID: 2800000, guid: 6c5d2d4e94384751a0ce7d6619e0d49a, type: 3}\n        m_Scale: {x: 1, y: 1}\n        m_Offset: {x: 0, y: 0}\n$begin_buffers\n    - texture_$(buffer_index):\n        m_Texture: {fileID: 2800000, guid: $uid(tex_$(buffer_index)), type: 3}\n        m_Scale: {x: 1, y: 1}\n        m_Offset: {x: 0, y: 0}\n$end_buffers\n  m_BuildTextureStacks: []\n",
+								"type": "template"
+							},
+							{
+								"file_name": "$(path_prefix).shader.meta",
+								"template": "fileFormatVersion: 2\nguid: $uid(shader)\nShaderImporter:\n  externalObjects: {}\n  defaultTextures: []\n  nonModifiableTextures: []\n  preprocessorOverride: 0\n  userData: \n  assetBundleName: \n  assetBundleVariant: \n",
+								"type": "template"
+							}
+						]
+					},
+					"Unreal": {
+						"export_extension": "mm2ue",
+						"files": [
+							{
+								"file_name": "$(path_prefix).mm2ue",
+								"template": "/*\nInstructions to setup this material:\n- copy material_unlit.uasset and open the copy\n$begin_buffers\n- create a TextureObject for $(file_prefix)_texture_$(buffer_index).png in the graph\n  and a new input for texture_$(buffer_index) in the custom node, and connect them\n$end_buffers\n- copy the shader code below and paste it into the Custom node\n*/\nstruct Functions {\n$definitions hlsl,rename_buffers,unreal\n\tfixed4 generated_shader(float2 uv) {\n\t\tfloat _seed_variation_ = 0.0;\n$begin_generate hlsl,rename_buffers,unreal\n        // sample the generated texture\n        return $color_tex(uv);\n$end_generate\n    }\n};\nFunctions f;\nreturn f.generated_shader(TexCoords);\n",
+								"type": "template"
+							}
+						]
+					}
+				},
+				"global": "",
+				"inputs": [
+					{
+						"default": "vec4(1.0)",
+						"label": "",
+						"name": "color_tex",
+						"type": "rgba"
+					}
+				],
+				"instance": "",
+				"name": "Dynamic Unlit Material",
+				"outputs": [
+
+				],
+				"parameters": [
+					{
+						"default": 0,
+						"label": "Blend",
+						"name": "blend",
+						"type": "enum",
+						"values": [
+							{
+								"name": "Add",
+								"value": "add"
+							},
+							{
+								"name": "Mix",
+								"value": "mix"
+							},
+							{
+								"name": "Mul",
+								"value": "mul"
+							},
+							{
+								"name": "Sub",
+								"value": "sub"
+							}
+						]
+					}
+				],
+				"preview_shader": "shader_type spatial;\n$begin_generate\nrender_mode unshaded, blend_$blend;\n$end_generate\n\nuniform vec3 uv1_scale = vec3(1.0, 1.0, 1.0);\nuniform vec3 uv1_offset = vec3(0.0, 0.0, 0.0);\nuniform float variation = 0.0;\n\nvarying float elapsed_time;\n\nvoid vertex() {\n\telapsed_time = TIME;\n\tUV = UV*uv1_scale.xy+uv1_offset.xy;\n}\n\n$definitions\n\nvoid fragment() {\n\tfloat _seed_variation_ = variation;\n\tvec2 uv = fract(UV);\n$begin_generate\n\tvec4 color_tex = $color_tex(uv);\n\tcolor_tex = mix(pow((color_tex + vec4(0.055)) * (1.0 / (1.0 + 0.055)),vec4(2.4)),color_tex * (1.0 / 12.92),lessThan(color_tex,vec4(0.04045)));\n\tALBEDO = color_tex.rgb;\n\tALPHA = color_tex.a;\n$end_generate\n\n}\n"
+			},
+			"type": "material_export"
+		},
+		{
+			"name": "dilate",
+			"node_position": {
+				"x": -58.718323,
+				"y": 342.480255
+			},
+			"parameters": {
+				"param0": 10,
+				"param1": 0.05,
+				"param2": 0,
+				"param3": 0,
+				"param4": true
+			},
+			"seed_int": 0,
+			"type": "dilate"
+		},
+		{
+			"name": "colorize",
+			"node_position": {
+				"x": -252.718323,
+				"y": 499.480225
+			},
+			"parameters": {
+				"gradient": {
+					"interpolation": 1,
+					"points": [
+						{
+							"a": 1,
+							"b": 1,
+							"g": 1,
+							"pos": 0,
+							"r": 1
+						},
+						{
+							"a": 1,
+							"b": 0,
+							"g": 0,
+							"pos": 1,
+							"r": 0
+						}
+					],
+					"type": "Gradient"
+				}
+			},
+			"seed_int": 0,
+			"type": "colorize"
+		},
+		{
+			"name": "dilate_2",
+			"node_position": {
+				"x": -51.718323,
+				"y": 500.480225
+			},
+			"parameters": {
+				"param0": 10,
+				"param1": 0.05,
+				"param2": 0,
+				"param3": 0,
+				"param4": true
+			},
+			"seed_int": 0,
+			"type": "dilate"
+		},
+		{
+			"name": "tones_map",
+			"node_position": {
+				"x": 138.281677,
+				"y": 339.480255
+			},
+			"parameters": {
+				"in_max": 1,
+				"in_min": 0,
+				"out_max": 0.5,
+				"out_min": 0
+			},
+			"seed_int": 0,
+			"type": "tones_map"
+		},
+		{
+			"name": "tones_map_2",
+			"node_position": {
+				"x": 134.781677,
+				"y": 502.480225
+			},
+			"parameters": {
+				"in_max": 0,
+				"in_min": 1,
+				"out_max": 0.5,
+				"out_min": 0
+			},
+			"seed_int": 0,
+			"type": "tones_map"
+		},
+		{
+			"name": "math",
+			"node_position": {
+				"x": 427.281677,
+				"y": 409.480225
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 0,
+				"default_in2": 0,
+				"op": 0
+			},
+			"seed_int": 0,
+			"type": "math"
+		},
+		{
+			"name": "tones_step",
+			"node_position": {
+				"x": 664.281616,
+				"y": 659.480225
+			},
+			"parameters": {
+				"invert": false,
+				"value": 0.5,
+				"width": 0.001
+			},
+			"seed_int": 0,
+			"type": "tones_step"
+		},
+		{
+			"name": "gaussian_blur",
+			"node_position": {
+				"x": 660,
+				"y": 400
+			},
+			"parameters": {
+				"param0": 10,
+				"param1": 2,
+				"param2": 0
+			},
+			"seed_int": 0,
+			"type": "gaussian_blur"
+		},
+		{
+			"name": "rotate",
+			"node_position": {
+				"x": 840,
+				"y": 560
+			},
+			"parameters": {
+				"t": "$myt"
+			},
+			"seed_int": 0,
+			"shader_model": {
+				"code": "float $(name_uv)_t = clamp($t, 0.0, 23.99);",
+				"global": "vec2 get_animation_frame(vec2 uv, float t) {\n \tint it = int(t);\n    return (uv+vec2(float(it%8), float(it/8)))*0.125;\t\n}",
+				"inputs": [
+					{
+						"default": "vec4($uv, 0.0, 1.0)",
+						"label": "",
+						"longdesc": "The input image",
+						"name": "in",
+						"shortdesc": "Input",
+						"type": "rgba"
+					}
+				],
+				"instance": "",
+				"longdesc": "Rotates its input",
+				"name": "Animate",
+				"outputs": [
+					{
+						"longdesc": "Shows the rotated image",
+						"rgba": "mix($in(get_animation_frame($uv, $(name_uv)_t)), $in(get_animation_frame($uv, $(name_uv)_t+1.0)), fract($(name_uv)_t))",
+						"shortdesc": "Output",
+						"type": "rgba"
+					}
+				],
+				"parameters": [
+					{
+						"control": "None",
+						"default": 0,
+						"label": "Time",
+						"longdesc": "The angle of the rotation",
+						"max": 23,
+						"min": 0,
+						"name": "t",
+						"shortdesc": "Angle",
+						"step": 0.01,
+						"type": "float"
+					}
+				],
+				"shortdesc": "Rotate"
+			},
+			"type": "shader"
+		},
+		{
+			"name": "tile2x2_2",
+			"node_position": {
+				"x": -140,
+				"y": -520
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "tile2x2"
+		},
+		{
+			"name": "reroute",
+			"node_position": {
+				"x": 25.153381,
+				"y": 157.7034
+			},
+			"parameters": {
+
+			},
+			"seed": 2714,
+			"type": "reroute"
+		},
+		{
+			"name": "tile2x2_4",
+			"node_position": {
+				"x": -740,
+				"y": -580
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "tile2x2"
+		},
+		{
+			"name": "tile2x2_5",
+			"node_position": {
+				"x": -740,
+				"y": -440
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "tile2x2"
+		},
+		{
+			"name": "image",
+			"node_position": {
+				"x": -1100,
+				"y": -660
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0000.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_2",
+			"node_position": {
+				"x": -1100,
+				"y": -560
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0001.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_3",
+			"node_position": {
+				"x": -1100,
+				"y": -460
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0002.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_4",
+			"node_position": {
+				"x": -1100,
+				"y": -360
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0003.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_5",
+			"node_position": {
+				"x": -1100,
+				"y": -260
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0004.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_6",
+			"node_position": {
+				"x": -1100,
+				"y": -160
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0005.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_7",
+			"node_position": {
+				"x": -1100,
+				"y": -60
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0006.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_8",
+			"node_position": {
+				"x": -1100,
+				"y": 40
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0007.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "tile2x2_6",
+			"node_position": {
+				"x": -740,
+				"y": -80
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "tile2x2"
+		},
+		{
+			"name": "tile2x2_7",
+			"node_position": {
+				"x": -140,
+				"y": -160
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "tile2x2"
+		},
+		{
+			"name": "tile2x2_8",
+			"node_position": {
+				"x": -740,
+				"y": -220
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "tile2x2"
+		},
+		{
+			"name": "tile2x2_9",
+			"node_position": {
+				"x": 20,
+				"y": -340
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "tile2x2"
+		},
+		{
+			"name": "image_9",
+			"node_position": {
+				"x": -940,
+				"y": -660
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0008.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_10",
+			"node_position": {
+				"x": -940,
+				"y": -560
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0009.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_11",
+			"node_position": {
+				"x": -940,
+				"y": -460
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0010.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_12",
+			"node_position": {
+				"x": -940,
+				"y": -360
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0011.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_13",
+			"node_position": {
+				"x": -940,
+				"y": -260
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0012.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_14",
+			"node_position": {
+				"x": -940,
+				"y": -160
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0013.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_15",
+			"node_position": {
+				"x": -940,
+				"y": -60
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0014.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_16",
+			"node_position": {
+				"x": -940,
+				"y": 40
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0015.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_17",
+			"node_position": {
+				"x": -580,
+				"y": -660
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0016.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_18",
+			"node_position": {
+				"x": -580,
+				"y": -560
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0017.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_19",
+			"node_position": {
+				"x": -580,
+				"y": -460
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0018.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_20",
+			"node_position": {
+				"x": -580,
+				"y": -360
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0019.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_21",
+			"node_position": {
+				"x": -580,
+				"y": -260
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0020.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_22",
+			"node_position": {
+				"x": -580,
+				"y": -160
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0021.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_23",
+			"node_position": {
+				"x": -580,
+				"y": -60
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0022.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_24",
+			"node_position": {
+				"x": -580,
+				"y": 40
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Rod/Downloads/logoframes/logo0023.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "tile2x2_10",
+			"node_position": {
+				"x": -380,
+				"y": -80
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "tile2x2"
+		},
+		{
+			"name": "tile2x2_11",
+			"node_position": {
+				"x": -380,
+				"y": -440
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "tile2x2"
+		},
+		{
+			"name": "tile2x2_12",
+			"node_position": {
+				"x": -380,
+				"y": -220
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "tile2x2"
+		},
+		{
+			"name": "tile2x2_13",
+			"node_position": {
+				"x": -380,
+				"y": -580
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "tile2x2"
+		},
+		{
+			"name": "math_2",
+			"node_position": {
+				"x": 180,
+				"y": -180
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 0,
+				"default_in2": 0,
+				"op": 14
+			},
+			"seed_int": 0,
+			"type": "math"
+		},
+		{
+			"name": "tiler",
+			"node_position": {
+				"x": 240,
+				"y": -680
+			},
+			"parameters": {
+				"fixed_offset": 0,
+				"inputs": 0,
+				"offset": 0,
+				"overlap": 2,
+				"rotate": 0,
+				"scale": 0,
+				"scale_x": 0.5,
+				"scale_y": 0.5,
+				"tx": 8,
+				"ty": 8,
+				"value": 0,
+				"variations": false
+			},
+			"seed_int": 0,
+			"type": "tiler"
+		},
+		{
+			"name": "math_3",
+			"node_position": {
+				"x": 503.672546,
+				"y": -559.953735
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 1,
+				"default_in2": 0,
+				"op": 1
+			},
+			"seed_int": 0,
+			"type": "math"
+		},
+		{
+			"name": "shape",
+			"node_position": {
+				"x": 62.672455,
+				"y": -669.953796
+			},
+			"parameters": {
+				"edge": 0.01,
+				"radius": 0.21,
+				"shape": 0,
+				"sides": 6
+			},
+			"seed_int": 0,
+			"type": "shape"
+		},
+		{
+			"name": "math_4",
+			"node_position": {
+				"x": 960,
+				"y": 820
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 0,
+				"default_in2": 0,
+				"op": 13
+			},
+			"seed_int": 0,
+			"type": "math"
+		},
+		{
+			"name": "shape_2",
+			"node_position": {
+				"x": 520,
+				"y": 1080
+			},
+			"parameters": {
+				"edge": 0.002,
+				"radius": 0.82,
+				"shape": 0,
+				"sides": 6
+			},
+			"seed_int": 0,
+			"type": "shape"
+		},
+		{
+			"name": "image_25",
+			"node_position": {
+				"x": 400,
+				"y": 560
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "%PROJECT_PATH%/animated_logo_tiles.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "math_5",
+			"node_position": {
+				"x": 420,
+				"y": 680
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 0,
+				"default_in2": 0,
+				"op": 13
+			},
+			"seed_int": 0,
+			"type": "math"
+		},
+		{
+			"name": "shape_3",
+			"node_position": {
+				"x": 280,
+				"y": 940
+			},
+			"parameters": {
+				"edge": 0.02,
+				"radius": 1.48,
+				"shape": 0,
+				"sides": 6
+			},
+			"seed_int": 0,
+			"type": "shape"
+		},
+		{
+			"name": "math_6",
+			"node_position": {
+				"x": 460,
+				"y": 860
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 0,
+				"default_in2": 0,
+				"op": 1
+			},
+			"seed_int": 0,
+			"type": "math"
+		},
+		{
+			"name": "uniform_greyscale",
+			"node_position": {
+				"x": 240,
+				"y": 860
+			},
+			"parameters": {
+				"color": 1
+			},
+			"seed_int": 0,
+			"type": "uniform_greyscale"
+		},
+		{
+			"name": "math_7",
+			"node_position": {
+				"x": 700,
+				"y": 860
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 0,
+				"default_in2": 0,
+				"op": 14
+			},
+			"seed_int": 0,
+			"type": "math"
+		},
+		{
+			"generic_size": 1,
+			"name": "transform2",
+			"node_position": {
+				"x": -100,
+				"y": 900
+			},
+			"parameters": {
+				"mode": 2,
+				"rotate": 0,
+				"scale_x": 1,
+				"scale_y": 1,
+				"translate_x": 0,
+				"translate_y": -1.17
+			},
+			"seed_int": 0,
+			"type": "transform2"
+		},
+		{
+			"name": "sdf_3",
+			"node_parameters": [
+
+			],
+			"node_position": {
+				"x": -680,
+				"y": 820
+			},
+			"parameters": {
+
+			},
+			"sdf_scene": [
+				{
+					"children": [
+						{
+							"children": [
+
+							],
+							"index": 325194,
+							"parameters": {
+								"angle": 0,
+								"position_x": 0,
+								"position_y": 0,
+								"radius": 0.07,
+								"scale": 1
+							},
+							"type": "Circle"
+						},
+						{
+							"children": [
+
+							],
+							"index": 325195,
+							"parameters": {
+								"angle": 0,
+								"position_x": 0.001122,
+								"position_y": -0.12,
+								"scale": 1,
+								"size_x": 0.060561,
+								"size_y": 0.094206
+							},
+							"type": "IsoTriangle"
+						}
+					],
+					"index": 325193,
+					"parameters": {
+						"angle": 0,
+						"k": 0.11,
+						"position_x": 0,
+						"position_y": 0,
+						"scale": 1
+					},
+					"type": "SmoothUnion"
+				}
+			],
+			"seed_int": 0,
+			"type": "sdf"
+		},
+		{
+			"name": "sdshow",
+			"node_position": {
+				"x": -440,
+				"y": 900
+			},
+			"parameters": {
+				"base": 0.51,
+				"bevel": 0.62
+			},
+			"seed_int": 0,
+			"type": "sdshow"
+		},
+		{
+			"name": "invert",
+			"node_position": {
+				"x": -520,
+				"y": 1000
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "invert"
+		},
+		{
+			"name": "remote_1",
+			"node_position": {
+				"x": 1720,
+				"y": 660
+			},
+			"parameters": {
+				"myt": 23
+			},
+			"seed_int": 0,
+			"type": "remote",
+			"widgets": [
+				{
+					"default": 0,
+					"label": "Time",
+					"max": 23,
+					"min": 0,
+					"name": "myt",
+					"step": 0.001,
+					"type": "named_parameter"
+				}
+			]
+		},
+		{
+			"generic_size": 1,
+			"name": "translate",
+			"node_position": {
+				"x": -360,
+				"y": 1000
+			},
+			"parameters": {
+				"translate_x": 0,
+				"translate_y": "$myt*0.2"
+			},
+			"seed_int": 0,
+			"type": "translate"
+		},
+		{
+			"name": "math_8",
+			"node_position": {
+				"x": 180,
+				"y": 720
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 0,
+				"default_in2": 0,
+				"op": 14
+			},
+			"seed_int": 0,
+			"type": "math"
+		},
+		{
+			"name": "shape_4",
+			"node_position": {
+				"x": -280,
+				"y": 680
+			},
+			"parameters": {
+				"edge": 1,
+				"radius": 1,
+				"shape": 0,
+				"sides": 6
+			},
+			"seed_int": 0,
+			"type": "shape"
+		},
+		{
+			"name": "math_9",
+			"node_position": {
+				"x": -58.883862,
+				"y": 691.298218
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 0.78,
+				"default_in2": 0,
+				"op": 1
+			},
+			"seed_int": 0,
+			"type": "math"
+		},
+		{
+			"name": "blend",
+			"node_position": {
+				"x": 1320,
+				"y": 720
+			},
+			"parameters": {
+				"amount": 1,
+				"blend_type": 0
+			},
+			"seed_int": 0,
+			"type": "blend"
+		},
+		{
+			"name": "gradient",
+			"node_position": {
+				"x": 1000,
+				"y": 640
+			},
+			"parameters": {
+				"gradient": {
+					"interpolation": 1,
+					"points": [
+						{
+							"a": 1,
+							"b": 1,
+							"g": 0.655762,
+							"pos": 0.11902,
+							"r": 0.265625
+						},
+						{
+							"a": 1,
+							"b": 0.974213,
+							"g": 0.339844,
+							"pos": 1,
+							"r": 1
+						}
+					],
+					"type": "Gradient"
+				},
+				"repeat": 1,
+				"rotate": 135.4
+			},
+			"seed_int": 0,
+			"type": "gradient"
+		},
+		{
+			"name": "uniform",
+			"node_position": {
+				"x": 1060.353638,
+				"y": 543.484253
+			},
+			"parameters": {
+				"color": {
+					"a": 1,
+					"b": 1,
+					"g": 1,
+					"r": 1,
+					"type": "Color"
+				}
+			},
+			"seed_int": 0,
+			"type": "uniform"
+		},
+		{
+			"generic_size": 1,
+			"name": "scale",
+			"node_position": {
+				"x": 1580,
+				"y": 780
+			},
+			"parameters": {
+				"cx": 0,
+				"cy": 0,
+				"scale_x": 1.1,
+				"scale_y": "$scale_x"
+			},
+			"seed_int": 0,
+			"type": "scale"
+		},
+		{
+			"name": "pack_2x32_to_4x16_3",
+			"node_position": {
+				"x": 920,
+				"y": 400
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "pack_1x32_to_2x16"
+		},
+		{
+			"name": "pack_4x16_to_2x32_3",
+			"node_position": {
+				"x": 580,
+				"y": 580
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "pack_2x16_to_1x32"
+		}
+	],
+	"parameters": {
+
+	},
+	"seed_int": 0,
+	"shortdesc": "",
+	"type": "graph"
+}
