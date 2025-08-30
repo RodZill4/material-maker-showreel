@@ -1,9 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://d42cjr6gh71s"]
+[gd_scene load_steps=17 format=3 uid="uid://d42cjr6gh71s"]
 
-[ext_resource type="Material" path="res://materials/wires.tres" id="2_4168k"]
 [ext_resource type="Material" uid="uid://o78tcksdt38g" path="res://mm_animated_logo.tres" id="2_cm0ra"]
 [ext_resource type="ArrayMesh" uid="uid://ccb73fq73e2s2" path="res://hemisphere.obj" id="2_pe1k3"]
-[ext_resource type="Script" path="res://scene.gd" id="3"]
+[ext_resource type="Script" uid="uid://c7iunw0cceeyh" path="res://scene.gd" id="3"]
 [ext_resource type="Texture2D" uid="uid://nxa0lfkyjp81" path="res://text.svg" id="4_hkwaj"]
 [ext_resource type="Texture2D" uid="uid://bklr8smdf2fb4" path="res://kloofendal_48d_partly_cloudy_1k.exr" id="4_m07j6"]
 
@@ -31,7 +30,7 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dx508"]
 _data = {
-"Slow rotate": SubResource("4")
+&"Slow rotate": SubResource("4")
 }
 
 [sub_resource type="Animation" id="Animation_y7hvn"]
@@ -252,9 +251,9 @@ tracks/5/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_f57sj"]
 _data = {
-"RESET": SubResource("Animation_y7hvn"),
-"Rotate": SubResource("6"),
-"Rotate final": SubResource("Animation_ebdnn")
+&"RESET": SubResource("Animation_y7hvn"),
+&"Rotate": SubResource("6"),
+&"Rotate final": SubResource("Animation_ebdnn")
 }
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_p5r2g"]
@@ -277,13 +276,11 @@ size = Vector2(10, 10)
 script = ExtResource("3")
 
 [node name="MeshPivot1" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, -4.46638e-06, 0, 4.46638e-06, 1, 0, 0, 0)
 
 [node name="MeshPivot2" type="Node3D" parent="MeshPivot1"]
 
 [node name="Mesh1" type="MeshInstance3D" parent="MeshPivot1/MeshPivot2"]
 transform = Transform3D(-1, -1.50996e-07, 1.49012e-08, -1.49012e-08, -4.37112e-08, -1, 1.50996e-07, -1, 4.37112e-08, 0, 0, 0)
-material_override = ExtResource("2_4168k")
 mesh = ExtResource("2_pe1k3")
 skeleton = NodePath("../../..")
 
@@ -302,20 +299,20 @@ mesh = SubResource("CylinderMesh_lmx0m")
 skeleton = NodePath("../..")
 
 [node name="AnimationPlayer1" type="AnimationPlayer" parent="."]
-autoplay = "Slow rotate"
-playback_speed = 0.03
 libraries = {
-"": SubResource("AnimationLibrary_dx508")
+&"": SubResource("AnimationLibrary_dx508")
 }
+autoplay = "Slow rotate"
+speed_scale = 0.05
 
 [node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
-autoplay = "Rotate"
 reset_on_save = false
-playback_speed = 0.2
-method_call_mode = 1
+callback_mode_method = 1
 libraries = {
-"": SubResource("AnimationLibrary_f57sj")
+&"": SubResource("AnimationLibrary_f57sj")
 }
+autoplay = "Rotate"
+speed_scale = 0.25
 
 [node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -2.2, -0.1, 0)

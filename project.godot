@@ -13,7 +13,7 @@ config_version=5
 config/name="Material Maker Showreel"
 config/description="A simple project that shows materials made with Material Maker"
 run/main_scene="res://scene.tscn"
-config/features=PackedStringArray("4.0")
+config/features=PackedStringArray("4.4")
 config/icon="res://icon.png"
 
 [display]
@@ -25,7 +25,8 @@ window/size/borderless=true
 
 [editor]
 
-movie_writer/movie_file="/Users/rodolphesuescun/Documents/material_maker_showreel.avi"
+movie_writer/mjpeg_quality=0.9
+movie_writer/movie_file="D:/Dev/Godot/material-maker-showreel/material_maker_showreel.avi"
 movie_writer/disable_vsync=true
 
 [gui]

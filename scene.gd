@@ -4,13 +4,14 @@ extends Node
 
 @onready var meshes = [ $MeshPivot1/MeshPivot2/Mesh1, $MeshPivot1/MeshPivot2/Mesh2 ]
 var material_names : Array
+var material_count : int
 var materials : Dictionary
-var current_material = 0
+var current_material = 1
 
 var shader_time : float = 0.0
 
 var MATERIALS = {
-	ancient_bricks = { name="Ancient pedestal", author="DroppedBeat" },
+	ancient_bricks = { name="Ancient bricks", author="DroppedBeat" },
 	ancient_pedestal = { name="Ancient pedestal", author="Tarox" },
 	animated_fire = { name="Animated fire", author="unfa" },
 	animated_radar = { name="Animated radar", author="PixelMuncher" },
@@ -50,7 +51,7 @@ var MATERIALS = {
 }
 
 func _ready():
-	set_process(false)
+	set_physics_process(false)
 	material_names = []
 	materials = {}
 	var dir = DirAccess.open("res://materials")
@@ -70,24 +71,32 @@ func _ready():
 					mesh_instance.mesh = tinymesh
 					mesh_instance.material_override = material
 					add_child(mesh_instance)
-					if materials.keys().size() > 10000:
+					if materials.keys().size() > 2:
 						break
 				else:
 					print("Failed to load "+file_name)
 			file_name = dir.get_next()
 	else:
 		print("An error occurred when trying to access the path.")
+	
+	material_count = material_names.size()
+	
+	change_material()
+	change_material()
 
 var next_material : String = ""
 func change_material():
+	if meshes == null:
+		return
 	meshes[0].material_override = meshes[1].material_override
-	if current_material >= material_names.size() or current_material < 0:
-		$AnimationPlayer1.stop()
+	if current_material >= material_count or current_material < 0:
+		$AnimationPlayer1.speed_scale = 0.0
 		$AnimationPlayer2.play("Rotate final")
 		$MeshPivot1/MeshPivot2/CirclePivot.rotation.x = $MeshPivot1.rotation.x
-		shader_time = 0.0
 		circle.material_override.set_shader_parameter("shader_time", 0.0)
-		set_process(true)
+		var tween : Tween = get_tree().create_tween()
+		tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
+		tween.tween_property(circle.material_override, "shader_parameter/shader_time", 10.0, 10.0)
 	else:
 		meshes[1].material_override = materials[material_names[current_material]]
 		next_material = material_names[current_material]
@@ -100,12 +109,7 @@ func update_label():
 		$Label.text = material_desc.name + " - " + material_desc.author
 	else:
 		$Label.text = material_name
-		print(material_name)
+		#print(material_name)
 
 func end():
 	get_tree().quit()
-
-func _process(delta):
-	shader_time += delta
-	circle.material_override.set_shader_parameter("shader_time", shader_time)
-	

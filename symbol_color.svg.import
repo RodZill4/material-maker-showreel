@@ -2,26 +2,27 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://nxa0lfkyjp81"
-path="res://.godot/imported/text.svg-e5951ea7451ae06cc15e500e80e00494.ctex"
+uid="uid://d0xqxdet5faog"
+path.s3tc="res://.godot/imported/symbol_color.svg-25aaa52a7bfb414f9d482aaf4d0e9f8b.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 
 [deps]
 
-source_file="res://text.svg"
-dest_files=["res://.godot/imported/text.svg-e5951ea7451ae06cc15e500e80e00494.ctex"]
+source_file="res://symbol_color.svg"
+dest_files=["res://.godot/imported/symbol_color.svg-25aaa52a7bfb414f9d482aaf4d0e9f8b.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -31,7 +32,7 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
-svg/scale=1.0
+detect_3d/compress_to=0
+svg/scale=4.0
 editor/scale_with_editor_scale=false
 editor/convert_colors_with_editor_theme=false

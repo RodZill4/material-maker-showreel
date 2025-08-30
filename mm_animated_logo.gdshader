@@ -8,6 +8,12 @@ uniform float variation = 0.0;
 uniform float shader_time = 0.0;
 uniform float speed = 5.0;
 uniform float delay = 5.0;
+uniform float cursor : hint_range(0.0, 1.0, 0.01) = 0.5;
+uniform vec4 color1 : source_color = vec4(1.0);
+uniform vec4 color2 : source_color = vec4(1.0);
+
+
+
 varying float elapsed_time;
 
 void vertex() {
@@ -49,11 +55,12 @@ vec3 hsv2rgb(vec3 c) {
 	return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
 }
 
-uniform sampler2D texture_1;
+uniform sampler2D texture_1 : filter_linear_mipmap_anisotropic, repeat_disable;
+uniform sampler2D texture_2 : source_color, filter_linear, repeat_disable;
 
 vec2 get_animation_frame(vec2 uv, float t) {
  	int it = int(t);
-    return (uv+vec2(float(it%8), float(it/8)))*0.125;	
+    return (uv+vec2(float(it%8), float(it/8)))*0.125;
 }
 float shape_circle(vec2 uv, float sides, float size, float edge) {
     uv = 2.0*uv-1.0;
@@ -99,7 +106,7 @@ vec2 rotate(vec2 uv, float rotate) {
  	vec2 rv;
 	rv.x = cos(rotate)*uv.x + sin(rotate)*uv.y;
 	rv.y = -sin(rotate)*uv.x + cos(rotate)*uv.y;
-    return rv;	
+    return rv;
 }
 float sd_isosceles_triangle(vec2 uv, vec2 size)
 {
@@ -124,7 +131,7 @@ vec2 transform2(vec2 uv, vec2 translate, float rotate, vec2 scale) {
 	rv.y = -sin(rotate)*uv.x + cos(rotate)*uv.y;
 	rv /= scale;
 	rv += vec2(0.5);
-	return rv;	
+	return rv;
 }
 vec3 blend_normal(vec2 uv, vec3 c1, vec3 c2, float opacity) {
 	return opacity*c1 + (1.0-opacity)*c2;
@@ -213,23 +220,23 @@ const float p_o6406_scale_x = 1.100000000;
 const float p_o6391_amount = 1.000000000;
 const float p_o6392_repeat = 1.000000000;
 const float p_o6392_rotate = 135.400000000;
-const float p_o6392_gradient_0_pos = 0.119020000;
+const float p_o6392_gradient_0_pos = 0.0;
 const float p_o6392_gradient_0_r = 0.265625000;
 const float p_o6392_gradient_0_g = 0.655762017;
 const float p_o6392_gradient_0_b = 1.000000000;
 const float p_o6392_gradient_0_a = 1.000000000;
-const float p_o6392_gradient_1_pos = 1.000000000;
+const float p_o6392_gradient_1_pos = 0.9;
 const float p_o6392_gradient_1_r = 1.000000000;
 const float p_o6392_gradient_1_g = 0.339843988;
 const float p_o6392_gradient_1_b = 0.974213004;
 const float p_o6392_gradient_1_a = 1.000000000;
 vec4 o6392_gradient_gradient_fct(float x) {
   if (x < p_o6392_gradient_0_pos) {
-    return vec4(p_o6392_gradient_0_r,p_o6392_gradient_0_g,p_o6392_gradient_0_b,p_o6392_gradient_0_a);
+    return color1;
   } else if (x < p_o6392_gradient_1_pos) {
-    return mix(vec4(p_o6392_gradient_0_r,p_o6392_gradient_0_g,p_o6392_gradient_0_b,p_o6392_gradient_0_a), vec4(p_o6392_gradient_1_r,p_o6392_gradient_1_g,p_o6392_gradient_1_b,p_o6392_gradient_1_a), ((x-p_o6392_gradient_0_pos)/(p_o6392_gradient_1_pos-p_o6392_gradient_0_pos)));
+    return mix(color1, color2, ((x-p_o6392_gradient_0_pos)/(p_o6392_gradient_1_pos-p_o6392_gradient_0_pos)));
   }
-  return vec4(p_o6392_gradient_1_r,p_o6392_gradient_1_g,p_o6392_gradient_1_b,p_o6392_gradient_1_a);
+  return color2;
 }
 const float p_o6405_color_r = 1.000000000;
 const float p_o6405_color_g = 1.000000000;
@@ -238,7 +245,7 @@ const float p_o6405_color_a = 1.000000000;
 const float p_o6368_default_in1 = 0.000000000;
 const float p_o6368_default_in2 = 0.000000000;
 const float p_o6162_value = 0.500000000;
-const float p_o6162_width = 0.010000000;
+const float p_o6162_width = 0.0010000000;
 const float p_o6374_default_in1 = 0.000000000;
 const float p_o6374_default_in2 = 0.000000000;
 const float p_o6388_default_in1 = 0.000000000;
@@ -284,14 +291,15 @@ const float p_o6375_sides = 6.000000000;
 const float p_o6375_radius = 1.480000000;
 const float p_o6375_edge = 0.020000000;
 const float p_o6369_sides = 6.000000000;
-const float p_o6369_radius = 0.820000000;
-const float p_o6369_edge = 0.020000000;
+const float p_o6369_radius = 0.850000000;
+const float p_o6369_edge = 0.0050000000;
 
 
 void fragment() {
 	float _seed_variation_ = variation;
 	vec2 uv = fract(UV);
-float o6392_0_r = 0.5+(cos(p_o6392_rotate*0.01745329251)*((scale((uv), vec2(0.5+p_o6406_cx, 0.5+p_o6406_cy), vec2(p_o6406_scale_x, (p_o6406_scale_x)))).x-0.5)+sin(p_o6392_rotate*0.01745329251)*((scale((uv), vec2(0.5+p_o6406_cx, 0.5+p_o6406_cy), vec2(p_o6406_scale_x, (p_o6406_scale_x)))).y-0.5))/(cos(abs(mod(p_o6392_rotate, 90.0)-45.0)*0.01745329251)*1.41421356237);vec4 o6392_0_1_rgba = o6392_gradient_gradient_fct(fract(o6392_0_r*p_o6392_repeat));
+float o6392_0_r = 0.5+(cos(p_o6392_rotate*0.01745329251)*((scale((uv), vec2(0.5+p_o6406_cx, 0.5+p_o6406_cy), vec2(p_o6406_scale_x, (p_o6406_scale_x)))).x-0.5)+sin(p_o6392_rotate*0.01745329251)*((scale((uv), vec2(0.5+p_o6406_cx, 0.5+p_o6406_cy), vec2(p_o6406_scale_x, (p_o6406_scale_x)))).y-0.5))/(cos(abs(mod(p_o6392_rotate, 90.0)-45.0)*0.01745329251)*1.41421356237);
+vec4 o6392_0_1_rgba = o6392_gradient_gradient_fct(fract(o6392_0_r*p_o6392_repeat));
 vec4 o6405_0_1_rgba = vec4(p_o6405_color_r, p_o6405_color_g, p_o6405_color_b, p_o6405_color_a);
 float o6252_0_t = clamp((elapsed_time), 0.0, 23.99);vec4 o6370_0 = textureLod(texture_1, get_animation_frame((scale((uv), vec2(0.5+p_o6406_cx, 0.5+p_o6406_cy), vec2(p_o6406_scale_x, (p_o6406_scale_x)))), o6252_0_t), 0.0);
 vec4 o6370_1 = textureLod(texture_1, get_animation_frame((scale((uv), vec2(0.5+p_o6406_cx, 0.5+p_o6406_cy), vec2(p_o6406_scale_x, (p_o6406_scale_x)))), o6252_0_t+1.0), 0.0);
@@ -333,10 +341,7 @@ vec4 o6406_0_1_rgba = o6391_0_1_rgba;
 
 	vec4 color_tex = o6406_0_1_rgba;
 	color_tex = mix(pow((color_tex + vec4(0.055)) * (1.0 / (1.0 + 0.055)),vec4(2.4)),color_tex * (1.0 / 12.92),lessThan(color_tex,vec4(0.04045)));
-	ALBEDO = color_tex.rgb;
-	ALPHA = color_tex.a;
-
+	vec4 image = texture(texture_2, vec2(0.5)+1.08*(uv-vec2(0.5)));
+	ALBEDO = mix(color_tex.rgb, mix(vec3(1.0), image.rgb, image.a), cursor);
+//ALPHA = color_tex.a;
 }
-
-
-

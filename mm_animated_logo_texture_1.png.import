@@ -16,14 +16,14 @@ dest_files=["res://.godot/imported/mm_animated_logo_texture_1.png-fe2cee21214c45
 [params]
 
 compress/mode=0
+compress/high_quality=false
 compress/lossy_quality=0.95
 compress/hdr_compression=0
-compress/bptc_ldr=0
 compress/normal_map=2
 compress/channel_pack=0
 mipmaps/generate=false
 mipmaps/limit=-1
-roughness/mode=1
+roughness/mode=6
 roughness/src_normal=""
 process/fix_alpha_border=false
 process/premult_alpha=false
