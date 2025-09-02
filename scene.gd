@@ -71,7 +71,7 @@ func _ready():
 					mesh_instance.mesh = tinymesh
 					mesh_instance.material_override = material
 					add_child(mesh_instance)
-					if materials.keys().size() > 2:
+					if materials.keys().size() > 6:
 						break
 				else:
 					print("Failed to load "+file_name)
@@ -93,10 +93,10 @@ func change_material():
 		$AnimationPlayer1.speed_scale = 0.0
 		$AnimationPlayer2.play("Rotate final")
 		$MeshPivot1/MeshPivot2/CirclePivot.rotation.x = $MeshPivot1.rotation.x
-		circle.material_override.set_shader_parameter("shader_time", 0.0)
+		circle.material_override.set_shader_parameter("shader_time", -10.0)
 		var tween : Tween = get_tree().create_tween()
 		tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
-		tween.tween_property(circle.material_override, "shader_parameter/shader_time", 10.0, 10.0)
+		tween.tween_property(circle.material_override, "shader_parameter/shader_time", 50.0, 5.0)
 	else:
 		meshes[1].material_override = materials[material_names[current_material]]
 		next_material = material_names[current_material]

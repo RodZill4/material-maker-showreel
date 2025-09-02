@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://dseqad4mx15px"]
+
+[ext_resource type="Shader" uid="uid://blve0o4oi3r3x" path="res://animated_logo/mm_animated_logo.gdshader" id="1"]
+[ext_resource type="Texture2D" uid="uid://wcms3wcl5kjc" path="res://animated_logo/mm_animated_logo_texture_1.png" id="2"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1")
+shader_parameter/uv1_scale = Vector3(2, 2, 2)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/variation = 0.0
+shader_parameter/shader_time = 35.72
+shader_parameter/texture_1 = ExtResource("2")

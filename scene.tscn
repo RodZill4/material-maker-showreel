@@ -1,8 +1,8 @@
 [gd_scene load_steps=17 format=3 uid="uid://d42cjr6gh71s"]
 
-[ext_resource type="Material" uid="uid://o78tcksdt38g" path="res://mm_animated_logo.tres" id="2_cm0ra"]
 [ext_resource type="ArrayMesh" uid="uid://ccb73fq73e2s2" path="res://hemisphere.obj" id="2_pe1k3"]
 [ext_resource type="Script" uid="uid://c7iunw0cceeyh" path="res://scene.gd" id="3"]
+[ext_resource type="Material" uid="uid://dseqad4mx15px" path="res://animated_logo/mm_animated_logo.tres" id="3_m7jmp"]
 [ext_resource type="Texture2D" uid="uid://nxa0lfkyjp81" path="res://text.svg" id="4_hkwaj"]
 [ext_resource type="Texture2D" uid="uid://bklr8smdf2fb4" path="res://kloofendal_48d_partly_cloudy_1k.exr" id="4_m07j6"]
 
@@ -294,7 +294,7 @@ skeleton = NodePath("../../..")
 
 [node name="Circle" type="MeshInstance3D" parent="MeshPivot1/MeshPivot2/CirclePivot"]
 transform = Transform3D(8.74228e-08, -1, 4.37115e-08, 4.37114e-08, -4.37115e-08, -1, 1, 8.74228e-08, 4.37114e-08, 0, 0, 0)
-material_override = ExtResource("2_cm0ra")
+material_override = ExtResource("3_m7jmp")
 mesh = SubResource("CylinderMesh_lmx0m")
 skeleton = NodePath("../..")
 
