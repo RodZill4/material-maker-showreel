@@ -1,9 +1,15 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
-[ext_resource path="gears_panel_2.gdshader" type="Shader" id=1]
-[ext_resource path="gears_panel_2_texture_1.png" type="Texture" id=2]
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://k7bpcq0kokka"]
+
+[ext_resource type="Shader" uid="uid://jfly2lm2p8fv" path="res://materials/gears_panel_2.gdshader" id="1"]
+[ext_resource type="Texture2D" uid="uid://dpq8es0tm3s5g" path="res://materials/gears_panel_2_texture_1.png" id="2"]
+
 [resource]
-shader = ExtResource( 1 )
-shader_parameter/texture_1 = ExtResource( 2 )
-
-
-
+render_priority = 0
+shader = ExtResource("1")
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/depth_min_layers = 8
+shader_parameter/depth_max_layers = 16
+shader_parameter/depth_flip = Vector2(1, 1)
+shader_parameter/variation = 0.0
+shader_parameter/texture_1 = ExtResource("2")

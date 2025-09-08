@@ -1,0 +1,27 @@
+[gd_resource type="StandardMaterial3D" load_steps=6 format=3 uid="uid://bm0tqv7ryj2f0"]
+
+[ext_resource type="Texture2D" uid="uid://dy40qjg06rcqv" path="res://materials/kryptonite_albedo.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://buu6dyonyf7qq" path="res://materials/kryptonite_orm.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://dlhkarlbh4vi8" path="res://materials/kryptonite_normal.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://csjn41vklsxhm" path="res://materials/kryptonite_heightmap.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://dck2aej74w6j5" path="res://materials/kryptonite_emission.png" id="5"]
+
+[resource]
+albedo_texture = ExtResource("1")
+metallic_texture = ExtResource("2")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2")
+roughness_texture_channel = 1
+emission_enabled = true
+emission_energy_multiplier = 0.19
+emission_texture = ExtResource("5")
+normal_enabled = true
+normal_texture = ExtResource("3")
+ao_enabled = true
+ao_texture = ExtResource("2")
+heightmap_enabled = true
+heightmap_scale = 37.5
+heightmap_deep_parallax = true
+heightmap_min_layers = 32
+heightmap_max_layers = 64
+heightmap_texture = ExtResource("4")

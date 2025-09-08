@@ -51,7 +51,7 @@ tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/path = NodePath("MeshPivot1/MeshPivot2:rotation")
-tracks/1/interp = 1
+tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
@@ -93,7 +93,31 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(974, 1020)]
+"values": [Vector2(974, 1157)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("MeshPivot1/MeshPivot2:rotation:y")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:angle")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
 }
 
 [sub_resource type="Animation" id="6"]
@@ -103,15 +127,15 @@ loop_mode = 1
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
-tracks/0/enabled = true
+tracks/0/enabled = false
 tracks/0/path = NodePath("MeshPivot1/MeshPivot2:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
+tracks/0/interp = 2
+tracks/0/loop_wrap = false
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1.1487, 16),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0, 3.14159), Vector3(0, 0, 6.28319)]
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 3.14159)]
 }
 tracks/1/type = "method"
 tracks/1/imported = false
@@ -120,14 +144,11 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.25, 0.75),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
 "method": &"change_material"
-}, {
-"args": [],
-"method": &"update_label"
 }, {
 "args": [],
 "method": &"update_label"
@@ -140,34 +161,22 @@ tracks/2/path = NodePath("Label:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.25, 0.3, 0.35, 0.7, 0.75, 0.8, 0.85),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.2, 0.25, 0.3, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 1)]
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 1)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("MeshPivot1/MeshPivot2/Mesh2:visible")
+tracks/3/path = NodePath(".:angle")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("MeshPivot1/MeshPivot2/CirclePivot/Circle:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
 }
 
 [sub_resource type="Animation" id="Animation_ebdnn"]
@@ -274,6 +283,7 @@ size = Vector2(10, 10)
 
 [node name="Scene" type="Node"]
 script = ExtResource("3")
+angle = 1.0
 
 [node name="MeshPivot1" type="Node3D" parent="."]
 
@@ -286,7 +296,6 @@ skeleton = NodePath("../../..")
 
 [node name="Mesh2" type="MeshInstance3D" parent="MeshPivot1/MeshPivot2"]
 transform = Transform3D(1, -4.37114e-08, 0, 0, -4.37114e-08, 1, -4.37114e-08, -1, -4.37114e-08, 0, 0, 0)
-visible = false
 mesh = ExtResource("2_pe1k3")
 skeleton = NodePath("../../..")
 
@@ -294,6 +303,7 @@ skeleton = NodePath("../../..")
 
 [node name="Circle" type="MeshInstance3D" parent="MeshPivot1/MeshPivot2/CirclePivot"]
 transform = Transform3D(8.74228e-08, -1, 4.37115e-08, 4.37114e-08, -4.37115e-08, -1, 1, 8.74228e-08, 4.37114e-08, 0, 0, 0)
+visible = false
 material_override = ExtResource("3_m7jmp")
 mesh = SubResource("CylinderMesh_lmx0m")
 skeleton = NodePath("../..")
@@ -303,6 +313,7 @@ libraries = {
 &"": SubResource("AnimationLibrary_dx508")
 }
 autoplay = "Slow rotate"
+playback_auto_capture_ease_type = 2
 speed_scale = 0.05
 
 [node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
@@ -312,11 +323,14 @@ libraries = {
 &"": SubResource("AnimationLibrary_f57sj")
 }
 autoplay = "Rotate"
+playback_auto_capture_ease_type = 2
 speed_scale = 0.25
+next/RESET = &"Rotate final"
+blend_times = [&"Rotate final", &"Rotate", 0.01, &"Rotate final", &"Rotate final", 0.01]
 
 [node name="Camera" type="Camera3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -2.2, -0.1, 0)
-fov = 60.0
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5, 0, 0)
+fov = 29.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("7")
@@ -328,7 +342,8 @@ shadow_bias = 0.01
 directional_shadow_split_2 = 0.5
 directional_shadow_split_3 = 1.0
 directional_shadow_blend_splits = true
-directional_shadow_max_distance = 5.1
+directional_shadow_fade_start = 0.755
+directional_shadow_max_distance = 7.5
 
 [node name="MeshInstance" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
@@ -352,3 +367,5 @@ horizontal_alignment = 1
 position = Vector2(974, 1157)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("4_hkwaj")
+
+[connection signal="animation_finished" from="AnimationPlayer2" to="." method="_on_animation_player_2_animation_finished"]

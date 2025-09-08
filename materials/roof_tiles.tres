@@ -1,20 +1,16 @@
-[gd_resource type="ORMMaterial3D" load_steps=6 format=3]
-[ext_resource path="roof_tiles_albedo.png" type="Texture" id=1]
-[ext_resource path="roof_tiles_orm.png" type="Texture" id=2]
-[ext_resource path="roof_tiles_normal.png" type="Texture" id=3]
-[ext_resource path="roof_tiles_heightmap.png" type="Texture" id=4]
+[gd_resource type="ORMMaterial3D" load_steps=4 format=3 uid="uid://huwnalrn2mh5"]
+
+[ext_resource type="Texture2D" uid="uid://idaqok8mqogj" path="res://materials/roof_tiles_albedo.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://jhjwqwwdgnpn" path="res://materials/roof_tiles_normal.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://ba13plto7ul4h" path="res://materials/roof_tiles_heightmap.png" id="4"]
+
 [resource]
-albedo_color = Color(1, 1, 1, 1)
-albedo_texture = ExtResource( 1 )
+albedo_texture = ExtResource("1")
 normal_enabled = true
-normal_scale = 1
-normal_texture = ExtResource( 3 )
+normal_texture = ExtResource("3")
 heightmap_enabled = true
 heightmap_scale = 12.5
 heightmap_deep_parallax = true
-heightmap_min_layers = 8
-heightmap_max_layers = 32
-heightmap_texture = ExtResource( 4 )
-
-
-
+heightmap_min_layers = 32
+heightmap_max_layers = 64
+heightmap_texture = ExtResource("4")

@@ -1,21 +1,18 @@
-[gd_resource type="ORMMaterial3D" load_steps=6 format=3]
-[ext_resource path="smaugs_treasure_albedo.png" type="Texture" id=1]
-[ext_resource path="smaugs_treasure_orm.png" type="Texture" id=2]
-[ext_resource path="smaugs_treasure_normal.png" type="Texture" id=3]
-[ext_resource path="smaugs_treasure_heightmap.png" type="Texture" id=4]
+[gd_resource type="ORMMaterial3D" load_steps=5 format=3 uid="uid://t5h7u3l6i7fm"]
+
+[ext_resource type="Texture2D" uid="uid://cuvjm1xlxrvoo" path="res://materials/smaugs_treasure_albedo.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://fr4ogc2i3x2h" path="res://materials/smaugs_treasure_orm.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://cq4a0b4gh5q0c" path="res://materials/smaugs_treasure_normal.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://b6sxhptio1smr" path="res://materials/smaugs_treasure_heightmap.png" id="4"]
+
 [resource]
-albedo_color = Color(1, 1, 1, 1)
-albedo_texture = ExtResource( 1 )
-orm_texture = ExtResource( 2 )
+albedo_texture = ExtResource("1")
+orm_texture = ExtResource("2")
 normal_enabled = true
-normal_scale = 1
-normal_texture = ExtResource( 3 )
+normal_texture = ExtResource("3")
 heightmap_enabled = true
-heightmap_scale = 25
+heightmap_scale = 25.0
 heightmap_deep_parallax = true
-heightmap_min_layers = 8
-heightmap_max_layers = 32
-heightmap_texture = ExtResource( 4 )
-
-
-
+heightmap_min_layers = 32
+heightmap_max_layers = 64
+heightmap_texture = ExtResource("4")

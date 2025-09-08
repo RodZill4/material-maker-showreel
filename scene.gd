@@ -8,6 +8,12 @@ var material_count : int
 var materials : Dictionary
 var current_material = 1
 
+@export var angle : float = 0.0:
+	set(v):
+		angle = v
+		if is_inside_tree():
+			$MeshPivot1/MeshPivot2.rotation.z = PI*lerp(smoothstep(0.0, 1.0, angle), angle, 0.5)
+
 var shader_time : float = 0.0
 
 var MATERIALS = {
@@ -24,22 +30,27 @@ var MATERIALS = {
 	cliff_rock = { name="Cliff rock", author="Skywolf" },
 	containers = { name="Containers", author="DroppedBeat" },
 	damaged_plaster = { name="Damaged plaster wall", author="Arnklit" },
+	fish_pond = { name="Fish pond", author="DroppedBeat" },
 	floppy_disks = { name="Floppy disks", author="PixelMuncher" },
 	gears_panel = { name="Gears panel", author="RodZilla" },
+	gear_box = { name="Gear box", author="DroppedBeat" },
 	gingerbread = { name="Gingerbread", author="Tarox" },
 	ground_foliage = { name="Ground foliage", author="Arnklit" },
 	hardwood_floor = { name="Decrepit Hardwood floor", author="BurritoLord69" },
+	kryptonite = { name="Kryptonite", author="Tarox" },
 	leather = { name="Stitched leather", author="Tarox" },
 	manhole_cover = { name="Manhole cover", author="PixelMuncher" },
 	matrix_code_rain = { name="Matrix rain code", author="DroppedBeat" },
 	ornamental = { name="Ornamental", author="DroppedBeat" },
 	ornamental_ceiling = { name="Ornamental ceiling", author="Tarox" },
 	polished_turquoise = { name="Polished turquoise", author="LitmusZest" },
+	puddle = { name="Puddle", author="DroppedBeat" },
 	rainy_window = { name="Rainy window", author="unfa" },
 	remnant = { name="Remnant", author="Tarox" },
 	roof_tiles = { name="Old roof tiles", author="Tarox" },
 	rosette = { name="Rosette", author="Tarox" },
 	scarabs_on_hieroglyphs = { name="Scarab Beetles Crawling on Hieroglyphs", author="Arnklit" },
+	sealing_talismans = { name="Sealing Talismans", author="DroppedBeat" },
 	sewn_flesh = { name="Sewn flesh", author="Gin" },
 	smaugs_treasure = { name="Smaug's Treasure", author="Arnklit" },
 	snowman = { name="Snowman", author="Arnklit" },
@@ -62,19 +73,22 @@ func _ready():
 		var file_name = dir.get_next()
 		while file_name != "":
 			if ! dir.current_is_dir() and file_name.get_extension() == "tres":
-				var material = load("res://materials/"+file_name)
-				if material != null:
-					material_names.push_back(file_name)
-					materials[file_name] = material
-					var mesh_instance : MeshInstance3D = MeshInstance3D.new()
-					mesh_instance.position.x = 0.1
-					mesh_instance.mesh = tinymesh
-					mesh_instance.material_override = material
-					add_child(mesh_instance)
-					if materials.keys().size() > 6:
-						break
+				if file_name.get_basename() in MATERIALS:
+					var material = load("res://materials/"+file_name)
+					if material != null:
+						material_names.push_back(file_name)
+						materials[file_name] = material
+						var mesh_instance : MeshInstance3D = MeshInstance3D.new()
+						mesh_instance.position.x = 0.1
+						mesh_instance.mesh = tinymesh
+						mesh_instance.material_override = material
+						add_child(mesh_instance)
+						if materials.keys().size() > 1000:
+							break
+					else:
+						print("Failed to load "+file_name)
 				else:
-					print("Failed to load "+file_name)
+					print("No name for ", file_name)
 			file_name = dir.get_next()
 	else:
 		print("An error occurred when trying to access the path.")
@@ -90,17 +104,22 @@ func change_material():
 		return
 	meshes[0].material_override = meshes[1].material_override
 	if current_material >= material_count or current_material < 0:
-		$AnimationPlayer1.speed_scale = 0.0
-		$AnimationPlayer2.play("Rotate final")
-		$MeshPivot1/MeshPivot2/CirclePivot.rotation.x = $MeshPivot1.rotation.x
+		$AnimationPlayer2.play("Rotate final", 0.2)
+		$MeshPivot1/MeshPivot2/Mesh2.visible = false
+		$MeshPivot1/MeshPivot2/CirclePivot/Circle.visible = true
 		circle.material_override.set_shader_parameter("shader_time", -10.0)
 		var tween : Tween = get_tree().create_tween()
 		tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
 		tween.tween_property(circle.material_override, "shader_parameter/shader_time", 50.0, 5.0)
+		set_physics_process(true)
 	else:
 		meshes[1].material_override = materials[material_names[current_material]]
 		next_material = material_names[current_material]
-		current_material += 1
+		$AnimationPlayer2.play("Rotate")
+	current_material += 1
+
+func _physics_process(delta):
+	$MeshPivot1/MeshPivot2/CirclePivot.rotation.x = $MeshPivot1.rotation.x
 
 func update_label():
 	var material_name : String = next_material.get_basename()

@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bwew0gfjqtoie"]
+
+[ext_resource type="Shader" uid="uid://745b0ydroo5l" path="res://materials/gear_box.gdshader" id="1"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1")
+shader_parameter/seed_variation = 0.0
+shader_parameter/ambient_occlusion = true
+shader_parameter/shadow = true
+shader_parameter/ao_samples = 32.0
+shader_parameter/ao_spread = 0.07
+shader_parameter/ao_strength = 2.34
+shader_parameter/shadow_samples = 32.0
+shader_parameter/shadow_mix = 0.71
+shader_parameter/shadow_min_dist = 0.0
+shader_parameter/shadow_max_dist = 8.0
+shader_parameter/light_size = 0.0
+shader_parameter/light_direction = Vector3(0.03, 4, -0.74)

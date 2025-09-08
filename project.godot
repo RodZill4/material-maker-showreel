@@ -25,7 +25,7 @@ window/size/borderless=true
 
 [editor]
 
-movie_writer/mjpeg_quality=0.9
+movie_writer/mjpeg_quality=0.95
 movie_writer/movie_file="D:/Dev/Godot/material-maker-showreel/material_maker_showreel.avi"
 movie_writer/disable_vsync=true
 
@@ -39,6 +39,8 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+anti_aliasing/quality/msaa_2d=3
+anti_aliasing/quality/msaa_3d=3
 anti_aliasing/quality/use_taa=true
 anti_aliasing/quality/msaa=1
 quality/filters/sharpen_intensity=1.0
