@@ -3,16 +3,28 @@ extends Node
 @onready var circle = $MeshPivot1/MeshPivot2/CirclePivot/Circle
 
 @onready var meshes = [ $MeshPivot1/MeshPivot2/Mesh1, $MeshPivot1/MeshPivot2/Mesh2 ]
-var material_names : Array
+var material_names : Array[String]
 var material_count : int
 var materials : Dictionary
 var current_material = 1
 
+@export var damp : float = 0.5
 @export var angle : float = 0.0:
 	set(v):
 		angle = v
 		if is_inside_tree():
-			$MeshPivot1/MeshPivot2.rotation.z = PI*lerp(smoothstep(0.0, 1.0, angle), angle, 0.5)
+			var offset = floor(v)
+			v -= offset
+			$MeshPivot1/MeshPivot2.rotation.z = PI*(offset+lerp(my_smoothstep(v), v, damp))
+
+func my_smoothstep(x : float) -> float:
+	var rv : float = x
+	rv = smoothstep(0.0, 1.0, rv)
+	rv = smoothstep(0.0, 1.0, rv)
+	rv = smoothstep(0.0, 1.0, rv)
+	rv = smoothstep(0.0, 1.0, rv)
+	rv = smoothstep(0.0, 1.0, rv)
+	return rv
 
 var shader_time : float = 0.0
 
@@ -61,65 +73,90 @@ var MATERIALS = {
 	wires = { name="Wires", author="DroppedBeat" },
 }
 
+var MATERIAL_LIST_LONG : Array[String] = [
+	"roof_tiles", "polished_turquoise", "beach", "gingerbread",
+	"sewn_flesh", "ornamental", "gear_box", "floppy_disks",
+	"smaugs_treasure", "animated_fire", "arcane_compass", "wires",
+	"containers", "stylized_flowing_lava", "ancient_bricks",
+	"sealing_talismans", "temporal_displacement", "bookcase",
+	"gears_panel", "scarabs_on_hieroglyphs", "burger", "chained",
+	"hardwood_floor", "puddle", "cliff_rock", "manhole_cover",
+	"matrix_code_rain", "rosette", "kryptonite", "rainy_window",
+	"remnant", "ornamental_ceiling", "stylized_lava",
+	"train_tracks", "ancient_pedestal", "animated_radar",
+	"damaged_plaster", "fish_pond", "leather", "chesterfield",
+	"snowman", "ground_foliage"]
+
+
 func _ready():
-	set_physics_process(false)
-	material_names = []
-	materials = {}
-	var dir = DirAccess.open("res://materials")
-	var tinymesh : BoxMesh = BoxMesh.new()
-	tinymesh.size = Vector3(0.01, 0.01, 0.01)
-	if dir != null:
-		dir.list_dir_begin()
-		var file_name = dir.get_next()
-		while file_name != "":
-			if ! dir.current_is_dir() and file_name.get_extension() == "tres":
-				if file_name.get_basename() in MATERIALS:
-					var material = load("res://materials/"+file_name)
-					if material != null:
-						material_names.push_back(file_name)
-						materials[file_name] = material
-						var mesh_instance : MeshInstance3D = MeshInstance3D.new()
-						mesh_instance.position.x = 0.1
-						mesh_instance.mesh = tinymesh
-						mesh_instance.material_override = material
-						add_child(mesh_instance)
-						if materials.keys().size() > 1000:
-							break
-					else:
-						print("Failed to load "+file_name)
-				else:
-					print("No name for ", file_name)
-			file_name = dir.get_next()
-	else:
-		print("An error occurred when trying to access the path.")
-	
+	material_names = MATERIAL_LIST_LONG
 	material_count = material_names.size()
 	
+	set_physics_process(false)
+	
+	materials = {}
+	var tinymesh : BoxMesh = BoxMesh.new()
+	tinymesh.size = Vector3(0.01, 0.01, 0.01)
+	
+	for m in material_names:
+		if m in MATERIALS:
+			var material = load("res://materials/"+m+".tres")
+			if material != null:
+				materials[m] = material
+				var mesh_instance : MeshInstance3D = MeshInstance3D.new()
+				mesh_instance.position.x = 0.1
+				mesh_instance.mesh = tinymesh
+				mesh_instance.material_override = material
+				add_child(mesh_instance)
+				if materials.keys().size() > 1000:
+					break
+			else:
+				print("Failed to load "+m+".tres")
+				get_tree().quit()
+				return
+		else:
+			print("No description for material ", m)
+			get_tree().quit()
+			return
+
+	$MeshPivot1/MeshPivot2/Mesh1.visible = true
+	$MeshPivot1/MeshPivot2/Mesh2.visible = true
+	$MeshPivot1/MeshPivot2/CirclePivot/Circle.visible = false
 	change_material()
 	change_material()
 
 var next_material : String = ""
+var offset : float = 0.0
+var factor : float = 1.0
 func change_material():
 	if meshes == null:
 		return
-	meshes[0].material_override = meshes[1].material_override
 	if current_material >= material_count or current_material < 0:
-		$AnimationPlayer2.play("Rotate final", 0.2)
-		$MeshPivot1/MeshPivot2/Mesh2.visible = false
 		$MeshPivot1/MeshPivot2/CirclePivot/Circle.visible = true
+		print(current_material)
+		if current_material & 1 == 0:
+			print("Rotate final 1")
+			$AnimationPlayer2.play("Rotate final 1", 0.2)
+			$MeshPivot1/MeshPivot2/Mesh2.visible = false
+		else:
+			print("Rotate final 2")
+			$AnimationPlayer2.play("Rotate final 2", 0.2)
+			$MeshPivot1/MeshPivot2/CirclePivot/Circle.rotation.z = PI
+			$MeshPivot1/MeshPivot2/Mesh1.visible = false
+			offset = PI
+			factor = -1.0
 		circle.material_override.set_shader_parameter("shader_time", -10.0)
 		var tween : Tween = get_tree().create_tween()
 		tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
 		tween.tween_property(circle.material_override, "shader_parameter/shader_time", 50.0, 5.0)
 		set_physics_process(true)
 	else:
-		meshes[1].material_override = materials[material_names[current_material]]
+		meshes[1-(current_material & 1)].material_override = materials[material_names[current_material]]
 		next_material = material_names[current_material]
-		$AnimationPlayer2.play("Rotate")
 	current_material += 1
 
 func _physics_process(delta):
-	$MeshPivot1/MeshPivot2/CirclePivot.rotation.x = $MeshPivot1.rotation.x
+	$MeshPivot1/MeshPivot2/CirclePivot.rotation.x = offset+factor*$MeshPivot1.rotation.x
 
 func update_label():
 	var material_name : String = next_material.get_basename()

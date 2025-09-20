@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://d42cjr6gh71s"]
+[gd_scene load_steps=18 format=3 uid="uid://d42cjr6gh71s"]
 
 [ext_resource type="ArrayMesh" uid="uid://ccb73fq73e2s2" path="res://hemisphere.obj" id="2_pe1k3"]
 [ext_resource type="Script" uid="uid://c7iunw0cceeyh" path="res://scene.gd" id="3"]
@@ -50,70 +50,34 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("MeshPivot1/MeshPivot2:rotation")
-tracks/1/interp = 2
+tracks/1/path = NodePath("Text:position")
+tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, 0, 3.14159)]
+"values": [Vector2(974, 1157)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("MeshPivot1/MeshPivot2/Mesh2:visible")
+tracks/2/path = NodePath("MeshPivot1/MeshPivot2:rotation:y")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
+"update": 0,
+"values": [0.0]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("MeshPivot1/MeshPivot2/CirclePivot/Circle:visible")
+tracks/3/path = NodePath(".:angle")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Text:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(974, 1157)]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("MeshPivot1/MeshPivot2:rotation:y")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath(".:angle")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -122,31 +86,24 @@ tracks/6/keys = {
 
 [sub_resource type="Animation" id="6"]
 resource_name = "Rotate"
-length = 0.5
 loop_mode = 1
 step = 0.05
-tracks/0/type = "value"
+tracks/0/type = "method"
 tracks/0/imported = false
-tracks/0/enabled = false
-tracks/0/path = NodePath("MeshPivot1/MeshPivot2:rotation")
-tracks/0/interp = 2
-tracks/0/loop_wrap = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1.1487, 16),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0, 3.14159)]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.25),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "values": [{
+"args": [],
+"method": &"change_material"
+}, {
+"args": [],
+"method": &"update_label"
+}, {
 "args": [],
 "method": &"change_material"
 }, {
@@ -154,17 +111,72 @@ tracks/1/keys = {
 "method": &"update_label"
 }]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.25, 0.3, 0.35, 0.5, 0.7, 0.75, 0.8, 0.85),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 1)]
+}
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Label:modulate")
+tracks/2/path = NodePath(".:angle")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.25, 0.3, 0.35),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 1)]
+"values": [0.0, 2.0]
+}
+
+[sub_resource type="Animation" id="Animation_ebdnn"]
+resource_name = "Rotate final 1"
+length = 3.0
+step = 0.05
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"end"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Text:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(974, 1157), Vector2(974, 1157), Vector2(974, 1020)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -179,29 +191,17 @@ tracks/3/keys = {
 "values": [0.0, 1.0]
 }
 
-[sub_resource type="Animation" id="Animation_ebdnn"]
-resource_name = "Rotate final"
+[sub_resource type="Animation" id="Animation_m7jmp"]
+resource_name = "Rotate final 2"
 length = 3.0
 step = 0.05
-tracks/0/type = "value"
+tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("MeshPivot1/MeshPivot2:rotation")
+tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0, 3.14159)]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "times": PackedFloat32Array(3),
 "transitions": PackedFloat32Array(1),
 "values": [{
@@ -209,60 +209,49 @@ tracks/1/keys = {
 "method": &"end"
 }]
 }
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Label:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.2, 0.25),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("MeshPivot1/MeshPivot2/CirclePivot/Circle:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("MeshPivot1/MeshPivot2/Mesh2:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("Text:position")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Text:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.6, 0.7),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector2(974, 1157), Vector2(974, 1157), Vector2(974, 1020)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:angle")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 2.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_f57sj"]
 _data = {
 &"RESET": SubResource("Animation_y7hvn"),
 &"Rotate": SubResource("6"),
-&"Rotate final": SubResource("Animation_ebdnn")
+&"Rotate final 1": SubResource("Animation_ebdnn"),
+&"Rotate final 2": SubResource("Animation_m7jmp")
 }
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_p5r2g"]
@@ -283,14 +272,16 @@ size = Vector2(10, 10)
 
 [node name="Scene" type="Node"]
 script = ExtResource("3")
-angle = 1.0
+damp = 0.25
 
 [node name="MeshPivot1" type="Node3D" parent="."]
 
 [node name="MeshPivot2" type="Node3D" parent="MeshPivot1"]
+transform = Transform3D(-1, -2.53518e-06, 0, 2.53518e-06, -1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Mesh1" type="MeshInstance3D" parent="MeshPivot1/MeshPivot2"]
 transform = Transform3D(-1, -1.50996e-07, 1.49012e-08, -1.49012e-08, -4.37112e-08, -1, 1.50996e-07, -1, 4.37112e-08, 0, 0, 0)
+visible = false
 mesh = ExtResource("2_pe1k3")
 skeleton = NodePath("../../..")
 
@@ -303,7 +294,6 @@ skeleton = NodePath("../../..")
 
 [node name="Circle" type="MeshInstance3D" parent="MeshPivot1/MeshPivot2/CirclePivot"]
 transform = Transform3D(8.74228e-08, -1, 4.37115e-08, 4.37114e-08, -4.37115e-08, -1, 1, 8.74228e-08, 4.37114e-08, 0, 0, 0)
-visible = false
 material_override = ExtResource("3_m7jmp")
 mesh = SubResource("CylinderMesh_lmx0m")
 skeleton = NodePath("../..")
@@ -326,7 +316,7 @@ autoplay = "Rotate"
 playback_auto_capture_ease_type = 2
 speed_scale = 0.25
 next/RESET = &"Rotate final"
-blend_times = [&"Rotate final", &"Rotate", 0.01, &"Rotate final", &"Rotate final", 0.01]
+blend_times = [&"Rotate final 1", &"Rotate", 0.01, &"Rotate final 1", &"Rotate final 1", 0.01]
 
 [node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5, 0, 0)

@@ -206,14 +206,14 @@ vec2 transform2(vec2 uv, vec2 translate, float rotate, vec2 scale) {
 	rv.y = -sin(rotate)*uv.x + cos(rotate)*uv.y;
 	rv /= scale;
 	rv += vec2(0.5);
-	return rv;	
+	return rv;
 }
 // #globals: rotate
 vec2 rotate(vec2 uv, float rotate) {
  	vec2 rv;
 	rv.x = cos(rotate)*uv.x + sin(rotate)*uv.y;
 	rv.y = -sin(rotate)*uv.x + cos(rotate)*uv.y;
-	return rv;	
+	return rv;
 }
 // #globals: sdisoscelestriangle
 float sd_isosceles_triangle(vec2 uv, vec2 size)
@@ -230,7 +230,7 @@ float sd_isosceles_triangle(vec2 uv, vec2 size)
 // #globals: rotate (o510715243120)
 vec2 get_animation_frame(vec2 uv, float t) {
  	int it = int(t);
-    return (uv+vec2(float(it%8), float(it/8)))*0.125;	
+    return (uv+vec2(float(it%8), float(it/8)))*0.125;
 }
 // #instance: sdf_3 (o511923202696)
 float o511923202696_d(vec2 uv, float _seed_variation_) {
