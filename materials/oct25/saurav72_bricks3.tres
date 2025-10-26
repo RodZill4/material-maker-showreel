@@ -1,0 +1,16 @@
+[gd_resource type="ORMMaterial3D" load_steps=4 format=3 uid="uid://drkbr2p7og6tg"]
+
+[ext_resource type="Texture2D" uid="uid://bmorq355f2llp" path="res://materials/oct25/saurav72_bricks3_albedo.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://bfky0xsl2qgjk" path="res://materials/oct25/saurav72_bricks3_normal.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://cbmsx8qrhoebs" path="res://materials/oct25/saurav72_bricks3_heightmap.png" id="4"]
+
+[resource]
+albedo_texture = ExtResource("1")
+normal_enabled = true
+normal_texture = ExtResource("3")
+heightmap_enabled = true
+heightmap_scale = 6.25
+heightmap_deep_parallax = true
+heightmap_min_layers = 32
+heightmap_max_layers = 64
+heightmap_texture = ExtResource("4")

@@ -1,0 +1,16 @@
+[gd_resource type="ORMMaterial3D" load_steps=4 format=3 uid="uid://ptuy5skoeig6"]
+
+[ext_resource type="Texture2D" uid="uid://bn0s68rj33scr" path="res://materials/oct25/saurav72_cheese_albedo.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://bebwltqd0nxwu" path="res://materials/oct25/saurav72_cheese_normal.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://dspyotytq3lrb" path="res://materials/oct25/saurav72_cheese_heightmap.png" id="4"]
+
+[resource]
+albedo_texture = ExtResource("1")
+normal_enabled = true
+normal_texture = ExtResource("3")
+heightmap_enabled = true
+heightmap_scale = 12.5
+heightmap_deep_parallax = true
+heightmap_min_layers = 32
+heightmap_max_layers = 64
+heightmap_texture = ExtResource("4")

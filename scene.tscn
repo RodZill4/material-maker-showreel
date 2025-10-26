@@ -1,16 +1,102 @@
-[gd_scene load_steps=18 format=3 uid="uid://d42cjr6gh71s"]
+[gd_scene load_steps=27 format=3 uid="uid://d42cjr6gh71s"]
 
 [ext_resource type="ArrayMesh" uid="uid://ccb73fq73e2s2" path="res://hemisphere.obj" id="2_pe1k3"]
 [ext_resource type="Script" uid="uid://c7iunw0cceeyh" path="res://scene.gd" id="3"]
 [ext_resource type="Material" uid="uid://dseqad4mx15px" path="res://animated_logo/mm_animated_logo.tres" id="3_m7jmp"]
-[ext_resource type="Texture2D" uid="uid://nxa0lfkyjp81" path="res://text.svg" id="4_hkwaj"]
 [ext_resource type="Texture2D" uid="uid://bklr8smdf2fb4" path="res://kloofendal_48d_partly_cloudy_1k.exr" id="4_m07j6"]
+[ext_resource type="Texture2D" uid="uid://t81fh6eq1fr" path="res://material.svg" id="5_y2354"]
+[ext_resource type="Texture2D" uid="uid://bdv3f1ilbfhby" path="res://maker.svg" id="6_ni31j"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_lmx0m"]
 top_radius = 1.0
 bottom_radius = 1.0
 height = 0.001
 cap_top = false
+
+[sub_resource type="Animation" id="Animation_ni31j"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshPivot1:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LabelVertical:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_y2354"]
+resource_name = "start"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshPivot1:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.8, 3.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LabelVertical:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xlvrw"]
+_data = {
+&"RESET": SubResource("Animation_ni31j"),
+&"start": SubResource("Animation_y2354")
+}
 
 [sub_resource type="Animation" id="4"]
 resource_name = "Slow rotate"
@@ -50,19 +136,19 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Text:position")
+tracks/1/path = NodePath("MeshPivot1/MeshPivot2:rotation:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(974, 1157)]
+"values": [0.0]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("MeshPivot1/MeshPivot2:rotation:y")
+tracks/2/path = NodePath(".:angle")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -74,14 +160,14 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath(".:angle")
+tracks/3/path = NodePath("LabelVertical:modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [0.0]
+"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="6"]
@@ -135,6 +221,18 @@ tracks/2/keys = {
 "update": 0,
 "values": [0.0, 2.0]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("LabelVertical:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.25, 0.3, 0.35, 0.5, 0.7, 0.75, 0.8, 0.85),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_ebdnn"]
 resource_name = "Rotate final 1"
@@ -147,9 +245,12 @@ tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(3),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.55, 3),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
+"args": [],
+"method": &"show_material_maker"
+}, {
 "args": [],
 "method": &"end"
 }]
@@ -169,26 +270,26 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Text:position")
+tracks/2/path = NodePath(".:angle")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.6, 0.7),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(974, 1157), Vector2(974, 1157), Vector2(974, 1020)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".:angle")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0.0, 1.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("LabelVertical:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_m7jmp"]
@@ -202,9 +303,12 @@ tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(3),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.55, 3),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
+"args": [],
+"method": &"show_material_maker"
+}, {
 "args": [],
 "method": &"end"
 }]
@@ -224,26 +328,26 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Text:position")
+tracks/2/path = NodePath(".:angle")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.6, 0.7),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(974, 1157), Vector2(974, 1157), Vector2(974, 1020)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".:angle")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [1.0, 2.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("LabelVertical:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_f57sj"]
@@ -252,6 +356,86 @@ _data = {
 &"Rotate": SubResource("6"),
 &"Rotate final 1": SubResource("Animation_ebdnn"),
 &"Rotate final 2": SubResource("Animation_m7jmp")
+}
+
+[sub_resource type="Animation" id="Animation_5juve"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextVertical:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-250, 537)]
+}
+
+[sub_resource type="Animation" id="Animation_xlvrw"]
+resource_name = "show_title_shrink"
+length = 0.5
+step = 0.0333333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshPivot1:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.19, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshPivot1:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(0.725, 0.725, 0.725)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Text:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.29000002),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(974, 1157), Vector2(974, 873)]
+}
+
+[sub_resource type="Animation" id="Animation_73fnb"]
+resource_name = "show_title_vertical"
+length = 0.5
+step = 0.0333333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextVertical:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-250, 537), Vector2(250, 537)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_73fnb"]
+_data = {
+&"RESET": SubResource("Animation_5juve"),
+&"show_title_shrink": SubResource("Animation_xlvrw"),
+&"show_title_vertical": SubResource("Animation_73fnb")
 }
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_p5r2g"]
@@ -267,17 +451,66 @@ sky = SubResource("8")
 ambient_light_color = Color(1, 1, 1, 1)
 ambient_light_energy = 0.5
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m7jmp"]
+albedo_color = Color(0.021434637, 0.021434635, 0.021434633, 1)
+
 [sub_resource type="PlaneMesh" id="9"]
 size = Vector2(10, 10)
 
 [node name="Scene" type="Node"]
 script = ExtResource("3")
+material_dir = "res://materials"
+material_descriptions = Dictionary[String, String]({
+"ancient_bricks": "Ancient bricks,DroppedBeat",
+"ancient_pedestal": "Ancient pedestal,Tarox",
+"animated_fire": "Animated fire,unfa",
+"animated_radar": "Animated radar,PixelMuncher",
+"arcane_compass": "Arcane compass,wojtekpil",
+"beach": "Beach,Tarox",
+"bookcase": "Cozy bookcase,Arnklit",
+"burger": "Burger,Arnklit",
+"chained": "Chained down,Tarox",
+"chesterfield": "Chesterfield,TheoDGM",
+"cliff_rock": "Cliff rock,Skywolf",
+"containers": "Containers,DroppedBeat",
+"damaged_plaster": "Damaged plaster wall,Arnklit",
+"fish_pond": "Fish pond,DroppedBeat",
+"floppy_disks": "Floppy disks,PixelMuncher",
+"gear_box": "Gear box,DroppedBeat",
+"gears_panel": "Gears panel,RodZilla",
+"gingerbread": "Gingerbread,Tarox",
+"ground_foliage": "Ground foliage,Arnklit",
+"hardwood_floor": "Decrepit Hardwood floor,BurritoLord69",
+"kryptonite": "Kryptonite,Tarox",
+"leather": "Stitched leather,Tarox",
+"manhole_cover": "Manhole cover,PixelMuncher",
+"matrix_code_rain": "Matrix rain code,DroppedBeat",
+"ornamental": "Ornamental,DroppedBeat",
+"ornamental_ceiling": "Ornamental ceiling,Tarox",
+"polished_turquoise": "Polished turquoise,LitmusZest",
+"puddle": "Puddle,DroppedBeat",
+"rainy_window": "Rainy window,unfa",
+"remnant": "Remnant,Tarox",
+"roof_tiles": "Old roof tiles,Tarox",
+"rosette": "Rosette,Tarox",
+"scarabs_on_hieroglyphs": "Scarab Beetles Crawling on Hieroglyphs,Arnklit",
+"sealing_talismans": "Sealing Talismans,DroppedBeat",
+"sewn_flesh": "Sewn flesh,Gin",
+"smaugs_treasure": "Smaug's Treasure,Arnklit",
+"snowman": "Snowman,Arnklit",
+"stylized_flowing_lava": "Stylized flowing lava,Tarox",
+"stylized_lava": "Stylized lava,Tarox",
+"temporal_displacement": "Temporal displacement,DroppedBeat",
+"train_tracks": "Train tracks,PixelMuncher",
+"wires": "Wires,DroppedBeat"
+})
+material_list = Array[String](["roof_tiles", "polished_turquoise", "beach", "gingerbread", "sewn_flesh", "ornamental", "gear_box", "floppy_disks", "rosette", "animated_fire", "arcane_compass", "wires", "containers", "stylized_flowing_lava", "ancient_bricks", "sealing_talismans", "temporal_displacement", "bookcase", "gears_panel", "scarabs_on_hieroglyphs", "burger", "chained", "hardwood_floor", "puddle", "cliff_rock", "manhole_cover", "matrix_code_rain", "smaugs_treasure", "kryptonite", "rainy_window", "remnant", "ornamental_ceiling", "stylized_lava", "train_tracks", "ancient_pedestal", "animated_radar", "damaged_plaster", "fish_pond", "leather", "chesterfield", "snowman", "ground_foliage"])
 damp = 0.25
 
 [node name="MeshPivot1" type="Node3D" parent="."]
 
 [node name="MeshPivot2" type="Node3D" parent="MeshPivot1"]
-transform = Transform3D(-1, -2.53518e-06, 0, 2.53518e-06, -1, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(-1, -2.5351817e-06, 0, 2.5351817e-06, -1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Mesh1" type="MeshInstance3D" parent="MeshPivot1/MeshPivot2"]
 transform = Transform3D(-1, -1.50996e-07, 1.49012e-08, -1.49012e-08, -4.37112e-08, -1, 1.50996e-07, -1, 4.37112e-08, 0, 0, 0)
@@ -297,6 +530,12 @@ transform = Transform3D(8.74228e-08, -1, 4.37115e-08, 4.37114e-08, -4.37115e-08,
 material_override = ExtResource("3_m7jmp")
 mesh = SubResource("CylinderMesh_lmx0m")
 skeleton = NodePath("../..")
+
+[node name="AnimationPlayerStart" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_xlvrw")
+}
+autoplay = "start"
 
 [node name="AnimationPlayer1" type="AnimationPlayer" parent="."]
 libraries = {
@@ -318,6 +557,11 @@ speed_scale = 0.25
 next/RESET = &"Rotate final"
 blend_times = [&"Rotate final 1", &"Rotate", 0.01, &"Rotate final 1", &"Rotate final 1", 0.01]
 
+[node name="ShowTitle" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_73fnb")
+}
+
 [node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5, 0, 0)
 fov = 29.0
@@ -327,7 +571,6 @@ environment = SubResource("7")
 
 [node name="DirectionalLight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.80144, 0.00662634, -0.598039, 0.481731, -0.599755, 0.638928, -0.354443, -0.800156, -0.48386, 0, 0, 0)
-shadow_enabled = true
 shadow_bias = 0.01
 directional_shadow_split_2 = 0.5
 directional_shadow_split_3 = 1.0
@@ -335,11 +578,13 @@ directional_shadow_blend_splits = true
 directional_shadow_fade_start = 0.755
 directional_shadow_max_distance = 7.5
 
-[node name="MeshInstance" type="MeshInstance3D" parent="."]
+[node name="Background" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_m7jmp")
 mesh = SubResource("9")
 
 [node name="Label" type="Label" parent="."]
+visible = false
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
@@ -348,14 +593,72 @@ offset_top = -110.0
 offset_bottom = -22.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
 theme_override_font_sizes/font_size = 64
 horizontal_alignment = 1
 
-[node name="Text" type="Sprite2D" parent="."]
+[node name="LabelVertical" type="Label" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1423.0
+offset_top = 1076.0
+offset_right = 578.90283
+offset_bottom = 84.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -1.5707964
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Author" type="Label" parent="LabelVertical"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -3.3923416
+offset_top = 100.0
+offset_right = 7.7894287
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Text" type="Node2D" parent="."]
 position = Vector2(974, 1157)
-scale = Vector2(0.8, 0.8)
-texture = ExtResource("4_hkwaj")
+scale = Vector2(1.2, 1.2)
+
+[node name="Material" type="Sprite2D" parent="Text"]
+position = Vector2(-226.24998, -0.41663638)
+scale = Vector2(0.9990705, 0.9924237)
+texture = ExtResource("5_y2354")
+
+[node name="Maker" type="Sprite2D" parent="Text"]
+position = Vector2(306.66663, 14.166635)
+scale = Vector2(1.004386, 1.0045674)
+texture = ExtResource("6_ni31j")
+
+[node name="TextVertical" type="Node2D" parent="."]
+position = Vector2(-250, 537)
+rotation = -1.5707964
+scale = Vector2(1.2, 1.2)
+
+[node name="Material" type="Sprite2D" parent="TextVertical"]
+scale = Vector2(0.9990705, 0.9924237)
+texture = ExtResource("5_y2354")
+
+[node name="Maker" type="Sprite2D" parent="TextVertical"]
+position = Vector2(0, 135.615)
+scale = Vector2(1.004386, 1.0045674)
+texture = ExtResource("6_ni31j")
 
 [connection signal="animation_finished" from="AnimationPlayer2" to="." method="_on_animation_player_2_animation_finished"]

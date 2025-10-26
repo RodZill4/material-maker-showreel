@@ -9,5 +9,5 @@ shader = ExtResource("1")
 shader_parameter/uv1_scale = Vector3(2, 2, 2)
 shader_parameter/uv1_offset = Vector3(0, 0, 0)
 shader_parameter/variation = 0.0
-shader_parameter/shader_time = 35.72
+shader_parameter/shader_time = 50.0
 shader_parameter/texture_1 = ExtResource("2")

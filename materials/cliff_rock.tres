@@ -1,20 +1,18 @@
-[gd_resource type="ORMMaterial3D" load_steps=6 format=3]
-[ext_resource path="cliff_rock_albedo.png" type="Texture" id=1]
-[ext_resource path="cliff_rock_orm.png" type="Texture" id=2]
-[ext_resource path="cliff_rock_normal.png" type="Texture" id=3]
-[ext_resource path="cliff_rock_heightmap.png" type="Texture" id=4]
+[gd_resource type="ORMMaterial3D" load_steps=5 format=3 uid="uid://bvdilayogbe25"]
+
+[ext_resource type="Texture2D" uid="uid://dosb7cso68pvd" path="res://materials/cliff_rock_albedo.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://d2845jsxosc5e" path="res://materials/cliff_rock_orm.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://b804t6jljfuqp" path="res://materials/cliff_rock_normal.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://bumo2yfxj7tjf" path="res://materials/cliff_rock_heightmap.png" id="4"]
+
 [resource]
-albedo_color = Color(1, 1, 1, 1)
-albedo_texture = ExtResource( 1 )
+albedo_texture = ExtResource("1")
+orm_texture = ExtResource("2")
 normal_enabled = true
-normal_scale = 1
-normal_texture = ExtResource( 3 )
+normal_texture = ExtResource("3")
 heightmap_enabled = true
 heightmap_scale = 5.25
 heightmap_deep_parallax = true
 heightmap_min_layers = 8
 heightmap_max_layers = 32
-heightmap_texture = ExtResource( 4 )
-
-
-
+heightmap_texture = ExtResource("4")

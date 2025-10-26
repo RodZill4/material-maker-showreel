@@ -1,0 +1,152 @@
+[gd_scene load_steps=14 format=3 uid="uid://ndawd8mdceok"]
+
+[ext_resource type="Script" uid="uid://cm53qugcfix73" path="res://animated_logo.gd" id="1_xm24l"]
+[ext_resource type="Material" uid="uid://dseqad4mx15px" path="res://animated_logo/mm_animated_logo.tres" id="2_opllv"]
+[ext_resource type="Texture2D" uid="uid://bklr8smdf2fb4" path="res://kloofendal_48d_partly_cloudy_1k.exr" id="3_hah5b"]
+[ext_resource type="Texture2D" uid="uid://nxa0lfkyjp81" path="res://text.svg" id="4_bm2ad"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_lmx0m"]
+top_radius = 1.0
+bottom_radius = 1.0
+height = 0.001
+cap_top = false
+
+[sub_resource type="Animation" id="Animation_y7hvn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Circle:material_override:shader_parameter/shader_time")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Text:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(974, 1157)]
+}
+
+[sub_resource type="Animation" id="Animation_rpuqv"]
+resource_name = "anim"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Circle:material_override:shader_parameter/shader_time")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-10.0, 50.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Text:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(2.0333333, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(974, 1157), Vector2(974, 960)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(10),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"end"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_f57sj"]
+_data = {
+&"RESET": SubResource("Animation_y7hvn"),
+&"anim": SubResource("Animation_rpuqv")
+}
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_p5r2g"]
+panorama = ExtResource("3_hah5b")
+
+[sub_resource type="Sky" id="8"]
+sky_material = SubResource("PanoramaSkyMaterial_p5r2g")
+
+[sub_resource type="Environment" id="7"]
+background_mode = 2
+background_color = Color(1, 1, 1, 1)
+sky = SubResource("8")
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m7jmp"]
+
+[sub_resource type="PlaneMesh" id="9"]
+size = Vector2(10, 10)
+
+[node name="Logo" type="Node"]
+script = ExtResource("1_xm24l")
+
+[node name="Circle" type="MeshInstance3D" parent="."]
+transform = Transform3D(-8.742291e-08, 1, 2.4914702e-06, -4.371118e-08, -2.4914702e-06, 1, 1, 8.74228e-08, 4.37114e-08, 0, 0.3, 0)
+material_override = ExtResource("2_opllv")
+mesh = SubResource("CylinderMesh_lmx0m")
+skeleton = NodePath("")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+reset_on_save = false
+callback_mode_method = 1
+libraries = {
+&"": SubResource("AnimationLibrary_f57sj")
+}
+autoplay = "anim"
+playback_auto_capture_ease_type = 2
+next/RESET = &"Rotate final"
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5, 0, 0)
+fov = 29.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("7")
+
+[node name="DirectionalLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.80144, 0.00662634, -0.598039, 0.481731, -0.599755, 0.638928, -0.354443, -0.800156, -0.48386, 0, 0, 0)
+shadow_bias = 0.01
+directional_shadow_split_2 = 0.5
+directional_shadow_split_3 = 1.0
+directional_shadow_blend_splits = true
+directional_shadow_fade_start = 0.755
+directional_shadow_max_distance = 7.5
+
+[node name="MeshInstance" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_m7jmp")
+mesh = SubResource("9")
+
+[node name="Text" type="Sprite2D" parent="."]
+position = Vector2(974, 960)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("4_bm2ad")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_2_animation_finished"]

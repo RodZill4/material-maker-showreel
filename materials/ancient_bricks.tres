@@ -1,11 +1,13 @@
-[gd_resource type="ORMMaterial3D" load_steps=4 format=3 uid="uid://vshcbft2x4i1"]
+[gd_resource type="ORMMaterial3D" load_steps=5 format=3 uid="uid://vshcbft2x4i1"]
 
 [ext_resource type="Texture2D" uid="uid://bcb5cpfnqvgla" path="res://materials/ancient_bricks_albedo.png" id="1"]
 [ext_resource type="Texture2D" uid="uid://wwip8vkgj83s" path="res://materials/ancient_bricks_normal.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://dgbrc44hlo6wc" path="res://materials/ancient_bricks_heightmap.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://ctxtfe61tlxvy" path="res://materials/ancient_bricks_orm.png" id="4_m5xna"]
 
 [resource]
 albedo_texture = ExtResource("1")
+orm_texture = ExtResource("4_m5xna")
 normal_enabled = true
 normal_texture = ExtResource("3")
 heightmap_enabled = true

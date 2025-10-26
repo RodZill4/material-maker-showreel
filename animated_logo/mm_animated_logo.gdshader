@@ -468,6 +468,3 @@ vec4 o512376187543_0_1_rgba = o512124529296_0_1_rgba;
 	ALBEDO = color_tex.rgb;
 	ALPHA = color_tex.a;
 }
-
-
-

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://jqwur5ns4ne4"]
+
+[ext_resource type="PackedScene" uid="uid://d42cjr6gh71s" path="res://scene.tscn" id="1_s2ta7"]
+
+[node name="Scene" instance=ExtResource("1_s2ta7")]
+material_list = Array[String](["cliff_rock", "rainy_window", "rosette", "manhole_cover", "gear_box", "ornamental_ceiling"])
+background_color = Color(0.06469653, 0.06469653, 0.06469653, 1)
+text_color = Color(1, 1, 1, 1)

@@ -1,0 +1,19 @@
+[gd_resource type="ORMMaterial3D" load_steps=5 format=3 uid="uid://dv0v165wl4u21"]
+
+[ext_resource type="Texture2D" uid="uid://bejxas3qw26gm" path="res://materials/oct25/saurav72_crate_albedo.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://dwsghexslhdc0" path="res://materials/oct25/saurav72_crate_orm.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://ptpyscnd8wyv" path="res://materials/oct25/saurav72_crate_normal.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://bel1obnea1g1i" path="res://materials/oct25/saurav72_crate_heightmap.png" id="4"]
+
+[resource]
+albedo_texture = ExtResource("1")
+orm_texture = ExtResource("2")
+normal_enabled = true
+normal_scale = 2.4
+normal_texture = ExtResource("3")
+heightmap_enabled = true
+heightmap_scale = 8.75
+heightmap_deep_parallax = true
+heightmap_min_layers = 32
+heightmap_max_layers = 64
+heightmap_texture = ExtResource("4")

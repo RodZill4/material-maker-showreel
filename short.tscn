@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://6faq7i72a88i"]
+
+[ext_resource type="PackedScene" uid="uid://d42cjr6gh71s" path="res://scene.tscn" id="1_gp2d6"]
+
+[node name="Scene" instance=ExtResource("1_gp2d6")]
+vertical = true
+material_dir = "res://materials/oct25"
+material_descriptions = Dictionary[String, String]({
+"any_other_broken_tiles": "Broken Tiles,any_other",
+"any_other_scifi_panels": "SciFi Panels,any_other",
+"risingthumb_web": "Spider Webs,RisingThumb ",
+"saurav72_bricks3": "Stylized Bricks,Saurav72",
+"saurav72_cheese": "Stylized Cheese,Saurav72",
+"saurav72_crate": "Wooden Crate,Saurav72",
+"saurav72_ornaments": "Ornaments in a Box,Saurav72",
+"saurav72_plank5": "Stylized Planks,Saurav72",
+"swizzle_layered_rock": "Stylized layered Rock,Swizzle",
+"swizzle_stylized_cliff": "Stylized Cliff,Swizzle ",
+"wojtekpil_grass_clumps": "Grass Clumps,wojtekpil ",
+"yelfog_rusty_grate": "Rusty Grate,yelfog"
+})
+material_list = Array[String](["saurav72_ornaments", "saurav72_crate", "saurav72_bricks3", "yelfog_rusty_grate", "saurav72_cheese", "any_other_scifi_panels", "any_other_broken_tiles", "risingthumb_web", "saurav72_plank5", "swizzle_stylized_cliff", "wojtekpil_grass_clumps"])
+background_color = Color(0.043039158, 0.04303915, 0.04303915, 1)
+text_color = Color(1, 1, 1, 1)

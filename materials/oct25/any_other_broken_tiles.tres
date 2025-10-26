@@ -1,0 +1,11 @@
+[gd_resource type="ORMMaterial3D" load_steps=4 format=3 uid="uid://c12p1mwhx3qe7"]
+
+[ext_resource type="Texture2D" uid="uid://lt6yjs46osey" path="res://materials/oct25/any_other_broken_tiles_albedo.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://c2vv7ncmovvj7" path="res://materials/oct25/any_other_broken_tiles_orm.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://dpvowjaomctre" path="res://materials/oct25/any_other_broken_tiles_normal.png" id="3"]
+
+[resource]
+albedo_texture = ExtResource("1")
+orm_texture = ExtResource("2")
+normal_enabled = true
+normal_texture = ExtResource("3")
