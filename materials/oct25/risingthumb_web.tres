@@ -1,8 +1,6 @@
-[gd_resource type="ORMMaterial3D" load_steps=6 format=3]
-[ext_resource path="risingthumb_web_albedo.png" type="Texture" id=1]
+[gd_resource type="ORMMaterial3D" load_steps=2 format=3 uid="uid://d0gfgot5e3rue"]
+
+[ext_resource type="Texture2D" uid="uid://boh6j8voyr3ex" path="res://materials/oct25/risingthumb_web_albedo.png" id="1"]
+
 [resource]
-albedo_color = Color(1.0, 1.0, 1.0, 1.0)
-albedo_texture = ExtResource( 1 )
-
-
-
+albedo_texture = ExtResource("1")

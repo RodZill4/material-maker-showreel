@@ -238,54 +238,37 @@ tracks/3/keys = {
 resource_name = "Rotate final 1"
 length = 3.0
 step = 0.05
-tracks/0/type = "method"
+tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".")
+tracks/0/path = NodePath("Label:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.55, 3),
-"transitions": PackedFloat32Array(1, 1),
-"values": [{
-"args": [],
-"method": &"show_material_maker"
-}, {
-"args": [],
-"method": &"end"
-}]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Label:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.2, 0.25),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:angle")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:angle")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0.0, 1.0]
 }
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("LabelVertical:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LabelVertical:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.2, 0.25),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
@@ -296,54 +279,37 @@ tracks/3/keys = {
 resource_name = "Rotate final 2"
 length = 3.0
 step = 0.05
-tracks/0/type = "method"
+tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".")
+tracks/0/path = NodePath("Label:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.55, 3),
-"transitions": PackedFloat32Array(1, 1),
-"values": [{
-"args": [],
-"method": &"show_material_maker"
-}, {
-"args": [],
-"method": &"end"
-}]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Label:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.2, 0.25),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:angle")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:angle")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [1.0, 2.0]
 }
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("LabelVertical:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LabelVertical:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.2, 0.25),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
@@ -491,6 +457,7 @@ material_descriptions = Dictionary[String, String]({
 "puddle": "Puddle,DroppedBeat",
 "rainy_window": "Rainy window,unfa",
 "remnant": "Remnant,Tarox",
+"riveted_plates": "Riveted plates,DroppedBeat",
 "roof_tiles": "Old roof tiles,Tarox",
 "rosette": "Rosette,Tarox",
 "scarabs_on_hieroglyphs": "Scarab Beetles Crawling on Hieroglyphs,Arnklit",
@@ -504,8 +471,11 @@ material_descriptions = Dictionary[String, String]({
 "train_tracks": "Train tracks,PixelMuncher",
 "wires": "Wires,DroppedBeat"
 })
-material_list = Array[String](["roof_tiles", "polished_turquoise", "beach", "gingerbread", "sewn_flesh", "ornamental", "gear_box", "floppy_disks", "rosette", "animated_fire", "arcane_compass", "wires", "containers", "stylized_flowing_lava", "ancient_bricks", "sealing_talismans", "temporal_displacement", "bookcase", "gears_panel", "scarabs_on_hieroglyphs", "burger", "chained", "hardwood_floor", "puddle", "cliff_rock", "manhole_cover", "matrix_code_rain", "smaugs_treasure", "kryptonite", "rainy_window", "remnant", "ornamental_ceiling", "stylized_lava", "train_tracks", "ancient_pedestal", "animated_radar", "damaged_plaster", "fish_pond", "leather", "chesterfield", "snowman", "ground_foliage"])
+material_list = Array[String](["roof_tiles", "polished_turquoise", "beach", "gingerbread", "sewn_flesh", "ornamental", "gear_box", "floppy_disks", "rosette", "animated_fire", "arcane_compass", "wires", "containers", "stylized_flowing_lava", "ancient_bricks", "sealing_talismans", "temporal_displacement", "bookcase", "riveted_plates", "scarabs_on_hieroglyphs", "burger", "chained", "hardwood_floor", "puddle", "cliff_rock", "manhole_cover", "matrix_code_rain", "smaugs_treasure", "kryptonite", "rainy_window", "remnant", "ornamental_ceiling", "stylized_lava", "train_tracks", "ancient_pedestal", "animated_radar", "damaged_plaster", "fish_pond", "leather", "chesterfield", "snowman", "ground_foliage"])
+background_color = Color(0, 0, 0, 1)
+text_color = Color(1, 1, 1, 1)
 damp = 0.25
+angle = 1.0
 
 [node name="MeshPivot1" type="Node3D" parent="."]
 

@@ -1,20 +1,17 @@
-[gd_resource type="ORMMaterial3D" load_steps=6 format=3]
-[ext_resource path="saurav72_plank5_albedo.png" type="Texture" id=1]
-[ext_resource path="saurav72_plank5_orm.png" type="Texture" id=2]
-[ext_resource path="saurav72_plank5_normal.png" type="Texture" id=3]
-[ext_resource path="saurav72_plank5_heightmap.png" type="Texture" id=4]
+[gd_resource type="ORMMaterial3D" load_steps=4 format=3 uid="uid://jfut2ktyc0hw"]
+
+[ext_resource type="Texture2D" uid="uid://ddm1cvn33512g" path="res://materials/oct25/saurav72_plank5_albedo.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://da4klt5awctn7" path="res://materials/oct25/saurav72_plank5_normal.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://couclm7h8fjqj" path="res://materials/oct25/saurav72_plank5_heightmap.png" id="4"]
+
 [resource]
-albedo_color = Color(1.0, 1.0, 1.0, 1.0)
-albedo_texture = ExtResource( 1 )
+albedo_texture = ExtResource("1")
 normal_enabled = true
 normal_scale = 1.2
-normal_texture = ExtResource( 3 )
+normal_texture = ExtResource("3")
 heightmap_enabled = true
 heightmap_scale = 0.875
 heightmap_deep_parallax = true
-heightmap_min_layers = 8
-heightmap_max_layers = 32
-heightmap_texture = ExtResource( 4 )
-
-
-
+heightmap_min_layers = 32
+heightmap_max_layers = 64
+heightmap_texture = ExtResource("4")

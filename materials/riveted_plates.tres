@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://co7ekcr53tc8g"]
+
+[ext_resource type="Shader" uid="uid://ddfjie4gyvda2" path="res://materials/riveted_plates.gdshader" id="1"]
+[ext_resource type="Texture2D" uid="uid://shsqvjrocq7w" path="res://materials/riveted_plates_texture_1.png" id="2"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1")
+shader_parameter/uv1_offset = Vector3(0.73, 0.375, 0)
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/depth_min_layers = 32
+shader_parameter/depth_max_layers = 64
+shader_parameter/depth_flip = Vector2(1, 1)
+shader_parameter/variation = 0.0
+shader_parameter/texture_1 = ExtResource("2")

@@ -6,3 +6,7 @@
 material_list = Array[String](["cliff_rock", "rainy_window", "rosette", "manhole_cover", "gear_box", "ornamental_ceiling"])
 background_color = Color(0.06469653, 0.06469653, 0.06469653, 1)
 text_color = Color(1, 1, 1, 1)
+angle = 0.0
+
+[node name="AnimationPlayer2" parent="." index="3"]
+blend_times = [&"Rotate final 1", &"Rotate", 0.01, &"Rotate final 1", &"Rotate final 1", 0.01]

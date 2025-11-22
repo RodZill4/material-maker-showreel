@@ -2,6 +2,8 @@ extends Node
 
 @export var vertical : bool = false
 
+@export var randomize : bool = false
+
 @export var material_dir : String
 @export var material_descriptions : Dictionary[String, String]
 @export var material_list : Array[String]
@@ -19,6 +21,7 @@ var material_count : int
 var materials : Dictionary
 var current_material = 1
 
+@export var speed_scale : float = 0.25
 @export var damp : float = 0.5
 @export var angle : float = 0.0:
 	set(v):
@@ -45,6 +48,8 @@ var MATERIAL_LIST_SHORT : Array[String] = [
 
 func _ready():
 	material_names = material_list.duplicate()
+	if randomize:
+		material_names.shuffle()
 	material_names.push_front(material_names.front())
 	material_names.push_front(material_names.front())
 	material_names.push_front(material_names.front())
@@ -61,6 +66,8 @@ func _ready():
 	$Label.self_modulate = text_color
 	$LabelVertical.self_modulate = text_color
 	$LabelVertical/Author.self_modulate = text_color
+	
+	$AnimationPlayer2.speed_scale = speed_scale
 	
 	set_physics_process(false)
 	
@@ -118,6 +125,12 @@ func change_material():
 		var tween : Tween = get_tree().create_tween()
 		tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
 		tween.tween_property(circle.material_override, "shader_parameter/shader_time", 50.0, 5.0)
+		var end_tween : Tween = get_tree().create_tween()
+		end_tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
+		end_tween.tween_interval(2.1)
+		end_tween.tween_callback(self.show_material_maker)
+		end_tween.tween_interval(10)
+		end_tween.tween_callback(self.end)
 		set_physics_process(true)
 	else:
 		meshes[1-(current_material & 1)].material_override = materials[material_names[current_material]]
