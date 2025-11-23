@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://d047ruu8x784w"]
+
+[ext_resource type="PackedScene" uid="uid://6faq7i72a88i" path="res://short.tscn" id="1_q5kwj"]
+
+[node name="Scene" instance=ExtResource("1_q5kwj")]
+material_list = Array[String](["oct25/saurav72_ornaments", "oct25/saurav72_crate", "oct25/saurav72_bricks3", "oct25/yelfog_rusty_grate", "oct25/saurav72_cheese", "oct25/any_other_scifi_panels", "oct25/any_other_broken_tiles", "oct25/saurav72_plank5", "oct25/swizzle_stylized_cliff", "oct25/wojtekpil_grass_clumps", "oct25/hxsoft_pixel_tree", "oct25/hxsoft_pixel_tomb", "oct25/sibart_stylized_arc_pavement"])
+
+[node name="AnimationPlayer2" parent="." index="3"]
+blend_times = [&"Rotate final 1", &"Rotate", 0.01, &"Rotate final 1", &"Rotate final 1", 0.01]

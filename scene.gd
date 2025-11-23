@@ -2,7 +2,7 @@ extends Node
 
 @export var vertical : bool = false
 
-@export var randomize : bool = false
+@export var randomize_order : bool = false
 
 @export var material_dir : String
 @export var material_descriptions : Dictionary[String, String]
@@ -47,8 +47,35 @@ var MATERIAL_LIST_SHORT : Array[String] = [
 
 
 func _ready():
-	material_names = material_list.duplicate()
-	if randomize:
+	set_physics_process(false)
+	
+	material_names = []
+	
+	materials = {}
+	var tinymesh : BoxMesh = BoxMesh.new()
+	tinymesh.size = Vector3(0.01, 0.01, 0.01)
+	
+	for m in material_list:
+		if m in material_names:
+			print("Found duplicate ", m)
+		if m in material_descriptions:
+			var material = load(material_dir+"/"+m+".tres")
+			if material != null:
+				materials[m] = material
+				var mesh_instance : MeshInstance3D = MeshInstance3D.new()
+				mesh_instance.position.x = 0.1
+				mesh_instance.mesh = tinymesh
+				mesh_instance.material_override = material
+				add_child(mesh_instance)
+				material_names.append(m)
+			else:
+				print("Failed to load "+m+".tres")
+		else:
+			print("No description for material ", m)
+			get_tree().quit()
+			return	
+	
+	if randomize_order:
 		material_names.shuffle()
 	material_names.push_front(material_names.front())
 	material_names.push_front(material_names.front())
@@ -69,33 +96,6 @@ func _ready():
 	
 	$AnimationPlayer2.speed_scale = speed_scale
 	
-	set_physics_process(false)
-	
-	materials = {}
-	var tinymesh : BoxMesh = BoxMesh.new()
-	tinymesh.size = Vector3(0.01, 0.01, 0.01)
-	
-	for m in material_names:
-		if m in material_descriptions:
-			var material = load(material_dir+"/"+m+".tres")
-			if material != null:
-				materials[m] = material
-				var mesh_instance : MeshInstance3D = MeshInstance3D.new()
-				mesh_instance.position.x = 0.1
-				mesh_instance.mesh = tinymesh
-				mesh_instance.material_override = material
-				add_child(mesh_instance)
-				if materials.keys().size() > 1000:
-					break
-			else:
-				print("Failed to load "+m+".tres")
-				get_tree().quit()
-				return
-		else:
-			print("No description for material ", m)
-			get_tree().quit()
-			return
-
 	$MeshPivot1/MeshPivot2/Mesh1.visible = true
 	$MeshPivot1/MeshPivot2/Mesh2.visible = true
 	$MeshPivot1/MeshPivot2/CirclePivot/Circle.visible = false

@@ -4,29 +4,9 @@
 
 [node name="Scene" instance=ExtResource("1_gp2d6")]
 vertical = true
-randomize = true
-material_dir = "res://materials/oct25"
-material_descriptions = Dictionary[String, String]({
-"any_other_broken_tiles": "Broken Tiles,any_other",
-"any_other_scifi_panels": "SciFi Panels,any_other",
-"hxsoft_pixel_stone_wall": "Pixel Stone Wall,HXSoft",
-"hxsoft_pixel_tomb": "Pixel Tomb,HXSoft",
-"hxsoft_pixel_tree": "Pixel Tree,HXSoft",
-"risingthumb_web": "Spider Webs,RisingThumb ",
-"saurav72_bricks3": "Stylized Bricks,Saurav72",
-"saurav72_cheese": "Stylized Cheese,Saurav72",
-"saurav72_crate": "Wooden Crate,Saurav72",
-"saurav72_ornaments": "Ornaments in a Box,Saurav72",
-"saurav72_plank5": "Stylized Planks,Saurav72",
-"sibart_stylized_arc_pavement": "Stylized Arc Pavement,SibArt",
-"swizzle_layered_rock": "Stylized layered Rock,Swizzle",
-"swizzle_stylized_cliff": "Stylized Cliff,Swizzle ",
-"wojtekpil_grass_clumps": "Grass Clumps,wojtekpil ",
-"yelfog_rusty_grate": "Rusty Grate,yelfog"
-})
-material_list = Array[String](["saurav72_ornaments", "saurav72_crate", "saurav72_bricks3", "yelfog_rusty_grate", "saurav72_cheese", "any_other_scifi_panels", "any_other_broken_tiles", "saurav72_plank5", "swizzle_stylized_cliff", "wojtekpil_grass_clumps", "hxsoft_pixel_tree", "hxsoft_pixel_tomb", "sibart_stylized_arc_pavement"])
+randomize_order = true
+material_list = Array[String]([])
 background_color = Color(0.043039158, 0.04303915, 0.04303915, 1)
-text_color = Color(1, 1, 1, 1)
 
 [node name="AnimationPlayer2" parent="." index="3"]
 blend_times = [&"Rotate final 1", &"Rotate", 0.01, &"Rotate final 1", &"Rotate final 1", 0.01]

@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" load_steps=6 format=2]
+[ext_resource path="droppedbeat_parallax_ice_cracks.gdshader" type="Shader" id=1]
+[ext_resource path="droppedbeat_parallax_ice_cracks_albedo.png" type="Texture" id=2]
+[ext_resource path="droppedbeat_parallax_ice_cracks_normal.png" type="Texture" id=3]
+[ext_resource path="droppedbeat_parallax_ice_cracks_orm.png" type="Texture" id=4]
+[ext_resource path="droppedbeat_parallax_ice_cracks_parallax.png" type="Texture" id=5]
+[resource]
+shader = ExtResource( 1 )
+shader_parameter/texture_albedo = ExtResource( 2 )
+shader_parameter/texture_normal = ExtResource( 3 )
+shader_parameter/texture_orm = ExtResource( 4 )
+shader_parameter/texture_parallax = ExtResource( 5 )
+normal_enabled = true
+shader_parameter/uv1_scale = Vector3(1, 1, 0)
+
+
+
