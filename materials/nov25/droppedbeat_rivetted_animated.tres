@@ -1,9 +1,15 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
-[ext_resource path="droppedbeat_rivetted_animated.gdshader" type="Shader" id=1]
-[ext_resource path="droppedbeat_rivetted_animated_texture_1.png" type="Texture" id=2]
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://brg1g1op1hh8d"]
+
+[ext_resource type="Shader" uid="uid://c0q62squbvftv" path="res://materials/nov25/droppedbeat_rivetted_animated.gdshader" id="1"]
+[ext_resource type="Texture2D" uid="uid://c5y7s4w0aa434" path="res://materials/nov25/droppedbeat_rivetted_animated_texture_1.png" id="2"]
+
 [resource]
-shader = ExtResource( 1 )
-shader_parameter/texture_1 = ExtResource( 2 )
-
-
-
+render_priority = 0
+shader = ExtResource("1")
+shader_parameter/uv1_offset = Vector3(0.75, 0.5, 0)
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/depth_min_layers = 32
+shader_parameter/depth_max_layers = 64
+shader_parameter/depth_flip = Vector2(1, 1)
+shader_parameter/variation = 0.0
+shader_parameter/texture_1 = ExtResource("2")

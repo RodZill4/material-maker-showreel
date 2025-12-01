@@ -1,0 +1,26 @@
+[gd_resource type="StandardMaterial3D" load_steps=6 format=3 uid="uid://k6j11a538mio"]
+
+[ext_resource type="Texture2D" uid="uid://ds5afrhybkm6t" path="res://materials/nov25/rubberduck_hot_flowing_lava_albedo.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://drh0kneu1cjy6" path="res://materials/nov25/rubberduck_hot_flowing_lava_orm.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://dfibfieg63vy7" path="res://materials/nov25/rubberduck_hot_flowing_lava_normal.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://mavllnuj4njv" path="res://materials/nov25/rubberduck_hot_flowing_lava_heightmap.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://c1yijhi5mrjwh" path="res://materials/nov25/rubberduck_hot_flowing_lava_emission.png" id="5"]
+
+[resource]
+albedo_texture = ExtResource("1")
+roughness = 0.8
+roughness_texture = ExtResource("2")
+roughness_texture_channel = 1
+emission_enabled = true
+emission_energy_multiplier = 0.66
+emission_texture = ExtResource("5")
+normal_enabled = true
+normal_texture = ExtResource("3")
+ao_enabled = true
+ao_texture = ExtResource("2")
+heightmap_enabled = true
+heightmap_scale = 13.25
+heightmap_deep_parallax = true
+heightmap_min_layers = 32
+heightmap_max_layers = 64
+heightmap_texture = ExtResource("4")

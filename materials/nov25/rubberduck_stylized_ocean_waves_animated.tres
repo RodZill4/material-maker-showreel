@@ -1,15 +1,21 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
-[ext_resource path="rubberduck_stylized_ocean_waves_animated.gdshader" type="Shader" id=1]
-[ext_resource path="rubberduck_stylized_ocean_waves_animated_texture_1.png" type="Texture" id=2]
-[ext_resource path="rubberduck_stylized_ocean_waves_animated_texture_2.png" type="Texture" id=3]
-[ext_resource path="rubberduck_stylized_ocean_waves_animated_texture_3.png" type="Texture" id=4]
-[ext_resource path="rubberduck_stylized_ocean_waves_animated_texture_4.png" type="Texture" id=5]
+[gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://cy6mvwrocfmmr"]
+
+[ext_resource type="Shader" uid="uid://bj1yqqmbojr8m" path="res://materials/nov25/rubberduck_stylized_ocean_waves_animated.gdshader" id="1"]
+[ext_resource type="Texture2D" uid="uid://cqcsgohtpgqh5" path="res://materials/nov25/rubberduck_stylized_ocean_waves_animated_texture_1.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://15u6aj8rn8gp" path="res://materials/nov25/rubberduck_stylized_ocean_waves_animated_texture_2.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://mmwdbjk7awjy" path="res://materials/nov25/rubberduck_stylized_ocean_waves_animated_texture_3.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://dhwfoq562p8ac" path="res://materials/nov25/rubberduck_stylized_ocean_waves_animated_texture_4.png" id="5"]
+
 [resource]
-shader = ExtResource( 1 )
-shader_parameter/texture_1 = ExtResource( 2 )
-shader_parameter/texture_2 = ExtResource( 3 )
-shader_parameter/texture_3 = ExtResource( 4 )
-shader_parameter/texture_4 = ExtResource( 5 )
-
-
-
+render_priority = 0
+shader = ExtResource("1")
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/depth_min_layers = 32
+shader_parameter/depth_max_layers = 64
+shader_parameter/depth_flip = Vector2(1, 1)
+shader_parameter/variation = 0.0
+shader_parameter/texture_1 = ExtResource("2")
+shader_parameter/texture_2 = ExtResource("3")
+shader_parameter/texture_3 = ExtResource("4")
+shader_parameter/texture_4 = ExtResource("5")

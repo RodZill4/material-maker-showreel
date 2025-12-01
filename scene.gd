@@ -21,7 +21,9 @@ var material_count : int
 var materials : Dictionary
 var current_material = 1
 
-@export var speed_scale : float = 0.25
+@export var bpm : float = 128.0
+@export var beats_per_material : float = 3.0
+@export var explosiveness : int = 5
 @export var damp : float = 0.5
 @export var angle : float = 0.0:
 	set(v):
@@ -33,11 +35,8 @@ var current_material = 1
 
 func my_smoothstep(x : float) -> float:
 	var rv : float = x
-	rv = smoothstep(0.0, 1.0, rv)
-	rv = smoothstep(0.0, 1.0, rv)
-	rv = smoothstep(0.0, 1.0, rv)
-	rv = smoothstep(0.0, 1.0, rv)
-	#rv = smoothstep(0.0, 1.0, rv)
+	for i in explosiveness:
+		rv = smoothstep(0.0, 1.0, rv)
 	return rv
 
 var shader_time : float = 0.0
@@ -94,7 +93,8 @@ func _ready():
 	$LabelVertical.self_modulate = text_color
 	$LabelVertical/Author.self_modulate = text_color
 	
-	$AnimationPlayer2.speed_scale = speed_scale
+	$AnimationPlayer2.speed_scale = bpm/120.0/beats_per_material
+	print($AnimationPlayer2.speed_scale)
 	
 	$MeshPivot1/MeshPivot2/Mesh1.visible = true
 	$MeshPivot1/MeshPivot2/Mesh2.visible = true

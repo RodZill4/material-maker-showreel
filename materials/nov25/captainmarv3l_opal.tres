@@ -1,7 +1,9 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
-[ext_resource path="captainmarv3l_opal.gdshader" type="Shader" id=1]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://8wv17o7h4x7v"]
+
+[ext_resource type="Shader" uid="uid://basl7lqvj7djf" path="res://materials/nov25/captainmarv3l_opal.gdshader" id="1"]
+
 [resource]
-shader = ExtResource( 1 )
-
-
-
+shader = ExtResource("1")
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/variation = 0.0

@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://ckoktkn4ba2fu"]
+
+[ext_resource type="Shader" uid="uid://dk2k8pf4xf4vs" path="res://materials/nov25/rubberduck_stylized_ice_formation.gdshader" id="1"]
+[ext_resource type="Texture2D" uid="uid://c2788tot1g6ri" path="res://materials/nov25/rubberduck_stylized_ice_formation_albedo.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://kquwkpui3dg3" path="res://materials/nov25/rubberduck_stylized_ice_formation_normal.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://qdqs12cwei82" path="res://materials/nov25/rubberduck_stylized_ice_formation_orm.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://u1c2g57p8dbx" path="res://materials/nov25/rubberduck_stylized_ice_formation_parallax.png" id="5"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1")
+shader_parameter/texture_albedo = ExtResource("2")
+shader_parameter/texture_normal = ExtResource("3")
+shader_parameter/texture_orm = ExtResource("4")
+shader_parameter/texture_parallax = ExtResource("5")
+shader_parameter/uv1_scale = Vector3(1, 1, 0)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
