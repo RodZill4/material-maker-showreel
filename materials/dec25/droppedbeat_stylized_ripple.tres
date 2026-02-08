@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+[ext_resource path="droppedbeat_stylized_ripple.gdshader" type="Shader" id=1]
+[ext_resource path="droppedbeat_stylized_ripple_texture_1.png" type="Texture" id=2]
+[resource]
+shader = ExtResource( 1 )
+shader_parameter/texture_1 = ExtResource( 2 )
+
+
+

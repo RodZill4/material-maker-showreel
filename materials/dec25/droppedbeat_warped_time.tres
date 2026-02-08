@@ -1,0 +1,43 @@
+[gd_resource type="ShaderMaterial" load_steps=17 format=3 uid="uid://djy0tnuj8yweu"]
+
+[ext_resource type="Shader" uid="uid://d4ev8r6jmgmhy" path="res://materials/dec25/droppedbeat_warped_time.gdshader" id="1"]
+[ext_resource type="Texture2D" uid="uid://dclt7gov0tdq8" path="res://materials/dec25/droppedbeat_warped_time_texture_1.png" id="2_0ynsi"]
+[ext_resource type="Texture2D" uid="uid://dhpyy2yen4nqc" path="res://materials/dec25/droppedbeat_warped_time_texture_2.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://c34jdd0wuga1j" path="res://materials/dec25/droppedbeat_warped_time_texture_3.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://bvcdo3wnsn8qx" path="res://materials/dec25/droppedbeat_warped_time_texture_4.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://uc1ucqj4yk0m" path="res://materials/dec25/droppedbeat_warped_time_texture_5.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://c6rkpcysa4eh" path="res://materials/dec25/droppedbeat_warped_time_texture_6.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://8whphnwth8g3" path="res://materials/dec25/droppedbeat_warped_time_texture_7.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://flq2yntnq5rf" path="res://materials/dec25/droppedbeat_warped_time_texture_15.exr" id="8_8j37m"]
+[ext_resource type="Texture2D" uid="uid://dv27rr7uatb8x" path="res://materials/dec25/droppedbeat_warped_time_texture_8.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://ylw4vtlposda" path="res://materials/dec25/droppedbeat_warped_time_texture_9.png" id="10"]
+[ext_resource type="Texture2D" uid="uid://clbkibemvpbg3" path="res://materials/dec25/droppedbeat_warped_time_texture_10.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://c3uqcvmrd7l2d" path="res://materials/dec25/droppedbeat_warped_time_texture_11.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://do87ct85qdux5" path="res://materials/dec25/droppedbeat_warped_time_texture_12.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://crrnfml0vrrb0" path="res://materials/dec25/droppedbeat_warped_time_texture_13.png" id="14"]
+[ext_resource type="Texture2D" uid="uid://cd1ondyt6snku" path="res://materials/dec25/droppedbeat_warped_time_texture_14.png" id="15"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1")
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/depth_min_layers = 8
+shader_parameter/depth_max_layers = 16
+shader_parameter/depth_flip = Vector2(1, 1)
+shader_parameter/variation = 0.0
+shader_parameter/texture_1 = ExtResource("2_0ynsi")
+shader_parameter/texture_2 = ExtResource("3")
+shader_parameter/texture_3 = ExtResource("4")
+shader_parameter/texture_4 = ExtResource("5")
+shader_parameter/texture_5 = ExtResource("6")
+shader_parameter/texture_6 = ExtResource("7")
+shader_parameter/texture_7 = ExtResource("8")
+shader_parameter/texture_8 = ExtResource("9")
+shader_parameter/texture_9 = ExtResource("10")
+shader_parameter/texture_10 = ExtResource("11")
+shader_parameter/texture_11 = ExtResource("12")
+shader_parameter/texture_12 = ExtResource("13")
+shader_parameter/texture_13 = ExtResource("14")
+shader_parameter/texture_14 = ExtResource("15")
+shader_parameter/texture_15 = ExtResource("8_8j37m")

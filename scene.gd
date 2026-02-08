@@ -48,6 +48,10 @@ var MATERIAL_LIST_SHORT : Array[String] = [
 func _ready():
 	set_physics_process(false)
 	
+	for md : String in material_descriptions.keys():
+		if md.begins_with("dec25/") and md.replace("dec25/", "nov25/") in material_descriptions:
+			print("Remove ", md)
+	
 	material_names = []
 	
 	materials = {}
@@ -72,7 +76,13 @@ func _ready():
 		else:
 			print("No description for material ", m)
 			get_tree().quit()
-			return	
+			return
+	
+	if vertical:
+		$MeshPivot1/MeshPivot2.scale = Vector3(1.2, 1.2, 1.2)
+	
+	print("Showing ", material_names.size(), " materials")
+	print(60.0*material_names.size()*beats_per_material/bpm, " seconds")
 	
 	if randomize_order:
 		material_names.shuffle()
@@ -93,6 +103,8 @@ func _ready():
 	$LabelVertical.self_modulate = text_color
 	$LabelVertical/Author.self_modulate = text_color
 	
+	$AnimationPlayerStart.speed_scale = bpm/35.0/beats_per_material
+	
 	$AnimationPlayer2.speed_scale = bpm/120.0/beats_per_material
 	print($AnimationPlayer2.speed_scale)
 	
@@ -105,9 +117,13 @@ func _ready():
 var next_material : String = ""
 var offset : float = 0.0
 var factor : float = 1.0
+var last_time : int = 0
 func change_material():
 	if meshes == null:
 		return
+	var new_time : int = Time.get_ticks_msec()
+	print(new_time-last_time)
+	last_time = new_time
 	if current_material >= material_count or current_material < 0:
 		$MeshPivot1/MeshPivot2/CirclePivot/Circle.visible = true
 		print(current_material)

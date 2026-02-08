@@ -1,0 +1,243 @@
+[gd_scene load_steps=9 format=3 uid="uid://kpgl4mqmqwcl"]
+
+[ext_resource type="PackedScene" uid="uid://6faq7i72a88i" path="res://short.tscn" id="1_5xske"]
+[ext_resource type="Script" uid="uid://buo55j7fa5j6x" path="res://monthly_showreel.gd" id="2_dpcpr"]
+[ext_resource type="Material" path="res://materials/jan26/leoskateman_moulded_foam_ceilling.tres" id="3_t6mhd"]
+
+[sub_resource type="Animation" id="Animation_y7hvn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshPivot1/MeshPivot2:rotation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:angle")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("LabelVertical:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="6"]
+resource_name = "Rotate"
+loop_mode = 1
+step = 0.05
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"change_material"
+}, {
+"args": [],
+"method": &"update_label"
+}, {
+"args": [],
+"method": &"change_material"
+}, {
+"args": [],
+"method": &"update_label"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.25, 0.3, 0.35, 0.5, 0.7, 0.75, 0.8, 0.85),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:angle")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 2.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("LabelVertical:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.25, 0.3, 0.35, 0.5, 0.7, 0.75, 0.8, 0.85),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 0.0625), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ebdnn"]
+resource_name = "Rotate final 1"
+length = 3.0
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:angle")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LabelVertical:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_m7jmp"]
+resource_name = "Rotate final 2"
+length = 3.0
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:angle")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 2.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LabelVertical:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_f57sj"]
+_data = {
+&"RESET": SubResource("Animation_y7hvn"),
+&"Rotate": SubResource("6"),
+&"Rotate final 1": SubResource("Animation_ebdnn"),
+&"Rotate final 2": SubResource("Animation_m7jmp")
+}
+
+[node name="Scene" instance=ExtResource("1_5xske")]
+script = ExtResource("2_dpcpr")
+month = "jan26"
+material_list = Array[String](["jan26/hxsoft_moss", "jan26/saurav72_stylized_roof_tiles", "jan26/adamyuyuyu_copper", "jan26/adamyuyuyu_desert_bricks", "jan26/adamyuyuyu_gold", "jan26/adamyuyuyu_limestone", "jan26/adamyuyuyu_raw_concrete", "jan26/adamyuyuyu_beige_tiles", "jan26/adamyuyuyu_cobweb_wall", "jan26/adamyuyuyu_dark_wood", "jan26/adamyuyuyu_drop_ceiling", "jan26/adamyuyuyu_white_tiles_beveled", "jan26/adamyuyuyu_old_kitchen_tiles", "jan26/adamyuyuyu_purpur_block", "jan26/adamyuyuyu_golden_tiles_herringbone", "jan26/jix_bandage_with_blood", "jan26/jix_pixel_lava", "jan26/jix_low_poly_mesh_fence", "jan26/d-meat_ixo_moon_gravestone", "jan26/adamyuyuyu_wooden_planks", "jan26/droppedbeat_marble", "jan26/adamyuyuyu_rock_salt_bricks", "jan26/adamyuyuyu_jade", "jan26/adamyuyuyu_gilded_rock", "jan26/adamyuyuyu_concrete_bricks", "jan26/adamyuyuyu_terracotta_tiles", "jan26/adamyuyuyu_bricks_brown", "jan26/adamyuyuyu_white_bricks", "jan26/adamyuyuyu_lightblue_bathroom_tiles", "jan26/adamyuyuyu_strata", "jan26/leoskateman_apocalyptic_rusty_metal_d_surface", "jan26/leoskateman_reinforeced_rebar_concrete_destruction", "jan26/leoskateman_baserock", "jan26/leoskateman_corrugated_metal_panels_rept", "jan26/leoskateman_arc_stone_pavement_french_bvd", "jan26/leoskateman_broken_tiles_ckeckr_adhesive_layer", "jan26/adamyuyuyu_ochre_tiles", "jan26/leoskateman_flore_pattern_damaged_tiles_v1", "jan26/leoskateman_plastic_mesh_barrier_restricted_zone", "jan26/leoskateman_tiles_damaged_rec_sub_color_b", "jan26/leoskateman_sewer_plate_retro_sf_atom_city", "jan26/leoskateman_solar_panels_nvk", "jan26/leoskateman_hexarig_hall_tiles", "jan26/leoskateman_tennis_baall", "jan26/saurav72_kiwi_material", "jan26/leoskateman_road_rocky_sides", "jan26/leoskateman_long_tiles_qsuaro_pattern_damaged", "jan26/saurav72_stylized_moss", "jan26/leoskateman_wood_ceiling_carved_flora_ornament", "jan26/adamyuyuyu_dune_bricks", "jan26/leoskateman_ahah_inception", "jan26/adamyuyuyu_grey_strone_bricks", "jan26/adamyuyuyu_fun_gang_1963_photography_-_2008_timeline", "jan26/adamyuyuyu_gold_rock", "jan26/adamyuyuyu_bloodstone", "jan26/adamyuyuyu_terracotta_floor", "jan26/adamyuyuyu_quartz_bricks", "jan26/adamyuyuyu_grey_stone_tiles", "jan26/adamyuyuyu_grey_stone_small_squares", "jan26/renderfz_skystone", "jan26/renderfz_porcelain_blue", "jan26/milescat_brikk", "jan26/adamyuyuyu_obsidian_rock", "jan26/adamyuyuyu_sandy_onyx_tiles", "jan26/adamyuyuyu_rusted_iron", "jan26/adamyuyuyu_marble_golden_tiles", "jan26/any_other_stained_glass", "jan26/adamyuyuyu_yellow_rock", "jan26/leoskateman_smooth_cyber_pattern_anm", "jan26/leoskateman_ground_forest_leaf_layer", "jan26/leoskateman_kid_playground_erea", "jan26/leoskateman_parking_lot", "jan26/leoskateman_parking_lot_mm_trainning", "jan26/leoskateman_sr_terracotta_f_bricks", "jan26/leoskateman_metal_surface_cfc", "jan26/leoskateman_moulded_foam_ceilling", "jan26/leoskateman_sr_mossy_stone_floor", "jan26/leoskateman_subtle_wood_satin_finish_m", "jan26/leoskateman_basegrass", "jan26/leoskateman_lebanon_cedar_tree_bark_v1", "jan26/leoskateman_pebbles", "jan26/adamyuyuyu_clay_brown", "jan26/adamyuyuyu_clay_white", "jan26/adamyuyuyu_clay_dark", "jan26/adamyuyuyu_amethyst_crystals", "jan26/adamyuyuyu_bunker_bricks", "jan26/adamyuyuyu_basalt_copper_bricks", "jan26/adamyuyuyu_marble_rock", "jan26/adamyuyuyu_marble_smooth", "jan26/adamyuyuyu_old_concrete", "jan26/adamyuyuyu_bunker_wood", "jan26/adamyuyuyu_bunker_tiles", "jan26/adamyuyuyu_bunker_tiles_big", "jan26/adamyuyuyu_corrugated_steel"])
+bpm = 128.0
+beats_per_material = 4.5
+
+[node name="MeshPivot2" parent="MeshPivot1" index="0"]
+transform = Transform3D(-1.2, -3.0422182e-06, 0, 3.0422182e-06, -1.2, 0, 0, 0, 1.2, 0, 0, 0)
+
+[node name="Mesh1" parent="MeshPivot1/MeshPivot2" index="0"]
+visible = true
+material_override = ExtResource("3_t6mhd")
+
+[node name="Mesh2" parent="MeshPivot1/MeshPivot2" index="1"]
+material_override = ExtResource("3_t6mhd")
+
+[node name="Circle" parent="MeshPivot1/MeshPivot2/CirclePivot" index="0"]
+visible = false
+
+[node name="AnimationPlayerStart" parent="." index="1"]
+speed_scale = 0.8126984
+
+[node name="AnimationPlayer2" parent="." index="3"]
+libraries = {
+&"": SubResource("AnimationLibrary_f57sj")
+}
+speed_scale = 0.23703703
+
+[node name="Label" parent="." index="9"]
+offset_top = -2080.0
+offset_bottom = -1992.0

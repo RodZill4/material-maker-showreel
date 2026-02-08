@@ -394,7 +394,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(-250, 537), Vector2(250, 537)]
+"values": [Vector2(-250, 537), Vector2(132.00002, 537)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_73fnb"]
@@ -418,7 +418,7 @@ ambient_light_color = Color(1, 1, 1, 1)
 ambient_light_energy = 0.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m7jmp"]
-albedo_color = Color(0.021434637, 0.021434635, 0.021434633, 1)
+albedo_color = Color(0.043039158, 0.04303915, 0.04303915, 1)
 
 [sub_resource type="PlaneMesh" id="9"]
 size = Vector2(10, 10)
@@ -440,6 +440,28 @@ material_descriptions = Dictionary[String, String]({
 "cliff_rock": "Cliff rock,Skywolf",
 "containers": "Containers,DroppedBeat",
 "damaged_plaster": "Damaged plaster wall,Arnklit",
+"dec25/droppedbeat_2d_depth": "2D depth,DroppedBeat",
+"dec25/droppedbeat_presents": "Presents,DroppedBeat",
+"dec25/droppedbeat_stylized_ripple": "Stylized Ripple,DroppedBeat",
+"dec25/droppedbeat_warped_time": "Warped Time,DroppedBeat",
+"dec25/menotso_connection_issue_vfx": "Connection Issue VFX,menotso",
+"dec25/muhuk_uv_grid": "UV Grid,muhuk",
+"dec25/rubberduck_free_custom_nodes_v2": "Free Custom Nodes (V2),rubberduck",
+"dec25/rubberduck_realistic_rust": "Realistic Rust,rubberduck",
+"dec25/rubberduck_realistic_rusty_peeling_paint": "Realistic Rusty Peeling Paint,rubberduck",
+"dec25/saurav72_basket_material": "Basket Material,Saurav72",
+"dec25/saurav72_chocolate": "Chocolate,Saurav72",
+"dec25/saurav72_mud": "Mud,Saurav72",
+"dec25/saurav72_realistic_leather": "Realistic Leather,Saurav72",
+"dec25/saurav72_rope": "Rope,Saurav72",
+"dec25/saurav72_stylzied_tree_bark": "Stylized Tree Bark,Saurav72",
+"dec25/saurav72_wool": "Wool,Saurav72",
+"dec25/saurav72_wool_1": "Wool 1,Saurav72",
+"dec25/saurav72_wool_2": "Wool 2,Saurav72",
+"dec25/saurav72_wool_3": "Wool 3,Saurav72",
+"dec25/saurav72_wool_4": "Wool 4,Saurav72",
+"dec25/saurav72_wool_5": "Wool 5,Saurav72",
+"dec25/saurav72_wool_6": "Wool 6,Saurav72",
 "fish_pond": "Fish pond,DroppedBeat",
 "floppy_disks": "Floppy disks,PixelMuncher",
 "gear_box": "Gear box,DroppedBeat",
@@ -447,6 +469,100 @@ material_descriptions = Dictionary[String, String]({
 "gingerbread": "Gingerbread,Tarox",
 "ground_foliage": "Ground foliage,Arnklit",
 "hardwood_floor": "Decrepit Hardwood floor,BurritoLord69",
+"jan26/adamyuyuyu_amethyst_crystals": "Amethyst Crystals,Adamyuyuyu",
+"jan26/adamyuyuyu_basalt_copper_bricks": "Basalt Copper Bricks,Adamyuyuyu",
+"jan26/adamyuyuyu_beige_tiles": "Beige Tiles,Adamyuyuyu",
+"jan26/adamyuyuyu_bloodstone": "Bloodstone,Adamyuyuyu",
+"jan26/adamyuyuyu_bricks_brown": "Bricks Brown,Adamyuyuyu",
+"jan26/adamyuyuyu_bunker_bricks": "Bunker Bricks,Adamyuyuyu",
+"jan26/adamyuyuyu_bunker_tiles": "Bunker Tiles,Adamyuyuyu",
+"jan26/adamyuyuyu_bunker_tiles_big": "Bunker Tiles Big,Adamyuyuyu",
+"jan26/adamyuyuyu_bunker_wood": "Bunker Wood,Adamyuyuyu",
+"jan26/adamyuyuyu_clay_brown": "Clay Brown,Adamyuyuyu",
+"jan26/adamyuyuyu_clay_dark": "Clay Dark,Adamyuyuyu",
+"jan26/adamyuyuyu_clay_white": "Clay White,Adamyuyuyu",
+"jan26/adamyuyuyu_cobweb_wall": "Cobweb Wall,Adamyuyuyu",
+"jan26/adamyuyuyu_concrete_bricks": "Concrete Bricks,Adamyuyuyu",
+"jan26/adamyuyuyu_copper": "Copper,Adamyuyuyu",
+"jan26/adamyuyuyu_corrugated_steel": "Corrugated Steel,Adamyuyuyu",
+"jan26/adamyuyuyu_dark_wood": "Dark Wood,Adamyuyuyu",
+"jan26/adamyuyuyu_desert_bricks": "Desert Bricks,Adamyuyuyu",
+"jan26/adamyuyuyu_drop_ceiling": "Drop Ceiling,Adamyuyuyu",
+"jan26/adamyuyuyu_dune_bricks": "Dune Bricks,Adamyuyuyu",
+"jan26/adamyuyuyu_fun_gang_1963_photography_-_2008_timeline": "Fun Gang 1963 Photography - 2008 Timeline,Adamyuyuyu",
+"jan26/adamyuyuyu_gilded_rock": "Gilded Rock,Adamyuyuyu",
+"jan26/adamyuyuyu_gold": "Gold,Adamyuyuyu",
+"jan26/adamyuyuyu_gold_rock": "Gold Rock,Adamyuyuyu",
+"jan26/adamyuyuyu_golden_tiles_herringbone": "Golden Tiles Herringbone,Adamyuyuyu",
+"jan26/adamyuyuyu_grey_stone_small_squares": "Grey Stone Small Squares,Adamyuyuyu",
+"jan26/adamyuyuyu_grey_stone_tiles": "Grey Stone Tiles,Adamyuyuyu",
+"jan26/adamyuyuyu_grey_strone_bricks": "Grey Stone Bricks,Adamyuyuyu",
+"jan26/adamyuyuyu_jade": "Jade,Adamyuyuyu",
+"jan26/adamyuyuyu_lightblue_bathroom_tiles": "Lightblue Bathroom Tiles,Adamyuyuyu",
+"jan26/adamyuyuyu_limestone": "Limestone,Adamyuyuyu",
+"jan26/adamyuyuyu_marble_golden_tiles": "Marble Golden Tiles,Adamyuyuyu",
+"jan26/adamyuyuyu_marble_rock": "Marble Rock,Adamyuyuyu",
+"jan26/adamyuyuyu_marble_smooth": "Marble Smooth,Adamyuyuyu",
+"jan26/adamyuyuyu_obsidian_rock": "Obsidian Rock,Adamyuyuyu",
+"jan26/adamyuyuyu_ochre_tiles": "Ochre Tiles,Adamyuyuyu",
+"jan26/adamyuyuyu_old_concrete": "Old Concrete,Adamyuyuyu",
+"jan26/adamyuyuyu_old_kitchen_tiles": "Old Kitchen Tiles,Adamyuyuyu",
+"jan26/adamyuyuyu_purpur_block": "Purpur Block,Adamyuyuyu",
+"jan26/adamyuyuyu_quartz_bricks": "Quartz Bricks,Adamyuyuyu",
+"jan26/adamyuyuyu_raw_concrete": "Raw Concrete,Adamyuyuyu",
+"jan26/adamyuyuyu_rock_salt_bricks": "Rock Salt Bricks,Adamyuyuyu",
+"jan26/adamyuyuyu_rusted_iron": "Rusted Iron,Adamyuyuyu",
+"jan26/adamyuyuyu_sandy_onyx_tiles": "Sandy Onyx Tiles,Adamyuyuyu",
+"jan26/adamyuyuyu_strata": "Strata,Adamyuyuyu",
+"jan26/adamyuyuyu_terracotta_floor": "Terracotta Floor,Adamyuyuyu",
+"jan26/adamyuyuyu_terracotta_tiles": "Terracotta Tiles,Adamyuyuyu",
+"jan26/adamyuyuyu_white_bricks": "White Bricks,Adamyuyuyu",
+"jan26/adamyuyuyu_white_tiles_beveled": "White Tiles Beveled,Adamyuyuyu",
+"jan26/adamyuyuyu_wooden_planks": "Wooden Planks,Adamyuyuyu",
+"jan26/adamyuyuyu_yellow_rock": "Yellow Rock,Adamyuyuyu",
+"jan26/any_other_stained_glass": "Stained Glass,any_other",
+"jan26/d-meat_ixo_moon_gravestone": "Ixo Moon Gravestone,D-Meat",
+"jan26/droppedbeat_marble": "Marble,DroppedBeat",
+"jan26/hxsoft_moss": "Moss,HXSoft",
+"jan26/jix_bandage_with_blood": "Bandage With Blood,jix",
+"jan26/jix_low_poly_mesh_fence": "Low Poly Mesh Fence,jix",
+"jan26/jix_pixel_lava": "Pixel Lava,jix",
+"jan26/leoskateman_ahah_inception": "ahah inception ,leoskateman",
+"jan26/leoskateman_apocalyptic_rusty_metal_d_surface": "Apocalyptic Rusty Metal,leoskateman",
+"jan26/leoskateman_arc_stone_pavement_french_bvd": "Arc Stone Pavement,leoskateman",
+"jan26/leoskateman_basegrass": "Base Grass,leoskateman",
+"jan26/leoskateman_baserock": "Base Rock,leoskateman",
+"jan26/leoskateman_broken_tiles_ckeckr_adhesive_layer": "Broken Checker Tiles,leoskateman",
+"jan26/leoskateman_corrugated_metal_panels_rept": "Corrugated Metal Panels,leoskateman",
+"jan26/leoskateman_flore_pattern_damaged_tiles_v1": "Flore Pattern Damaged Tiles,leoskateman",
+"jan26/leoskateman_ground_forest_leaf_layer": "Ground Forest Leaf Layer,leoskateman",
+"jan26/leoskateman_hexarig_hall_tiles": "Hexarig Hall Tiles,leoskateman",
+"jan26/leoskateman_kid_playground_erea": "Kid PLayground Area,leoskateman",
+"jan26/leoskateman_lebanon_cedar_tree_bark_v1": "Lebanon Cedar Tree Bark,leoskateman",
+"jan26/leoskateman_long_tiles_qsuaro_pattern_damaged": "Long Tiles Square Pattern,leoskateman",
+"jan26/leoskateman_metal_surface_cfc": "Metal Surface,leoskateman",
+"jan26/leoskateman_moulded_foam_ceilling": "Moulded Foam Ceiling,leoskateman",
+"jan26/leoskateman_parking_lot": "Parking Lot,leoskateman",
+"jan26/leoskateman_parking_lot_mm_trainning": "Parking Lot,leoskateman",
+"jan26/leoskateman_pebbles": "Pebbles,leoskateman",
+"jan26/leoskateman_plastic_mesh_barrier_restricted_zone": "Plastic Mesh Barrier,leoskateman",
+"jan26/leoskateman_reinforeced_rebar_concrete_destruction": "Reinforced Concrete,leoskateman",
+"jan26/leoskateman_road_rocky_sides": "Road Rocky Sides,leoskateman",
+"jan26/leoskateman_sewer_plate_retro_sf_atom_city": "Sewer Plate,leoskateman",
+"jan26/leoskateman_smooth_cyber_pattern_anm": "Smooth Cyber Pattern,leoskateman",
+"jan26/leoskateman_solar_panels_nvk": "Solar Panels,leoskateman",
+"jan26/leoskateman_sr_mossy_stone_floor": "Mossy Stone Floor,leoskateman",
+"jan26/leoskateman_sr_terracotta_f_bricks": "Terracotta Bricks,leoskateman",
+"jan26/leoskateman_subtle_wood_satin_finish_m": "Wood Satin Finish,leoskateman",
+"jan26/leoskateman_tennis_baall": "Tennis_Ball,leoskateman",
+"jan26/leoskateman_tiles_damaged_rec_sub_color_b": "Damaged Tiles,leoskateman",
+"jan26/leoskateman_wood_ceiling_carved_flora_ornament": "Wood Ceiling,leoskateman",
+"jan26/milescat_brikk": "Brikk,MilesCAT",
+"jan26/renderfz_porcelain_blue": "Porcelain Blue,renderfz",
+"jan26/renderfz_skystone": "Skystone,renderfz",
+"jan26/saurav72_kiwi_material": "Kiwi Material,Saurav72",
+"jan26/saurav72_stylized_moss": "Stylized Moss,Saurav72",
+"jan26/saurav72_stylized_roof_tiles": "Stylized roof tiles,Saurav72",
 "kryptonite": "Kryptonite,Tarox",
 "leather": "Stitched leather,Tarox",
 "manhole_cover": "Manhole cover,PixelMuncher",
@@ -531,6 +647,8 @@ material_descriptions = Dictionary[String, String]({
 material_list = Array[String](["roof_tiles", "polished_turquoise", "beach", "gingerbread", "sewn_flesh", "ornamental", "gear_box", "floppy_disks", "rosette", "animated_fire", "arcane_compass", "wires", "containers", "stylized_flowing_lava", "ancient_bricks", "sealing_talismans", "temporal_displacement", "bookcase", "riveted_plates", "scarabs_on_hieroglyphs", "burger", "chained", "hardwood_floor", "puddle", "cliff_rock", "manhole_cover", "matrix_code_rain", "smaugs_treasure", "kryptonite", "rainy_window", "remnant", "ornamental_ceiling", "stylized_lava", "train_tracks", "ancient_pedestal", "animated_radar", "damaged_plaster", "fish_pond", "leather", "chesterfield", "snowman", "ground_foliage"])
 background_color = Color(0, 0, 0, 1)
 text_color = Color(1, 1, 1, 1)
+bpm = 105.0
+beats_per_material = 3.5
 damp = 0.25
 
 [node name="MeshPivot1" type="Node3D" parent="."]
@@ -629,9 +747,9 @@ visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 1423.0
+offset_left = 1590.0
 offset_top = 1076.0
-offset_right = 578.90283
+offset_right = 745.90283
 offset_bottom = 84.0
 grow_horizontal = 2
 grow_vertical = 2

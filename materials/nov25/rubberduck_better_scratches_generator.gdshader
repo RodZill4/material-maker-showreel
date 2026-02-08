@@ -60,8 +60,8 @@ const float p_o25726887663506_scale_y = 0.250000000;
 const float p_o25726887663506_rotate = 0.000000000;
 const float p_o25726887663506_scale = 0.610000000;
 const float p_o25726887663506_value = 0.000000000;
-const float o25787017202398_cluster_min;
-const float o25787017202398_cluster_max;
+const float o25787017202398_cluster_min = 0.0;
+const float o25787017202398_cluster_max = 1.0;
 const float p_o25787033982980_eps = 0.200000000;
 const float p_o25790439754225_amount1 = 1.000000000;
 const float p_o25790624305655_default_in1 = 0.000000000;
@@ -629,9 +629,9 @@ float old_fbm_2d_cellular6(vec2 coord, vec2 size, int folds, int octaves, float 
 float old_voronoise_noise_2d( vec2 coord, vec2 size, float offset, float seed) {
 	vec2 i = floor(coord) + rand2(vec2(seed, 1.0-seed)) + size;
 	vec2 f = fract(coord);
-	
+
 	vec2 a = vec2(0.0);
-	
+
 	for( int y=-2; y<=2; y++ ) {
 		for( int x=-2; x<=2; x++ ) {
 			vec2  g = vec2( float(x), float(y) );
@@ -642,7 +642,7 @@ float old_voronoise_noise_2d( vec2 coord, vec2 size, float offset, float seed) {
 			a += vec2(o.z*w,w);
 		}
 	}
-	
+
 	return a.x/a.y;
 }
 float old_fbm_2d_voronoise(vec2 coord, vec2 size, int folds, int octaves, float persistence, float offset, float seed) {
@@ -673,7 +673,7 @@ vec2 transform2(vec2 uv, vec2 translate, float rotate, vec2 scale) {
 	rv.y = -sin(rotate)*uv.x + cos(rotate)*uv.y;
 	rv /= scale;
 	rv += vec2(0.5);
-	return rv;	
+	return rv;
 }
 // #globals: graph_8/shape (o25786882985910)
 float shape_circle(vec2 uv, float sides, float size, float edge) {
@@ -963,6 +963,3 @@ vec4 o25801781156854_0_1_rgba = o25801781156854_0_b;
 	color_tex = mix(pow((color_tex + vec4(0.055)) * (1.0 / (1.0 + 0.055)),vec4(2.4)),color_tex * (1.0 / 12.92),lessThan(color_tex,vec4(0.04045)));
 	COLOR = color_tex;
 }
-
-
-

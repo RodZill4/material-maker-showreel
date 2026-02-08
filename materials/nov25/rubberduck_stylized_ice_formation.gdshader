@@ -50,17 +50,17 @@ vec3 hsv2rgb(vec3 c) {
 	vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
 	return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
 }
-const float o1910673247804_snow = 0.440000000;
-const float o1910673247804_snow_hardness = 0.740000000;
-const vec4 p_o1766942838797_albedo_color = vec4(1.000000000, 1.000000000, 1.000000000, 1.000000000);
-const float p_o1766942838797_metallic = 0.000000000;
-const float p_o1766942838797_roughness = 1.000000000;
-const float p_o1766942838797_emission_energy = 0.000000000;
-const float p_o1766942838797_normal = 0.660000000;
-const float p_o1766942838797_ao = 0.000000000;
-const float p_o1766942838797_offset_scale = 0.040000000;
-const float p_o1766942838797_iter = 24.000000000;
-const float p_o1766942838797_depth_scale = 0.510000000;
+const float o1908878085685_snow = 0.440000000;
+const float o1908878085685_snow_hardness = 0.740000000;
+const vec4 p_o1765147674859_albedo_color = vec4(1.000000000, 1.000000000, 1.000000000, 1.000000000);
+const float p_o1765147674859_metallic = 0.000000000;
+const float p_o1765147674859_roughness = 1.000000000;
+const float p_o1765147674859_emission_energy = 0.000000000;
+const float p_o1765147674859_normal = 0.660000000;
+const float p_o1765147674859_ao = 0.000000000;
+const float p_o1765147674859_offset_scale = 0.040000000;
+const float p_o1765147674859_iter = 24.000000000;
+const float p_o1765147674859_depth_scale = 0.510000000;
 void vertex() {
 	UV=UV*uv1_scale.xy+uv1_offset.xy;
 }
@@ -73,31 +73,31 @@ void fragment() {
 	vec3 parallax = vec3(0.0);
 	{
 
-		int p_iter = int(p_o1766942838797_iter);
+		int p_iter = int(p_o1765147674859_iter);
 
 		vec3 view_dir = inverse(mat3(TANGENT, -BINORMAL, NORMAL))*VIEW;
 		for (int j = 0; j < p_iter; j++) {
 			float ratio = float(j) / float(p_iter);
 
-			parallax += texture(texture_parallax, base_uv - mix(0.0, p_o1766942838797_offset_scale, ratio) * view_dir.xy).rgb * mix(1.0, 0.0, ratio);
+			parallax += texture(texture_parallax, base_uv - mix(0.0, p_o1765147674859_offset_scale, ratio) * view_dir.xy).rgb * mix(1.0, 0.0, ratio);
 
 		}
 		parallax /= float(p_iter);
 	}
 
 	vec4 albedo_tex = texture(texture_albedo, base_uv);
-	ALBEDO = p_o1766942838797_albedo_color.rgb * mix(pow((albedo_tex + vec4(0.055))/vec4(1.055), vec4(2.4)), albedo_tex/vec4(12.92), lessThan(albedo_tex, vec4(0.04045))).rgb;
+	ALBEDO = p_o1765147674859_albedo_color.rgb * mix(pow((albedo_tex + vec4(0.055))/vec4(1.055), vec4(2.4)), albedo_tex/vec4(12.92), lessThan(albedo_tex, vec4(0.04045))).rgb;
 	ALBEDO += parallax;
 	vec4 orm_tex = texture(texture_orm, base_uv);
-	METALLIC = p_o1766942838797_metallic*orm_tex.b;
-	ROUGHNESS = p_o1766942838797_roughness*orm_tex.g;
+	METALLIC = p_o1765147674859_metallic*orm_tex.b;
+	ROUGHNESS = p_o1765147674859_roughness*orm_tex.g;
 	SPECULAR = 0.5;
 	NORMAL_MAP = texture(texture_normal, base_uv).rgb;
-	NORMAL_MAP_DEPTH = p_o1766942838797_normal;
+	NORMAL_MAP_DEPTH = p_o1765147674859_normal;
 	vec3 emission_tex = texture(texture_emission, base_uv).rgb;
-	EMISSION = emission_tex*p_o1766942838797_emission_energy;
+	EMISSION = emission_tex*p_o1765147674859_emission_energy;
 	AO = orm_tex.r;
-	AO_LIGHT_AFFECT = p_o1766942838797_ao;
+	AO_LIGHT_AFFECT = p_o1765147674859_ao;
 
 }
 

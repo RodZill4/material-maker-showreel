@@ -1,0 +1,22 @@
+[gd_resource type="StandardMaterial3D" load_steps=5 format=3 uid="uid://bui7l7mvkp761"]
+
+[ext_resource type="Texture2D" uid="uid://b3wxlmcxgai38" path="res://materials/jan26/saurav72_stylized_roof_tiles_albedo.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://df4ij4nn7qvdj" path="res://materials/jan26/saurav72_stylized_roof_tiles_orm.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://do3jm8jnufvnl" path="res://materials/jan26/saurav72_stylized_roof_tiles_normal.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://bemkgx8tddkic" path="res://materials/jan26/saurav72_stylized_roof_tiles_heightmap.png" id="4"]
+
+[resource]
+albedo_texture = ExtResource("1")
+roughness_texture = ExtResource("2")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_scale = 1.25
+normal_texture = ExtResource("3")
+ao_enabled = true
+ao_texture = ExtResource("2")
+heightmap_enabled = true
+heightmap_scale = 12.5
+heightmap_deep_parallax = true
+heightmap_min_layers = 32
+heightmap_max_layers = 64
+heightmap_texture = ExtResource("4")

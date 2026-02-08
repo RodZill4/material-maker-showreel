@@ -8,5 +8,5 @@ randomize_order = true
 material_list = Array[String]([])
 background_color = Color(0.043039158, 0.04303915, 0.04303915, 1)
 
-[node name="AnimationPlayer2" parent="." index="3"]
-blend_times = [&"Rotate final 1", &"Rotate", 0.01, &"Rotate final 1", &"Rotate final 1", 0.01]
+[node name="LabelVertical" parent="." index="10"]
+offset_right = 746.0
