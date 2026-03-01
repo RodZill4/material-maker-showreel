@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://d42cjr6gh71s"]
+[gd_scene format=3 uid="uid://d42cjr6gh71s"]
 
 [ext_resource type="ArrayMesh" uid="uid://ccb73fq73e2s2" path="res://hemisphere.obj" id="2_pe1k3"]
 [ext_resource type="Script" uid="uid://c7iunw0cceeyh" path="res://scene.gd" id="3"]
@@ -30,7 +30,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Label:visible")
+tracks/1/path = NodePath("Landscape/MaterialName/Label:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -42,7 +42,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("LabelVertical:visible")
+tracks/2/path = NodePath("Portrait/MaterialName/Label:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -70,7 +70,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Label:visible")
+tracks/1/path = NodePath("Landscape/MaterialName/Label:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -82,7 +82,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("LabelVertical:visible")
+tracks/2/path = NodePath("Portrait/MaterialName/Label:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -124,7 +124,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Label:modulate")
+tracks/0/path = NodePath("Landscape/MaterialName/Label:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -160,7 +160,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("LabelVertical:modulate")
+tracks/3/path = NodePath("Portrait/MaterialName/Label:modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -200,7 +200,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Label:modulate")
+tracks/1/path = NodePath("Landscape/MaterialName/Label:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -224,7 +224,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("LabelVertical:modulate")
+tracks/3/path = NodePath("Portrait/MaterialName/Label:modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -241,7 +241,7 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Label:modulate")
+tracks/0/path = NodePath("Landscape/MaterialName/Label:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -265,7 +265,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("LabelVertical:modulate")
+tracks/2/path = NodePath("Portrait/MaterialName/Label:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -282,7 +282,7 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Label:modulate")
+tracks/0/path = NodePath("Landscape/MaterialName/Label:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -306,7 +306,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("LabelVertical:modulate")
+tracks/2/path = NodePath("Portrait/MaterialName/Label:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -329,7 +329,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("TextVertical:position")
+tracks/0/path = NodePath("Portrait/Logo:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -370,7 +370,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Text:position")
+tracks/2/path = NodePath("Landscape/Logo:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -387,7 +387,7 @@ step = 0.0333333
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("TextVertical:position")
+tracks/0/path = NodePath("Portrait/Logo:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -423,7 +423,7 @@ albedo_color = Color(0.043039158, 0.04303915, 0.04303915, 1)
 [sub_resource type="PlaneMesh" id="9"]
 size = Vector2(10, 10)
 
-[node name="Scene" type="Node"]
+[node name="Scene" type="Node" unique_id=1007912921]
 script = ExtResource("3")
 material_dir = "res://materials"
 material_descriptions = Dictionary[String, String]({
@@ -462,6 +462,147 @@ material_descriptions = Dictionary[String, String]({
 "dec25/saurav72_wool_4": "Wool 4,Saurav72",
 "dec25/saurav72_wool_5": "Wool 5,Saurav72",
 "dec25/saurav72_wool_6": "Wool 6,Saurav72",
+"feb26/adamyuyuyu_aluminum_modern_tile_wall": "Aluminum Modern Tile Wall,Adamyuyuyu",
+"feb26/adamyuyuyu_aluminum_rock_floor": "Aluminum Rock Floor,Adamyuyuyu",
+"feb26/adamyuyuyu_ancient_rock_pavement": "Ancient Rock Pavement,Adamyuyuyu",
+"feb26/adamyuyuyu_ash": "Ash,Adamyuyuyu",
+"feb26/adamyuyuyu_basic_mirror": "Basic Mirror,Adamyuyuyu",
+"feb26/adamyuyuyu_blind_mirror": "Blind Mirror,Adamyuyuyu",
+"feb26/adamyuyuyu_blue,_yellow_and_white_diamond_bricks": "Blue, Yellow and White Diamond Bricks,Adamyuyuyu",
+"feb26/adamyuyuyu_brass": "Brass,Adamyuyuyu",
+"feb26/adamyuyuyu_brass_modern_tile_wall": "Brass Modern Tile Wall,Adamyuyuyu",
+"feb26/adamyuyuyu_brass_smooth": "Brass Smooth,Adamyuyuyu",
+"feb26/adamyuyuyu_bricks_smooth": "Bricks Smooth,Adamyuyuyu",
+"feb26/adamyuyuyu_bronze": "Bronze,Adamyuyuyu",
+"feb26/adamyuyuyu_bronze_roof": "Bronze Roof,Adamyuyuyu",
+"feb26/adamyuyuyu_bronze_tiles": "Bronze Tiles,Adamyuyuyu",
+"feb26/adamyuyuyu_bronze_tiles_big": "Bronze Tiles Big,Adamyuyuyu",
+"feb26/adamyuyuyu_bronze_wall": "Bronze Wall,Adamyuyuyu",
+"feb26/adamyuyuyu_brushed_aluminum": "Brushed Aluminum,Adamyuyuyu",
+"feb26/adamyuyuyu_brushed_steel": "Brushed Steel,Adamyuyuyu",
+"feb26/adamyuyuyu_chocolate_tiles_dark": "Chocolate Tiles Dark,Adamyuyuyu",
+"feb26/adamyuyuyu_chocolate_tiles_milk": "Chocolate Tiles Milk,Adamyuyuyu",
+"feb26/adamyuyuyu_chocolate_tiles_strawberry": "Chocolate Tiles Strawberry,Adamyuyuyu",
+"feb26/adamyuyuyu_chocolate_tiles_white": "Chocolate Tiles White,Adamyuyuyu",
+"feb26/adamyuyuyu_cobweb_rock": "Cobweb Rock,Adamyuyuyu",
+"feb26/adamyuyuyu_concrete_clean": "Concrete Clean,Adamyuyuyu",
+"feb26/adamyuyuyu_concrete_tiles": "Concrete Tiles,Adamyuyuyu",
+"feb26/adamyuyuyu_concrete_wall": "Concrete Wall,Adamyuyuyu",
+"feb26/adamyuyuyu_copper_modern_tile_wall": "Copper Modern Tile Wall,Adamyuyuyu",
+"feb26/adamyuyuyu_copper_rock_floor": "Copper Rock Floor,Adamyuyuyu",
+"feb26/adamyuyuyu_corrupted_mirror": "Corrupted Mirror,Adamyuyuyu",
+"feb26/adamyuyuyu_dark_green_tiles": "Dark Green Tiles,Adamyuyuyu",
+"feb26/adamyuyuyu_diamond_tiles": "Diamond Tiles,Adamyuyuyu",
+"feb26/adamyuyuyu_diamond_wall": "Diamond Wall,Adamyuyuyu",
+"feb26/adamyuyuyu_dolomite_rock": "Dolomite Rock,Adamyuyuyu",
+"feb26/adamyuyuyu_elder_bark": "Elder Bark,Adamyuyuyu",
+"feb26/adamyuyuyu_eroded_moon_rock": "Eroded Moon Rock,Adamyuyuyu",
+"feb26/adamyuyuyu_gold,_copper,_silver,_platinum_bricks": "Gold, Copper, Silver, Platinum Bricks,Adamyuyuyu",
+"feb26/adamyuyuyu_gold,_copper,_silver_and_platinum_tiles": "Gold, Copper, Silver and Platinum Tiles,Adamyuyuyu",
+"feb26/adamyuyuyu_golden_rock_floor": "Golden Rock Floor,Adamyuyuyu",
+"feb26/adamyuyuyu_green_bath_tiles": "Green Bath Tiles,Adamyuyuyu",
+"feb26/adamyuyuyu_hammered_copper": "Hammered Copper,Adamyuyuyu",
+"feb26/adamyuyuyu_hammered_gold": "Hammered Gold,Adamyuyuyu",
+"feb26/adamyuyuyu_hammered_silver": "Hammered Silver,Adamyuyuyu",
+"feb26/adamyuyuyu_hammered_steel": "Hammered Steel,Adamyuyuyu",
+"feb26/adamyuyuyu_lead_polished": "Lead Polished,Adamyuyuyu",
+"feb26/adamyuyuyu_lightblue_tiles_floor": "Lightblue Tiles Floor,Adamyuyuyu",
+"feb26/adamyuyuyu_marble_tiles_bronze": "Marble Tiles Bronze,Adamyuyuyu",
+"feb26/adamyuyuyu_matrix_wireframe": "Matrix Wireframe,Adamyuyuyu",
+"feb26/adamyuyuyu_mirror_tiles": "Mirror Tiles,Adamyuyuyu",
+"feb26/adamyuyuyu_multicolored_mirror_tiles": "Multicolored Mirror Tiles,Adamyuyuyu",
+"feb26/adamyuyuyu_painted_metal_light_brown": "Painted Metal Light Brown,Adamyuyuyu",
+"feb26/adamyuyuyu_plastic_red_mud_floor": "Plastic Red Mud Floor,Adamyuyuyu",
+"feb26/adamyuyuyu_platinum_rock_floor": "Platinum Rock Floor,Adamyuyuyu",
+"feb26/adamyuyuyu_polished_bronze": "Polished Bronze,Adamyuyuyu",
+"feb26/adamyuyuyu_project_ark_copper_disc": "Project ARK Copper Disc,Adamyuyuyu",
+"feb26/adamyuyuyu_rainbow_acidic_tiles": "Rainbow Acidic Tiles,Adamyuyuyu",
+"feb26/adamyuyuyu_rainbow_tiles": "Rainbow Tiles,Adamyuyuyu",
+"feb26/adamyuyuyu_raw_lead": "Raw Lead,Adamyuyuyu",
+"feb26/adamyuyuyu_red_mirror": "Red Mirror,Adamyuyuyu",
+"feb26/adamyuyuyu_red_stone_tiles": "Red Stone Tiles,Adamyuyuyu",
+"feb26/adamyuyuyu_red_travertine_bricks": "Red Travertine Bricks,Adamyuyuyu",
+"feb26/adamyuyuyu_sand_desert": "Sand Desert,Adamyuyuyu",
+"feb26/adamyuyuyu_sandstone_brick_large": "Sandstone Brick Large,Adamyuyuyu",
+"feb26/adamyuyuyu_sandstone_brick_small": "Sandstone Bricks,Adamyuyuyu",
+"feb26/adamyuyuyu_sandstone_grey": "Sandstone Grey,Adamyuyuyu",
+"feb26/adamyuyuyu_sandstone_wall": "Sandstone Wall,Adamyuyuyu",
+"feb26/adamyuyuyu_shale_bricks": "Shale Bricks,Adamyuyuyu",
+"feb26/adamyuyuyu_silver_rock_floor": "Silver Rock Floor,Adamyuyuyu",
+"feb26/adamyuyuyu_stainless_steel_rock_floor": "Stainless Steel Rock Floor,Adamyuyuyu",
+"feb26/adamyuyuyu_sulphur": "Sulphur,Adamyuyuyu",
+"feb26/adamyuyuyu_town_bricks_dark_brown": "Town Bricks Dark Brown,Adamyuyuyu",
+"feb26/adamyuyuyu_white_painted_bricks": "White Painted Bricks,Adamyuyuyu",
+"feb26/adamyuyuyu_white_plastic_tiles_floor": "White Plastic Tiles Floor,Adamyuyuyu",
+"feb26/adamyuyuyu_white_plastic_tiles_wall": "White Plastic Tiles Wall,Adamyuyuyu",
+"feb26/akumoid_realistic_stone_bricks": "Realistic stone bricks,akumoid",
+"feb26/any_other_concrete_panels": "Concrete panels,any_other",
+"feb26/any_other_no_parking": "No Parking,any_other",
+"feb26/droppedbeat_no_signal": "No Signal,DroppedBeat",
+"feb26/hazpunk_bitwise_spaghetti_read_desc.!": "Bitwise Spaghetti (read desc.!),HAZPUNK",
+"feb26/leoskateman_air_conditionner_box": "Air conditionner,leoskateman",
+"feb26/leoskateman_base_sand": "base_sand,leoskateman",
+"feb26/leoskateman_black_marble_white_veins_scratches_pokes": "Black Marble,leoskateman",
+"feb26/leoskateman_damaged_painted_concrete": "damaged_painted_concrete,leoskateman",
+"feb26/leoskateman_dry_lake_bed": "dry_lake_bed,leoskateman",
+"feb26/leoskateman_empire_first_death_star": "Death Star,leoskateman",
+"feb26/leoskateman_hay_dirt_barn_floor": "Barn floor,leoskateman",
+"feb26/leoskateman_hollow_terracotta_bricks_raw": "Hollow terracotta bricks,leoskateman",
+"feb26/leoskateman_lego_brick_top_face": "Oleg bricks,leoskateman",
+"feb26/leoskateman_medieval_strong_hold_brick_wall": "Medieval stone wall,leoskateman",
+"feb26/leoskateman_mixed_rock_surface_otcb": "mixed_rock_surface_otcb,leoskateman",
+"feb26/leoskateman_pokéball": "Pokeball,leoskateman",
+"feb26/picorims_exterior_furniture_metal": "Exterior Furniture Metal,Picorims",
+"feb26/picorims_hay": "Hay,Picorims",
+"feb26/picorims_pole_metal_surface": "Pole metal surface,Picorims",
+"feb26/picorims_render": "Render,Picorims",
+"feb26/picorims_road_asphalt_atlas": "Road Asphalt Atlas,Picorims",
+"feb26/picorims_stylized_grass": "Stylized grass,Picorims",
+"feb26/picorims_wood_planks": "Wood planks,Picorims",
+"feb26/resk_corn": "Corn,Resk",
+"feb26/rubberduck_stylized_limestone_cliff": "Stylized Limestone Cliff,rubberduck",
+"feb26/rubberduck_stylized_moss": "Stylized Moss,rubberduck",
+"feb26/rubberduck_stylized_tropical_grass": "Stylized Tropical Grass,rubberduck",
+"feb26/saurav72_abstract_material_001": "Abstract_Material_001,Saurav72",
+"feb26/saurav72_abstract_material_002": "Abstract_Material_002,Saurav72",
+"feb26/saurav72_abstract_material_003": "Abstract_Material_003,Saurav72",
+"feb26/saurav72_abstract_material_004": "Abstract_Material_004,Saurav72",
+"feb26/saurav72_abstract_material_005": "Abstract_Material_005,Saurav72",
+"feb26/saurav72_abstract_material_006": "Abstract_Material_006,Saurav72",
+"feb26/saurav72_abstract_material_007": "Abstract,Saurav72",
+"feb26/saurav72_abstract_material_008": "Abstract_Material_008,Saurav72",
+"feb26/saurav72_abstractwoodenmaterial": "Abstract Woodenl,Saurav72",
+"feb26/saurav72_architectural_facade_001": "Architectural facade,Saurav72",
+"feb26/saurav72_architectural_facade_002": "Architectural facade,Saurav72",
+"feb26/saurav72_architectural_facade_003": "Architectural facade,Saurav72",
+"feb26/saurav72_concrete": "Concrete,Saurav72",
+"feb26/saurav72_drapes": "Drapes,Saurav72",
+"feb26/saurav72_egg_wallpaper": "Egg Wallpaper,Saurav72",
+"feb26/saurav72_fingerprint_generator": "Fingerprint Generator,Saurav72",
+"feb26/saurav72_graph_generator": "Graph Generator,Saurav72",
+"feb26/saurav72_heartpulserate_1": "HeartPulseRate_1,Saurav72",
+"feb26/saurav72_heartpulserate_2": "Heart Pulse Rate,Saurav72",
+"feb26/saurav72_heartpulserate_3": "HeartPulseRate_3,Saurav72",
+"feb26/saurav72_kiwi": "Kiwi,Saurav72",
+"feb26/saurav72_lime": "Lime,Saurav72",
+"feb26/saurav72_marvel": "Marvel,Saurav72",
+"feb26/saurav72_marvel_material": "Marvel_Material,Saurav72",
+"feb26/saurav72_matrix001": "Matrix,Saurav72",
+"feb26/saurav72_onion": "Onion,Saurav72",
+"feb26/saurav72_orange": "Orange,Saurav72",
+"feb26/saurav72_pacman_animation": "Pacman,Saurav72",
+"feb26/saurav72_pitaya": "Pitaya,Saurav72",
+"feb26/saurav72_stylized_clouds_generator": "Stylized Clouds Generator,Saurav72",
+"feb26/saurav72_stylized_flame": "Stylized Flame,Saurav72",
+"feb26/saurav72_stylized_landscape": "Stylized Landscape,Saurav72",
+"feb26/saurav72_stylized_raindrops": "Stylized Raindrops,Saurav72",
+"feb26/saurav72_stylized_rock": "Stylized Rock,Saurav72",
+"feb26/saurav72_stylized_roof_tiles": "Stylized Roof Tiles,Saurav72",
+"feb26/saurav72_stylized_soil": "Stylized Soil,Saurav72",
+"feb26/saurav72_stylized_tile": "Stylized_Tile,Saurav72",
+"feb26/saurav72_stylized_water": "Stylized Water,Saurav72",
+"feb26/saurav72_stylized_water_shader": "Stylized Water,Saurav72",
+"feb26/saurav72_yt_live_pattern001": "YT_Live_Pattern001,Saurav72",
 "fish_pond": "Fish pond,DroppedBeat",
 "floppy_disks": "Floppy disks,PixelMuncher",
 "gear_box": "Gear box,DroppedBeat",
@@ -651,69 +792,61 @@ bpm = 105.0
 beats_per_material = 3.5
 damp = 0.25
 
-[node name="MeshPivot1" type="Node3D" parent="."]
+[node name="MeshPivot1" type="Node3D" parent="." unique_id=1038491559]
 
-[node name="MeshPivot2" type="Node3D" parent="MeshPivot1"]
+[node name="MeshPivot2" type="Node3D" parent="MeshPivot1" unique_id=1901375818]
 transform = Transform3D(-1, -2.5351817e-06, 0, 2.5351817e-06, -1, 0, 0, 0, 1, 0, 0, 0)
 
-[node name="Mesh1" type="MeshInstance3D" parent="MeshPivot1/MeshPivot2"]
+[node name="Mesh1" type="MeshInstance3D" parent="MeshPivot1/MeshPivot2" unique_id=857628288]
 transform = Transform3D(-1, -1.50996e-07, 1.49012e-08, -1.49012e-08, -4.37112e-08, -1, 1.50996e-07, -1, 4.37112e-08, 0, 0, 0)
 visible = false
 mesh = ExtResource("2_pe1k3")
 skeleton = NodePath("../../..")
 
-[node name="Mesh2" type="MeshInstance3D" parent="MeshPivot1/MeshPivot2"]
+[node name="Mesh2" type="MeshInstance3D" parent="MeshPivot1/MeshPivot2" unique_id=1993246932]
 transform = Transform3D(1, -4.37114e-08, 0, 0, -4.37114e-08, 1, -4.37114e-08, -1, -4.37114e-08, 0, 0, 0)
 mesh = ExtResource("2_pe1k3")
 skeleton = NodePath("../../..")
 
-[node name="CirclePivot" type="Node3D" parent="MeshPivot1/MeshPivot2"]
+[node name="CirclePivot" type="Node3D" parent="MeshPivot1/MeshPivot2" unique_id=117174997]
 
-[node name="Circle" type="MeshInstance3D" parent="MeshPivot1/MeshPivot2/CirclePivot"]
+[node name="Circle" type="MeshInstance3D" parent="MeshPivot1/MeshPivot2/CirclePivot" unique_id=1825537982]
 transform = Transform3D(8.74228e-08, -1, 4.37115e-08, 4.37114e-08, -4.37115e-08, -1, 1, 8.74228e-08, 4.37114e-08, 0, 0, 0)
 material_override = ExtResource("3_m7jmp")
 mesh = SubResource("CylinderMesh_lmx0m")
 skeleton = NodePath("../..")
 
-[node name="AnimationPlayerStart" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_xlvrw")
-}
-autoplay = "start"
+[node name="AnimationPlayerStart" type="AnimationPlayer" parent="." unique_id=1493169083]
+libraries/ = SubResource("AnimationLibrary_xlvrw")
+autoplay = &"start"
 
-[node name="AnimationPlayer1" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_dx508")
-}
-autoplay = "Slow rotate"
+[node name="AnimationPlayer1" type="AnimationPlayer" parent="." unique_id=1623451663]
+libraries/ = SubResource("AnimationLibrary_dx508")
+autoplay = &"Slow rotate"
 playback_auto_capture_ease_type = 2
 speed_scale = 0.05
 
-[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="." unique_id=2117682161]
 reset_on_save = false
 callback_mode_method = 1
-libraries = {
-&"": SubResource("AnimationLibrary_f57sj")
-}
-autoplay = "Rotate"
+libraries/ = SubResource("AnimationLibrary_f57sj")
+autoplay = &"Rotate"
 playback_auto_capture_ease_type = 2
 speed_scale = 0.25
 next/RESET = &"Rotate final"
 blend_times = [&"Rotate final 1", &"Rotate", 0.01, &"Rotate final 1", &"Rotate final 1", 0.01]
 
-[node name="ShowTitle" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_73fnb")
-}
+[node name="ShowTitle" type="AnimationPlayer" parent="." unique_id=2049010540]
+libraries/ = SubResource("AnimationLibrary_73fnb")
 
-[node name="Camera" type="Camera3D" parent="."]
+[node name="Camera" type="Camera3D" parent="." unique_id=234520925]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5, 0, 0)
 fov = 29.0
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1130203033]
 environment = SubResource("7")
 
-[node name="DirectionalLight" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight" type="DirectionalLight3D" parent="." unique_id=953889685]
 transform = Transform3D(0.80144, 0.00662634, -0.598039, 0.481731, -0.599755, 0.638928, -0.354443, -0.800156, -0.48386, 0, 0, 0)
 shadow_bias = 0.01
 directional_shadow_split_2 = 0.5
@@ -722,13 +855,24 @@ directional_shadow_blend_splits = true
 directional_shadow_fade_start = 0.755
 directional_shadow_max_distance = 7.5
 
-[node name="Background" type="MeshInstance3D" parent="."]
+[node name="Background" type="MeshInstance3D" parent="." unique_id=315659599]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_m7jmp")
 mesh = SubResource("9")
 
-[node name="Label" type="Label" parent="."]
+[node name="Landscape" type="CanvasLayer" parent="." unique_id=1632814528]
+
+[node name="MaterialName" type="Control" parent="Landscape" unique_id=2045038574]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Landscape/MaterialName" unique_id=679017583]
 visible = false
+layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
@@ -742,8 +886,33 @@ theme_override_constants/outline_size = 0
 theme_override_font_sizes/font_size = 64
 horizontal_alignment = 1
 
-[node name="LabelVertical" type="Label" parent="."]
+[node name="Logo" type="Node2D" parent="Landscape" unique_id=1617569791]
+position = Vector2(974, 1157)
+scale = Vector2(1.2, 1.2)
+
+[node name="Material" type="Sprite2D" parent="Landscape/Logo" unique_id=1700393794]
+position = Vector2(-226.24998, -0.41663638)
+scale = Vector2(0.9990705, 0.9924237)
+texture = ExtResource("5_y2354")
+
+[node name="Maker" type="Sprite2D" parent="Landscape/Logo" unique_id=897091792]
+position = Vector2(306.66663, 14.166635)
+scale = Vector2(1.004386, 1.0045674)
+texture = ExtResource("6_ni31j")
+
+[node name="Portrait" type="CanvasLayer" parent="." unique_id=568393957]
+
+[node name="MaterialName" type="Control" parent="Portrait" unique_id=669410691]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Portrait/MaterialName" unique_id=433825601]
 visible = false
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -760,7 +929,7 @@ theme_override_font_sizes/font_size = 64
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Author" type="Label" parent="LabelVertical"]
+[node name="Author" type="Label" parent="Portrait/MaterialName/Label" unique_id=61988674]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -777,30 +946,16 @@ theme_override_font_sizes/font_size = 64
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Text" type="Node2D" parent="."]
-position = Vector2(974, 1157)
-scale = Vector2(1.2, 1.2)
-
-[node name="Material" type="Sprite2D" parent="Text"]
-position = Vector2(-226.24998, -0.41663638)
-scale = Vector2(0.9990705, 0.9924237)
-texture = ExtResource("5_y2354")
-
-[node name="Maker" type="Sprite2D" parent="Text"]
-position = Vector2(306.66663, 14.166635)
-scale = Vector2(1.004386, 1.0045674)
-texture = ExtResource("6_ni31j")
-
-[node name="TextVertical" type="Node2D" parent="."]
+[node name="Logo" type="Node2D" parent="Portrait" unique_id=362645849]
 position = Vector2(-250, 537)
 rotation = -1.5707964
 scale = Vector2(1.2, 1.2)
 
-[node name="Material" type="Sprite2D" parent="TextVertical"]
+[node name="Material" type="Sprite2D" parent="Portrait/Logo" unique_id=1431693595]
 scale = Vector2(0.9990705, 0.9924237)
 texture = ExtResource("5_y2354")
 
-[node name="Maker" type="Sprite2D" parent="TextVertical"]
+[node name="Maker" type="Sprite2D" parent="Portrait/Logo" unique_id=666654350]
 position = Vector2(0, 135.615)
 scale = Vector2(1.004386, 1.0045674)
 texture = ExtResource("6_ni31j")

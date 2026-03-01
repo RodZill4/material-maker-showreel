@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://bfeframicmue0"]
+
+[ext_resource type="PackedScene" uid="uid://6faq7i72a88i" path="res://short.tscn" id="1_eu4th"]
+[ext_resource type="Script" uid="uid://buo55j7fa5j6x" path="res://monthly_showreel.gd" id="2_ricot"]
+[ext_resource type="Material" path="res://materials/feb26/adamyuyuyu_white_painted_bricks.tres" id="3_eu4th"]
+
+[node name="Scene" unique_id=138827324 instance=ExtResource("1_eu4th")]
+script = ExtResource("2_ricot")
+month = "feb26"
+material_list = Array[String](["feb26/leoskateman_black_marble_white_veins_scratches_pokes", "feb26/picorims_stylized_grass", "feb26/saurav72_pitaya", "feb26/saurav72_lime", "feb26/saurav72_orange", "feb26/saurav72_onion", "feb26/leoskateman_empire_first_death_star", "feb26/adamyuyuyu_hammered_copper", "feb26/adamyuyuyu_chocolate_tiles_milk", "feb26/any_other_concrete_panels", "feb26/leoskateman_lego_brick_top_face", "feb26/leoskateman_medieval_strong_hold_brick_wall", "feb26/leoskateman_hay_dirt_barn_floor", "feb26/adamyuyuyu_dolomite_rock", "feb26/leoskateman_hollow_terracotta_bricks_raw", "feb26/rubberduck_stylized_tropical_grass", "feb26/rubberduck_stylized_moss", "feb26/rubberduck_stylized_limestone_cliff", "feb26/leoskateman_air_conditionner_box", "feb26/any_other_no_parking", "feb26/leoskateman_pokéball", "feb26/saurav72_heartpulserate_2", "feb26/saurav72_matrix001", "feb26/adamyuyuyu_brushed_steel", "feb26/adamyuyuyu_eroded_moon_rock", "feb26/saurav72_stylized_water_shader", "feb26/saurav72_egg_wallpaper", "feb26/saurav72_abstract_material_007", "feb26/akumoid_realistic_stone_bricks", "feb26/droppedbeat_no_signal", "feb26/saurav72_pacman_animation", "feb26/saurav72_architectural_facade_001", "feb26/saurav72_architectural_facade_002", "feb26/adamyuyuyu_bronze_tiles", "feb26/adamyuyuyu_diamond_wall", "feb26/saurav72_stylized_tile", "feb26/saurav72_abstractwoodenmaterial", "feb26/saurav72_stylized_water", "feb26/saurav72_stylized_landscape", "feb26/saurav72_stylized_raindrops"])
+bpm = 128.0
+beats_per_material = 4.5
+
+[node name="LabelVertical#Author" type="Label" parent="." index="0" unique_id=170864379]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -3.3923416
+offset_top = 100.0
+offset_right = 7.7894287
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Mesh1" parent="MeshPivot1/MeshPivot2" parent_id_path=PackedInt32Array(1901375818) index="0" unique_id=857628288]
+visible = true
+material_override = ExtResource("3_eu4th")
+
+[node name="Mesh2" parent="MeshPivot1/MeshPivot2" parent_id_path=PackedInt32Array(1901375818) index="1" unique_id=1993246932]
+material_override = ExtResource("3_eu4th")
+
+[node name="Circle" parent="MeshPivot1/MeshPivot2/CirclePivot" parent_id_path=PackedInt32Array(117174997) index="0" unique_id=1825537982]
+visible = false
+
+[node name="AnimationPlayerStart" parent="." index="2" unique_id=1493169083]
+speed_scale = 0.8126984
+
+[node name="AnimationPlayer2" parent="." index="4" unique_id=2117682161]
+speed_scale = 0.23703703

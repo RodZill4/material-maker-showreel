@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+[ext_resource path="droppedbeat_no_signal.gdshader" type="Shader" id=1]
+[ext_resource path="droppedbeat_no_signal_texture_1.png" type="Texture" id=2]
+[ext_resource path="droppedbeat_no_signal_texture_2.png" type="Texture" id=3]
+[resource]
+shader = ExtResource( 1 )
+shader_parameter/texture_1 = ExtResource( 2 )
+shader_parameter/texture_2 = ExtResource( 3 )
+
+
+

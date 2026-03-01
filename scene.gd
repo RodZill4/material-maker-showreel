@@ -84,24 +84,32 @@ func _ready():
 	print("Showing ", material_names.size(), " materials")
 	print(60.0*material_names.size()*beats_per_material/bpm, " seconds")
 	
+	var sorted_material_names : Array[String] = material_names.duplicate()
+	sorted_material_names.sort()
+	var previous_name : String = ""
+	for s : String in sorted_material_names:
+		if s == previous_name:
+			print("Duplicate material in list: ", s)
+		previous_name = s
+	
 	if randomize_order:
 		material_names.shuffle()
 	material_names.push_front(material_names.front())
 	material_names.push_front(material_names.front())
 	material_names.push_front(material_names.front())
 	if hide_material_names:
-		$Label.position.y = -1000
-		$LabelVertical.position.x = -1000
-	elif vertical:
-		$Label.position.y = -1000
+		$Landscape/MaterialName.visible = false
+		$Portrait/MaterialName.visible = false
+	if vertical:
+		$Landscape.visible = false
 	else:
-		$LabelVertical.position.x = -1000
+		$Portrait.visible = false
 	material_count = material_names.size()
 	
 	$Background.material_override.albedo_color = background_color
-	$Label.self_modulate = text_color
-	$LabelVertical.self_modulate = text_color
-	$LabelVertical/Author.self_modulate = text_color
+	$Landscape/MaterialName/Label.self_modulate = text_color
+	$Portrait/MaterialName/Label.self_modulate = text_color
+	$Portrait/MaterialName/Label/Author.self_modulate = text_color
 	
 	$AnimationPlayerStart.speed_scale = bpm/35.0/beats_per_material
 	
@@ -162,12 +170,12 @@ func update_label():
 		var material_desc : PackedStringArray = material_descriptions[material_id].split(",")
 		var material_name : String = material_desc[0]
 		var material_author : String = material_desc[1]
-		$Label.text = material_name + " - " + material_author
-		$LabelVertical.text = material_name
-		$LabelVertical/Author.text = material_author
+		$Landscape/MaterialName/Label.text = material_name + " - " + material_author
+		$Portrait/MaterialName/Label.text = material_name
+		$Portrait/MaterialName/Label/Author.text = material_author
 	else:
-		$Label.text = material_id
-		$LabelVertical.text = material_id
+		$Landscape/MaterialName/Label.text = material_id
+		$Portrait/MaterialName/Label.text = material_id
 		#print(material_name)
 
 func show_material_maker():

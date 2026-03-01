@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://d3pb3aqdxva54"]
+
+[ext_resource type="PackedScene" uid="uid://d42cjr6gh71s" path="res://scene.tscn" id="1_eakbi"]
+
+[node name="Scene" unique_id=511595577 instance=ExtResource("1_eakbi")]
+material_list = Array[String](["feb26/akumoid_realistic_stone_bricks", "nov25/any_other_wood_flooring", "feb26/picorims_stylized_grass", "roof_tiles", "polished_turquoise", "beach", "gingerbread", "sewn_flesh", "ornamental", "floppy_disks", "rosette", "arcane_compass", "wires", "containers", "stylized_flowing_lava", "ancient_bricks", "sealing_talismans", "temporal_displacement", "bookcase", "burger", "chained", "hardwood_floor", "cliff_rock", "manhole_cover", "smaugs_treasure", "kryptonite", "remnant", "ornamental_ceiling", "train_tracks", "ancient_pedestal", "chesterfield", "ground_foliage", "damaged_plaster", "leather", "puddle", "matrix_code_rain", "stylized_lava", "animated_radar", "scarabs_on_hieroglyphs", "fish_pond", "rainy_window", "animated_fire", "riveted_plates", "gear_box", "snowman"])
+background_color = Color(1, 1, 1, 1)
+
+[node name="AnimationPlayerStart" parent="." index="1"]
+autoplay = &"start"
+
+[node name="AnimationPlayer1" parent="." index="2"]
+autoplay = &"Slow rotate"
+
+[node name="AnimationPlayer2" parent="." index="3"]
+autoplay = &"Rotate"
+blend_times = [&"Rotate final 1", &"Rotate", 0.01, &"Rotate final 1", &"Rotate final 1", 0.01]
