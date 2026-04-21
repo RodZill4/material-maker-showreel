@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://jia8j7km7l8f"]
+
+[ext_resource type="Shader" uid="uid://bn04y00owo38p" path="res://materials/mar26/paulofalcao_floating_cube.gdshader" id="1"]
+[ext_resource type="Texture2D" uid="uid://dgk1yqb4os5i2" path="res://materials/mar26/paulofalcao_floating_cube_texture_1.png" id="2"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1")
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/variation = 0.0
+shader_parameter/texture_1 = ExtResource("2")

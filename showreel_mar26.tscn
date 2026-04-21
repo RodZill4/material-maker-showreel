@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://despctqkdebmw"]
+
+[ext_resource type="PackedScene" uid="uid://6faq7i72a88i" path="res://short.tscn" id="1_sovuv"]
+[ext_resource type="Script" uid="uid://buo55j7fa5j6x" path="res://monthly_showreel.gd" id="2_xeya0"]
+[ext_resource type="Material" path="res://materials/feb26/picorims_stylized_grass.tres" id="3_sovuv"]
+
+[node name="Scene" unique_id=138827324 instance=ExtResource("1_sovuv")]
+script = ExtResource("2_xeya0")
+month = "mar26"
+material_list = Array[String](["mar26/adamyuyuyu_abstract_alien_material_gold", "mar26/adamyuyuyu_abstract_alien_material_silver", "mar26/adamyuyuyu_birch_wallnut_wood_floor", "mar26/adamyuyuyu_black_snow", "mar26/adamyuyuyu_blue_gold", "mar26/adamyuyuyu_cobweb_bricks", "mar26/adamyuyuyu_concrete_underground", "mar26/adamyuyuyu_devil_metal", "mar26/adamyuyuyu_golden_bricks_wall", "mar26/adamyuyuyu_golden_bricks_wall_smooth", "mar26/adamyuyuyu_hell_meat", "mar26/adamyuyuyu_plaster", "mar26/adamyuyuyu_realistic_urban_dirty_bricks", "mar26/droppedbeat_faceless_deck", "mar26/droppedbeat_godot_sdf", "mar26/droppedbeat_molten", "mar26/droppedbeat_procedural_playing_cards", "mar26/hallownests_fool_fantasy_icecrystal", "mar26/hallownests_fool_simple_stone", "mar26/hallownests_fool_stone_tiles_1", "mar26/leoskateman_hard_scifi_metal_pattern", "mar26/nullmeansnull_stone_mandala", "mar26/owen_roofing_tile", "mar26/owen_snowfield", "mar26/paulofalcao_floating_cube", "mar26/rubberduck_stylized_sand", "mar26/rubberduck_stylized_scree_v2", "mar26/saurav72_acrylic_oil_painting", "mar26/saurav72_camouflage", "mar26/saurav72_paper_clean", "mar26/saurav72_paper_folded", "mar26/saurav72_paper_page", "mar26/saurav72_pattern_study_001", "mar26/saurav72_sci_fi_radar", "mar26/saurav72_stylized_waterfall", "mar26/tarox_crying_obsidian", "mar26/xpehik_ceramic_retro_tiles"])
+bpm = 128.0
+beats_per_material = 4.5
+
+[node name="LabelVertical#Author" type="Label" parent="." index="0" unique_id=170864379]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -3.3923416
+offset_top = 100.0
+offset_right = 7.7894287
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MeshPivot2" parent="MeshPivot1" parent_id_path=PackedInt32Array(1038491559) index="0" unique_id=1901375818]
+transform = Transform3D(-1.2, -3.0422182e-06, 0, 3.0422182e-06, -1.2, 0, 0, 0, 1.2, 0, 0, 0)
+
+[node name="Mesh1" parent="MeshPivot1/MeshPivot2" index="0" unique_id=857628288]
+visible = true
+material_override = ExtResource("3_sovuv")
+
+[node name="Mesh2" parent="MeshPivot1/MeshPivot2" index="1" unique_id=1993246932]
+material_override = ExtResource("3_sovuv")
+
+[node name="Circle" parent="MeshPivot1/MeshPivot2/CirclePivot" parent_id_path=PackedInt32Array(117174997) index="0" unique_id=1825537982]
+visible = false
+
+[node name="AnimationPlayerStart" parent="." index="2" unique_id=1493169083]
+speed_scale = 0.8126984
+
+[node name="AnimationPlayer2" parent="." index="4" unique_id=2117682161]
+speed_scale = 0.23703703
+blend_times = [&"Rotate final 1", &"Rotate", 0.01, &"Rotate final 1", &"Rotate final 1", 0.01]
+
+[node name="Landscape" parent="." index="10" unique_id=1632814528]
+visible = false
