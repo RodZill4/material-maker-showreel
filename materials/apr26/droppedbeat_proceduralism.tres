@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://nvqnqo1p2wo8"]
+
+[ext_resource type="Texture2D" uid="uid://lvtxqs1ho5eg" path="res://materials/apr26/droppedbeat_proceduralism_albedo.png" id="1"]
+
+[resource]
+albedo_texture = ExtResource("1")
